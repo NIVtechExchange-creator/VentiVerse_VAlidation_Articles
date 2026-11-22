@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VentiVerse Disease Chapters — Bill Truschel</title>
+<title>VentiVerse Disease Validation Articles — Bill Truschel</title>
 <style>body{font-family:Georgia,serif;max-width:760px;margin:40px auto;padding:0 20px;color:#222;line-height:1.55}h1{font-size:1.6em;line-height:1.25}h2{font-size:1.25em;line-height:1.3;margin-top:2em}.author{font-size:1.1em;color:#444;margin-top:-6px}a.btn{display:inline-block;margin:12px 0 4px;padding:10px 18px;background:#1f4e79;color:#fff;text-decoration:none;border-radius:4px;font-family:sans-serif}a.btn:hover{background:#163a5a}.small{color:#666;font-size:.9em}hr{border:none;border-top:1px solid #ccc;margin:2.2em 0}</style></head>
 <body>
 <h1>Modeling Respiratory Failure: Physiology, Mathematical Models, and Validation Against Published Cases</h1>
 <p class="author">Bill Truschel</p>
+
+<a class="btn" href="VentiVerse_Disease_Validation_Articles_Combined.pdf">Read / download all nine articles in one PDF</a>
+<p class="small">The combined PDF has a contents page and bookmarks; each article keeps its own figure, table and reference numbering.</p>
 
 <h2>Amyotrophic Lateral Sclerosis</h2>
 <a class="btn" href="ALS_Validation_Article.pdf">Read / download the ALS article (PDF)</a>
@@ -24,6 +27,48 @@
 <a class="btn" href="COPD_Validation_Article.pdf">Read / download the COPD emphysema article (PDF)</a>
 <p>In emphysema, destruction of alveolar walls raises lung compliance, causes expiratory flow limitation and air trapping, and creates intrinsic PEEP. Most stable patients keep a near-normal PaCO₂ through a high neural drive; some become chronically hypercapnic when the load on a hyperinflated, shortened diaphragm exceeds its strength. This article builds normocapnic and hypercapnic emphysema patients in VentiVerse from published measurements (FEV₁, lung volumes, blood gases, bicarbonate, inspiratory strength, neural drive).</p>
 <p>Simulations of low-flow nasal oxygen, nasal high flow, CPAP, pressure support, and nocturnal NIV are compared with published studies (Robinson 2000, Markovitz 2010, McKinstry 2018, Fraser 2016, O'Donoghue 2002, Vitacca 2004, Murphy 2012, Köhnlein 2014), with a summary of agreement across all comparisons and a treatment strategy for the chronic patient.</p>
+
+<hr>
+
+<h2>COPD with Chronic Bronchitis</h2>
+<a class="btn" href="ChronicBronchitis_Validation_Article.pdf">Read / download the chronic bronchitis article (PDF)</a>
+<p>Stable COPD with chronic bronchitis combines airway narrowing and mucus with low ventilation–perfusion units, chronic hypercapnia, and hypoxemia that is severe for the degree of airflow obstruction. This article builds a chronic bronchitis patient in VentiVerse and simulates 8-hour wake and sleep periods on room air, nasal oxygen, bronchodilators, CPAP and bilevel pressure support.</p>
+<p>Simulated values are compared with published physiological studies, together with a literature-based chart of FEV₁ loss and COPD admission risk with mucus hypersecretion (Vestbo 1996, Allinson 2016).</p>
+
+<hr>
+
+<h2>Acute Exacerbation of COPD</h2>
+<a class="btn" href="COPD_AE_Validation_Article.pdf">Read / download the COPD exacerbation article (PDF)</a>
+<p>Acute exacerbation of COPD is treated along a ladder of respiratory support: controlled oxygen, high-flow nasal therapy, noninvasive ventilation and invasive ventilation, on a background of bronchodilators and corticosteroids with physiological drug timing. This article describes how the VentiVerse exacerbation model represents the patient and how each therapy acts on it.</p>
+<p>Simulated responses are compared with published studies and trials, including Brochard 1990 and Aubier 1980, with the early-treatment course and recovery over weeks (Seemungal 2000, Parker 2005).</p>
+
+<hr>
+
+<h2>COPD–Obstructive Sleep Apnea Overlap Syndrome</h2>
+<a class="btn" href="COPD_OSA_Overlap_Validation_Article.pdf">Read / download the COPD/OSA overlap article (PDF)</a>
+<p>The overlap syndrome produces more nocturnal desaturation, daytime hypercapnia and pulmonary hypertension than either disease alone, and higher mortality when untreated. This article adds a bounded Starling-resistor pharynx, arousal and a lung oxygen-store model to the VentiVerse COPD lung, and simulates COPD alone, OSA alone and overlap through stochastic nights.</p>
+<p>Oxygen, nasal high flow, CPAP titration and bilevel therapy are compared with published cohorts and trials, with published survival and outcome data (Chaouat 1995, Marin 2010, Machado 2010).</p>
+
+<hr>
+
+<h2>Bronchiectasis with Chronic Hypercapnic Respiratory Failure</h2>
+<a class="btn" href="Bronchiectasis_Hypercapnic_Validation_Article.pdf">Read / download the bronchiectasis article (PDF)</a>
+<p>Advanced bronchiectasis causes chronic hypoxemic and then hypercapnic respiratory failure, treated with long-term oxygen and nocturnal noninvasive ventilation. This article builds a VentiVerse bronchiectasis patient matched to a published home-NIV cohort and simulates wake and sleep on room air, nasal oxygen, nasal high flow and bilevel ventilation.</p>
+<p>Simulated nocturnal gas exchange and treatment responses are compared with published bronchiectasis and cystic fibrosis studies.</p>
+
+<hr>
+
+<h2>Status Asthmaticus</h2>
+<a class="btn" href="Status_Asthmaticus_Validation_Article.pdf">Read / download the status asthmaticus article (PDF)</a>
+<p>Status asthmaticus that needs invasive ventilation is dominated by dynamic hyperinflation: the lungs cannot empty before the next breath. This article describes the VentiVerse intubated status asthmaticus patient and simulates changes in rate, minute ventilation, bronchodilators and external PEEP.</p>
+<p>Plateau and peak pressures and PaCO₂ are compared with published ventilated cohorts (Leatherman 2004, Tuxen 1992), with a literature-based chart of progression from acute exacerbation to status asthmaticus.</p>
+
+<hr>
+
+<h2>Myasthenic Crisis</h2>
+<a class="btn" href="MG_Crisis_Validation_Article.pdf">Read / download the myasthenic crisis article (PDF)</a>
+<p>Myasthenic crisis is a failure of the respiratory pump rather than of the lungs. This article describes the VentiVerse myasthenia gravis model, with a pressure-capacity muscle model, use-dependent neuromuscular transmission fatigue, and simulated-time effects of neostigmine and pyridostigmine.</p>
+<p>Crisis gases, BiPAP response, drug and plasma-exchange responses and unsupported breathing trials are compared with published reports (Agarwal 2006, Radwan 1988, Goti 1995, Borel 1993) and the 20/30/40 rule.</p>
 
 <p class="small">Drafts, November 2026.</p>
 </body></html>
