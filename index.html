@@ -7,21 +7,9 @@
 <p class="author">Bill Truschel</p>
 
 <a class="btn" href="VentiVerse_Disease_Validation_Articles_Combined.pdf">Read / download all twelve articles in one PDF</a>
-<p class="small">The combined PDF presents the twelve articles as chapters, with continuous page numbers, a contents page, bookmarks, and figures and tables numbered by chapter (Figure 8.6 is the sixth figure of Chapter 8).</p>
+<p class="small">The combined PDF presents the twelve articles as chapters, with continuous page numbers, a contents page, bookmarks, and figures and tables numbered by chapter (Figure 8.6 is the sixth figure of Chapter 8). Later chapters are separate PDFs whose page numbers continue from the combined PDF.</p>
 
-<h2>Amyotrophic Lateral Sclerosis</h2>
-<a class="btn" href="ALS_Validation_Article.pdf">Read / download the ALS article (PDF)</a>
-<p>Respiratory failure is the main cause of death in amyotrophic lateral sclerosis (ALS), and non-invasive ventilation (NIV), particularly when started early, prolongs survival. This article explains the respiratory physiology of ALS and a mathematical model of it implemented in the VentiVerse ventilatory physiology simulator. Clinic measurements (MIP, MEP, FVC % predicted, blood gases, demographics) set the respiratory muscle capacity, which is limited by length–tension, force–velocity and fatigue; the model also includes effort-driven rapid shallow breathing, ALS hypermetabolism, a bicarbonate-dependent CO₂ setpoint, sleep stages, and the NIV interface.</p>
-<p>Bulbar- and limb-onset presets are demonstrated across wake and sleep, and simulations are compared one by one with published ALS case reports, with a discussion of where the model agrees and why it may differ. A dedicated section uses the cases and simulations to develop mechanical ventilation strategies.</p>
-
-<hr>
-
-<h2>Adult Duchenne Muscular Dystrophy and Chronic Neuromuscular Disease</h2>
-<a class="btn" href="DMD_Validation_Article.pdf">Read / download the adult DMD article (PDF)</a>
-<p>Respiratory failure is the main cause of death in Duchenne muscular dystrophy (DMD) without ventilatory support, and nocturnal hypoventilation precedes daytime hypercapnia. Adults with DMD are small, weak, and have a stiff chest wall. This article builds an adult DMD model in VentiVerse from published cohort data (body size, strength, lung and chest-wall compliance, metabolism, bicarbonate) and a sleep model with REM-sleep hypopneas, a 90-minute NREM–REM cycle, and arousal from hypercapnia and hypoxemia.</p>
-<p>Simulations are compared with published DMD reports and cohorts (Fanfulla 1998, Smith 1988 and 1989, Kim 2021, Segall 1988, Matsumura 1998, Beck 2006, Toussaint 2007). The cases and simulations support a strategy of treating the night first, always using a backup rate set a few breaths below the patient's own rate, sizing pressure support to the small, stiff DMD patient, choosing an inspiratory time of 30–40% of the cycle, and extending support into the day when daytime CO₂ rises.</p>
-
-<hr>
+<h2 class="part" style="font-size:1.45em;margin-top:2.2em;border-bottom:2px solid #444">Part I. Obstructive Lung Disease</h2>
 
 <h2>COPD with Emphysema</h2>
 <a class="btn" href="COPD_Validation_Article.pdf">Read / download the COPD emphysema article (PDF)</a>
@@ -65,6 +53,27 @@
 
 <hr>
 
+<h2>Tracheal Stenosis</h2>
+<a class="btn" href="TS_Validation_Article.pdf">Read / download the tracheal stenosis article (PDF)</a>
+<p>A fixed narrowing of the trachea loses pressure in proportion to the square of flow, so it can be silent at rest and still limit exercise and sleep. This article replaces the earlier resistance-only example with a VentiVerse orifice model set by the narrowest diameter, and simulates unsupported breathing from 18 to 4 mm, mild exercise, CPAP, bilevel ventilation and a tube placed past the lesion.</p>
+<p>Pressure drops, blood gases before and after dilation, peak flow and exercise oxygenation are compared with published studies (Brouns 2007, Liang 2015, Demedts 1995, Al-Bazzaz 1975).</p>
+
+<h2 class="part" style="font-size:1.45em;margin-top:2.2em;border-bottom:2px solid #444">Part II. Neuromuscular Respiratory Failure</h2>
+
+<h2>Amyotrophic Lateral Sclerosis</h2>
+<a class="btn" href="ALS_Validation_Article.pdf">Read / download the ALS article (PDF)</a>
+<p>Respiratory failure is the main cause of death in amyotrophic lateral sclerosis (ALS), and non-invasive ventilation (NIV), particularly when started early, prolongs survival. This article explains the respiratory physiology of ALS and a mathematical model of it implemented in the VentiVerse ventilatory physiology simulator. Clinic measurements (MIP, MEP, FVC % predicted, blood gases, demographics) set the respiratory muscle capacity, which is limited by length–tension, force–velocity and fatigue; the model also includes effort-driven rapid shallow breathing, ALS hypermetabolism, a bicarbonate-dependent CO₂ setpoint, sleep stages, and the NIV interface.</p>
+<p>Bulbar- and limb-onset presets are demonstrated across wake and sleep, and simulations are compared one by one with published ALS case reports, with a discussion of where the model agrees and why it may differ. A dedicated section uses the cases and simulations to develop mechanical ventilation strategies.</p>
+
+<hr>
+
+<h2>Adult Duchenne Muscular Dystrophy and Chronic Neuromuscular Disease</h2>
+<a class="btn" href="DMD_Validation_Article.pdf">Read / download the adult DMD article (PDF)</a>
+<p>Respiratory failure is the main cause of death in Duchenne muscular dystrophy (DMD) without ventilatory support, and nocturnal hypoventilation precedes daytime hypercapnia. Adults with DMD are small, weak, and have a stiff chest wall. This article builds an adult DMD model in VentiVerse from published cohort data (body size, strength, lung and chest-wall compliance, metabolism, bicarbonate) and a sleep model with REM-sleep hypopneas, a 90-minute NREM–REM cycle, and arousal from hypercapnia and hypoxemia.</p>
+<p>Simulations are compared with published DMD reports and cohorts (Fanfulla 1998, Smith 1988 and 1989, Kim 2021, Segall 1988, Matsumura 1998, Beck 2006, Toussaint 2007). The cases and simulations support a strategy of treating the night first, always using a backup rate set a few breaths below the patient's own rate, sizing pressure support to the small, stiff DMD patient, choosing an inspiratory time of 30–40% of the cycle, and extending support into the day when daytime CO₂ rises.</p>
+
+<hr>
+
 <h2>Myasthenic Crisis</h2>
 <a class="btn" href="MG_Crisis_Validation_Article.pdf">Read / download the myasthenic crisis article (PDF)</a>
 <p>Myasthenic crisis is a failure of the respiratory pump rather than of the lungs. This article describes the VentiVerse myasthenia gravis model, with a pressure-capacity muscle model, use-dependent neuromuscular transmission fatigue, and simulated-time effects of neostigmine and pyridostigmine.</p>
@@ -83,13 +92,6 @@
 <a class="btn" href="SCI_Validation_Article.pdf">Read / download the spinal cord injury article (PDF)</a>
 <p>After cervical spinal cord injury, breathing depends on the level of injury: diaphragm loss above C3, partial loss at C3–C5, and paralysis of the expiratory muscles at every cervical level. This article builds level-specific VentiVerse examples on a weeks-since-injury clock, with vital capacity recovering over the first year and higher lying down than sitting up.</p>
 <p>Lung function, strength, need for ventilation, weaning time and an infection case are compared with published studies (Ledsome 1981, Como 2005, Mateus 2007, Linn 2001, Peterson 1999, Estenne 1987, An 2026).</p>
-
-<hr>
-
-<h2>Tracheal Stenosis</h2>
-<a class="btn" href="TS_Validation_Article.pdf">Read / download the tracheal stenosis article (PDF)</a>
-<p>A fixed narrowing of the trachea loses pressure in proportion to the square of flow, so it can be silent at rest and still limit exercise and sleep. This article replaces the earlier resistance-only example with a VentiVerse orifice model set by the narrowest diameter, and simulates unsupported breathing from 18 to 4 mm, mild exercise, CPAP, bilevel ventilation and a tube placed past the lesion.</p>
-<p>Pressure drops, blood gases before and after dilation, peak flow and exercise oxygenation are compared with published studies (Brouns 2007, Liang 2015, Demedts 1995, Al-Bazzaz 1975).</p>
 
 <p class="small">Drafts, November 2026.</p>
 </body></html>
