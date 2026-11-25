@@ -1,0 +1,25 @@
+\chapter{Proportional Assist Ventilation}
+\label{ch:pav}
+
+\begin{authornote}
+\emph{Not modeled in VentiVerse.} This chapter describes the mode and what the model would need to simulate it. Author commentary to be added.
+\end{authornote}
+
+\section{Principle}
+Proportional assist ventilation (PAV) delivers pressure in proportion to the patient's own effort, so the ventilator amplifies whatever the patient does rather than imposing a volume or pressure target~\citep{younes1992,younes1992b}. During inspiration the equation of motion (\cref{ch:ch06}) is
+\begin{equation}
+P_{\mathrm{mus}}+P_{aw}=E\,V+R\,\dot V,
+\label{eq:pav-eom}
+\end{equation}
+where $P_{\mathrm{mus}}$ is the inspiratory muscle pressure (positive here), $E$ and $R$ the elastance and resistance of the respiratory system, $V$ the volume above end-expiration and $\dot V$ the flow. PAV sets
+\begin{equation}
+P_{aw}=\mathrm{PEEP}+g\bigl(\hat E\,V+\hat R\,\dot V\bigr),\qquad 0\le g<1,
+\label{eq:pav-cmd}
+\end{equation}
+where $\hat E$ and $\hat R$ are the ventilator's estimates and $g$ the fraction of the load it carries. Substituting, $P_{\mathrm{mus}}=(1-g)(EV+R\dot V)$ when the estimates are correct: the patient carries the fraction $1-g$ of the load, and tidal volume and flow follow the patient's drive. In PAV+ the device measures $\hat E$ and $\hat R$ with brief end-inspiratory occlusions every few breaths.
+
+\section{Behavior and evidence}
+Because support stops when effort stops, PAV reduces over-assistance and ineffective efforts compared with pressure support~\citep{ranieri1996,xirouchaki2008}. If $\hat E$ or $\hat R$ is overestimated, so that $g\hat E>E$, the support exceeds the load and flow continues after effort ends (runaway). Intrinsic PEEP is not part of \cref{eq:pav-cmd} and must still be overcome by the patient before the breath starts.
+
+\section{What modeling would require}
+The model already computes $P_{\mathrm{mus}}$, $V$ and $\dot V$ at every \SI{2}{\milli\second} step (\cref{ch:ch03}). PAV would need a pressure command from \cref{eq:pav-cmd}, a flow-based or effort-based trigger and cycle, an occlusion estimator for $\hat E$ and $\hat R$ with its errors, and a runaway limit. The existing neural pressure support mode (\cref{sec:modes-adapt}) is related, but it is proportional to effort itself, not to the volume and flow that effort produces.

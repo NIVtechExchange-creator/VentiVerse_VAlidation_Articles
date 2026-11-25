@@ -1,0 +1,210 @@
+\chapter{Gas Exchange and Circulation}
+\label{ch:ch09}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Compute alveolar PO\textsubscript{2} and mix end-capillary oxygen content from three perfusion compartments.
+  \item Use the Severinghaus dissociation curve with an in vivo P\textsubscript{50}.
+  \item Explain how hypoxic pulmonary vasoconstriction redistributes perfusion.
+  \item Describe cardiac output, mixed-venous blood and the Haldane effect in the model.
+\end{itemize}
+\end{objectives}
+
+\section{Alveolar gas}
+\label{sec:gx-alv}
+Once per breath, after the CO\textsubscript{2} update of \cref{eq:num-co2}, alveolar PO\textsubscript{2} is computed from the short form of the alveolar gas equation~\citep{west2012}:
+\begin{equation}
+P_{A\mathrm{O_2}} = F_{I\mathrm{O_2}}\,(P_B - 47) - \frac{P_{A\mathrm{CO_2}}}{R},
+\label{eq:gx-alv}
+\end{equation}
+where $F_{I\mathrm{O_2}}$ is the inspired oxygen fraction delivered by the therapy device (\cref{ch:ch13}), $P_B$ barometric pressure from the standard atmosphere at the set altitude, \SI{47}{\mmHg} the water-vapour pressure at body temperature and $R$ the respiratory exchange ratio (default 0.8).
+
+\section{Three perfusion compartments}
+\label{sec:gx-vq}
+Following Riley and Cournand~\citep{riley1949}, perfusion is divided among a normal compartment ($\dot V/\dot Q = 0.8$), a low-$\dot V/\dot Q$ compartment and true shunt. The low compartment, with perfusion fraction $l_f$ and ratio $l_q$ (defaults 0.03 and 0.60), has alveolar PO\textsubscript{2} $P_{A,\mathrm{low}} = P_{A\mathrm{O_2}}(l_q/0.8)^{0.65}$; the shunt fraction $s_h$ (default 0.02) passes mixed-venous blood unchanged. In each ventilated compartment, capillary blood loads oxygen along its transit by Fick diffusion~\citep{roughton1957}:
+\begin{equation}
+V_c\,\frac{\dd C_c}{\dd t} = D_{L\mathrm{O_2}}\bigl(P_A - P_c\bigr),\qquad P_c = f^{-1}(C_c),\qquad t \in [0,\;V_c/\dot Q_c],
+\label{eq:gx-fick}
+\end{equation}
+integrated by explicit Euler from mixed-venous content, with capillary blood volume $V_c = \SI{75}{\milli\liter}$, diffusing capacity $D_{L\mathrm{O_2}}$ (default \SI{30}{\milli\liter\per\minute\per\mmHg}, scaled with hemoglobin) and $f$ the content curve below. Carbon dioxide is handled the same way with $D_{L\mathrm{CO_2}} = 20\,D_{L\mathrm{O_2}}$. End-capillary \emph{contents}, not partial pressures, are mixed:
+\begin{keyequation}
+\begin{equation}
+C_{a\mathrm{O_2}} = (1-s_h')\bigl[(1-l_f')\,C_{c,\mathrm{norm}} + l_f'\,C_{c,\mathrm{low}}\bigr] + s_h'\,C_{v\mathrm{O_2}},
+\label{eq:gx-mix}
+\end{equation}
+\end{keyequation}
+where the primes denote perfusion fractions after hypoxic vasoconstriction (\cref{sec:gx-hpv}). PaO\textsubscript{2} is recovered from $C_{a\mathrm{O_2}}$ by bisection. Mixing contents is essential: because the dissociation curve is curved, averaging partial pressures would overstate PaO\textsubscript{2} whenever shunt or low $\dot V/\dot Q$ is present.
+
+\section{Oxygen dissociation}
+\label{sec:gx-odc}
+Saturation follows the Severinghaus equation~\citep{severinghaus1979}, with the curve shifted by scaling PO\textsubscript{2}:
+\begin{equation}
+S = \left[\frac{23400}{x^3 + 150\,x} + 1\right]^{-1},\qquad x = \frac{26.8}{P_{50}}\,P_{\mathrm{O_2}},\qquad
+C_{\mathrm{O_2}} = 1.34\,\mathrm{Hb}\,S + 0.0031\,P_{\mathrm{O_2}},
+\label{eq:gx-odc}
+\end{equation}
+with content in \si{\milli\liter} per \si{\deci\liter} and hemoglobin in \si{\gram\per\deci\liter}. Its analytic inverse~\citep{ellis1989} gives PO\textsubscript{2} from saturation. The in vivo P\textsubscript{50} is computed separately for arterial and mixed-venous blood from red-cell pH and PCO\textsubscript{2} with the equations of Dash and colleagues~\citep{dash2016},
+\begin{equation}
+P_{50} = 26.8\,\frac{26.8 - 25.535\,\Delta + 10.646\,\Delta^2 - 1.764\,\Delta^3}{26.8}\cdot\frac{26.8 + 0.1273\,\delta + 1.083\times10^{-4}\,\delta^2}{26.8} + \Delta P_{50,\mathrm{DPG}},
+\label{eq:gx-p50}
+\end{equation}
+where $\Delta = 0.795(\mathrm{pH} - 7.40)$ is the red-cell pH deviation, $\delta = \mathrm{PCO_2} - 40$, and $\Delta P_{50,\mathrm{DPG}}$ is the slow 2,3-DPG shift at altitude calibrated to Lenfant and colleagues~\citep{lenfant1968}. This reproduces the Bohr effect (\cref{fig:gx-curves}, left).
+
+\section{Hypoxic pulmonary vasoconstriction}
+\label{sec:gx-hpv}
+Small pulmonary arteries constrict when their alveoli are hypoxic, diverting blood toward better-ventilated units. The stimulus combines alveolar and mixed-venous PO\textsubscript{2}~\citep{marshall1980},
+\begin{equation}
+P_{s\mathrm{O_2}} = P_{A\mathrm{O_2}}^{\,0.62}\,P_{v\mathrm{O_2}}^{\,0.38},\qquad
+r = \Bigl[1 + \bigl(P_{s\mathrm{O_2}}/59\bigr)^{14}\Bigr]^{-1},
+\label{eq:gx-hpv}
+\end{equation}
+and each compartment's vascular resistance is multiplied by $1 + g\,r$, with HPV strength $g$ (default 1, so resistance doubles at maximal stimulus). The phenotype's entered perfusion fractions are treated as values observed with normal HPV on room air at sea level, so the perfusion weights are
+\begin{equation}
+w_i = f_i\,\frac{1 + r_{i,\mathrm{ref}}}{1 + g\,r_i},\qquad s_h' = \frac{w_{\mathrm{shunt}}}{\sum_i w_i},
+\label{eq:gx-hpvw}
+\end{equation}
+where $f_i$ are the entered fractions and $r_{i,\mathrm{ref}}$ the responses under the reference conditions. Abolishing HPV ($g = 0$) therefore increases effective shunt; global alveolar hypoxia, as at altitude, constricts every unit and removes the benefit of redistribution (\cref{fig:gx-curves}, right).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.3cm,grid=major,grid style={gray!20},legend style={font=\tiny,draw=none,fill=none}]
+\nextgroupplot[xlabel={PO\textsubscript{2} (mmHg)},ylabel={Saturation (\%)},xmin=0,xmax=120,ymin=0,ymax=100,legend pos=south east]
+\addplot[bkteal,thick,domain=1:120,samples=150]{100/(23400/((x*26.8/23)^3+150*(x*26.8/23))+1)};\addlegendentry{$P_{50}=23$ (alkalemia)}
+\addplot[bkblue,thick,domain=1:120,samples=150]{100/(23400/(x^3+150*x)+1)};\addlegendentry{$P_{50}=26.8$ (standard)}
+\addplot[red!70!black,thick,domain=1:120,samples=150]{100/(23400/((x*26.8/31)^3+150*(x*26.8/31))+1)};\addlegendentry{$P_{50}=31$ (acidemia)}
+\nextgroupplot[xlabel={Alveolar PO\textsubscript{2} (mmHg)},ylabel={HPV response $r$},xmin=20,xmax=120,ymin=0,ymax=1.05,legend pos=north east]
+\addplot[bkblue,thick,domain=20:120,samples=150]{1/(1+((x^0.62*40^0.38)/59)^14)};\addlegendentry{$P_{v\mathrm{O_2}}=40$}
+\addplot[bkorange,thick,domain=20:120,samples=150]{1/(1+((x^0.62*30^0.38)/59)^14)};\addlegendentry{$P_{v\mathrm{O_2}}=30$}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Left: the Severinghaus curve (\cref{eq:gx-odc}) at three values of P\textsubscript{50}. Right: hypoxic vasoconstriction response from \cref{eq:gx-hpv}; at $P_{v\mathrm{O_2}} = \SI{40}{\mmHg}$ it begins near an alveolar PO\textsubscript{2} of \SI{95}{\mmHg} and is half-maximal near \SI{75}{\mmHg}. A lower mixed-venous PO\textsubscript{2} moves the curve to the right.}
+\label{fig:gx-curves}
+\end{figure}
+
+\section{Circulation}
+\label{sec:gx-circ}
+Cardiac output is modeled rather than back-calculated, so that a fall in arterial content is not hidden by an implausible rise in flow. It increases with desaturation, anemia and oxygen consumption~\citep{west2012}:
+\begin{equation}
+\dot Q = \dot Q_0\,m_S\,m_{\mathrm{Hb}} + 6\,\frac{\dot V_{\mathrm{O_2}} - \dot V_{\mathrm{O_2},\mathrm{rest}}}{1000},\quad
+m_S = 1 + 0.0117\min\bigl(25,\max(0,97 - \mathrm{SaO_2})\bigr),\quad
+m_{\mathrm{Hb}} = 1 + 0.111\max(0,13.1 - \mathrm{Hb}),
+\label{eq:gx-q}
+\end{equation}
+in \si{\liter\per\minute}, with resting output $\dot Q_0 = 5$, then reduced by up to 10\% in hyperoxia and by the effect of positive airway pressure on venous return,
+\begin{equation}
+\dot Q\leftarrow\dot Q\,\max\bigl(0.55,\;1-k_{HL}\,\bar P_{aw}\bigr),\qquad
+V_{D,alv}\leftarrow V_{D,alv}\,\min\bigl(2,\;\dot Q_0/\dot Q\bigr),
+\label{eq:gx-hl}
+\end{equation}
+where $\bar P_{aw}$ is the mean airway pressure in \si{\cmH} and $k_{HL}=0.025$ per \si{\cmH}. The gain reproduces the fall in cardiac output from 5.5 to \SI{4.0}{\liter\per\minute} between spontaneous breathing and high-intensity NIV~\citep{lukacsovits2012}. Less pulmonary blood flow leaves more ventilated lung with little perfusion, so alveolar dead space rises in proportion to the fall in output (West zone 1). The coupling does not depend on volume status or ventricular function. Mixed-venous content follows from the Fick principle, $C_{v\mathrm{O_2}} = C_{a\mathrm{O_2}} - \dot V_{\mathrm{O_2}}/(10\,\dot Q)$, and the calculation of \cref{eq:gx-fick,eq:gx-mix,eq:gx-hpv} is iterated ten times each breath until arterial and mixed-venous values agree.
+
+\paragraph{Carbon dioxide content and the Haldane effect.} Whole-blood CO\textsubscript{2} content uses the equation of Douglas, Jones and Reed~\citep{douglas1988},
+\begin{equation}
+C_{\mathrm{CO_2}} = 2.226\,\bigl(0.0307\,P + [\mathrm{HCO_3^-}]\bigr)\left[1 - \frac{0.0289\,\mathrm{Hb}}{(3.352 - 0.456\,S)(8.142 - \mathrm{pH})}\right],
+\label{eq:gx-haldane}
+\end{equation}
+with $P$ the PCO\textsubscript{2} and $S$ the oxygen saturation. Deoxygenated blood holds more CO\textsubscript{2} at the same PCO\textsubscript{2} (the Haldane effect). This term matters when oxygen is given to a patient with low saturation: as saturation rises, CO\textsubscript{2} is released from hemoglobin and PaCO\textsubscript{2} rises even before ventilation changes.
+
+\paragraph{Heart rate and stroke volume.} Cardiac output is divided into heart rate and stroke volume. Stroke volume starts at $SV_0=\dot Q_0/HR_0$, with resting heart rate $HR_0=70$/min, and changes only where studies show it does:
+\begin{equation}
+SV=SV_0\bigl[1+0.023\max(0,13.1-\mathrm{Hb})\bigr]\bigl[1+\min(0.3,\;0.06\,\Delta\dot Q_{\dot V_{O_2}})\bigr]\bigl[1-0.04\,h\bigr],\qquad HR=\dot Q/SV,
+\label{eq:gx-sv}
+\end{equation}
+where $\Delta\dot Q_{\dot V_{O_2}}$ is the metabolic term of \cref{eq:gx-q} in \si{\liter\per\minute} and $h$ (0 to 1) is the hyperoxia factor. The coefficients come from four sets of human data.
+\begin{itemize}[leftmargin=*]
+\item \textbf{Hypoxemia.} In isocapnic hypoxia to SaO\textsubscript{2} 80\%, cardiac output rose from 6.84 to \SI{8.44}{\liter\per\minute}, about 1.17\% per 1\% desaturation, entirely through heart rate~\citep{phillips1988}. Stroke volume is therefore unchanged, and heart rate rises about 1/min per 1\% fall in saturation. The term is capped at a 25\% fall in saturation, close to the studied range.
+\item \textbf{Anemia.} Isovolemic hemodilution from Hb 13.1 to \SI{5.0}{\gram\per\deci\liter} raised cardiac index from 3.0 to \SI{5.7}{\liter\per\minute\per\square\meter} (11.1\% per \si{\gram\per\deci\liter}) and heart rate from 58 to 92/min, so stroke volume rose about 19\%, or 2.3\% per \si{\gram\per\deci\liter}~\citep{weiskopf1998}.
+\item \textbf{Metabolic demand.} Cardiac output rises about \SI{6}{\liter\per\minute} for each \si{\liter\per\minute} rise in $\dot V_{O_2}$~\citep{joyner2021}. The 30\% cap on the rise in stroke volume is a class~A value reflecting its early plateau in upright exercise.
+\item \textbf{Hyperoxia.} At PaO\textsubscript{2} 234--\SI{617}{\mmHg} cardiac output falls about 10\%, heart rate about 6.5\% and stroke volume about 4\%~\citep{smit2018}.
+\end{itemize}
+
+\paragraph{Oxygen delivery and the supply limit.} Oxygen delivery is $D_{O_2}=10\,\dot Q\,C_{aO_2}$ in \si{\milli\liter\per\minute}, normally about 1000. When delivery falls below a critical value, tissues cannot raise extraction further and consumption becomes supply-dependent~\citep{schumacker1987}. The model limits extraction to a maximum ratio of 0.7, so $C_{vO_2}\geq0.3\,C_{aO_2}$. Delivered consumption is $\min\bigl(\dot V_{O_2,\mathrm{demand}},\,10\,\dot Q\,(C_{aO_2}-C_{vO_2})\bigr)$, and it is flagged as supply-limited when it falls more than \SI{5}{\milli\liter\per\minute} below demand.
+
+\begin{table}[htbp]\centering\small
+\caption{Cardiac output and mixed-venous oxygen for the default adult on room air, compared with published values.}
+\label{tab:gx-q}
+\begin{tabular}{@{}lcccl@{}}\toprule
+Condition & $\dot Q$ (\si{\liter\per\minute}) & SvO\textsubscript{2} (\%) & PvO\textsubscript{2} (\si{\mmHg}) & Published\\\midrule
+Sea level, Hb 14 & 5.0 & 73 & 38 & SvO\textsubscript{2} about 75\%\\
+Hb \SI{5}{\gram\per\deci\liter} & 9.4 & 65 & 31 & CI $+90\%$, SvO\textsubscript{2} 76$\to$69\%~\citep{weiskopf1998}\\
+$\dot V_{O_2}$ doubled & 6.5 & 58 & 36 & 6 L per L slope~\citep{joyner2021}\\
+\SI{13000}{ft}, 48 h & 5.5--5.7 & 62--65 & 35--36 & Partial acute rise~\citep{phillips1988,siebenmann2015}\\\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Pulmonary artery pressure}
+\label{sec:gx-pap}
+Global hypoxic vasoconstriction raises pulmonary vascular resistance. Mean pulmonary artery pressure is estimated from the pulmonary artery wedge pressure plus resistance times flow~\citep{naeije2010}:
+\begin{equation}
+\mathrm{mPAP}=8+1.2\,\bigl(1+1.5\,g\,\bar r\bigr)\,\dot Q,
+\label{eq:gx-pap}
+\end{equation}
+in \si{\mmHg}, with a wedge pressure of \SI{8}{\mmHg}, a baseline resistance of 1.2 Wood units, $g$ the HPV strength of \cref{eq:gx-hpv} and $\bar r$ the perfusion-weighted vasoconstrictor response. The gain of 1.5 is a class~F value chosen to give typical acute-altitude pressures~\citep{naeije2010}. The result is about \SI{14}{\mmHg} at sea level and 24--\SI{25}{\mmHg} at \SI{13000}{ft} (\cref{tab:gx-alt}). Lobar hypoxia in humans halves regional flow~\citep{sylvester2012}, which sets the default $g=1$. The stimulus weighting in \cref{eq:gx-hpv} follows \citet{marshall1983}, and the threshold and half-maximal values follow \citet{hopkins2023}.
+
+\begin{table}[htbp]\centering\small
+\caption{Default adult on room air after 48 h at altitude.}
+\label{tab:gx-alt}
+\begin{tabular}{@{}lccccccc@{}}\toprule
+Altitude & $P_B$ & PIO\textsubscript{2} & PAO\textsubscript{2} & PaO\textsubscript{2} & SaO\textsubscript{2} (\%) & P\textsubscript{50} & mPAP\\\midrule
+Sea level & 760 & 150 & 114 & 102 & 98.7 & 22.9 & 14\\
+\SI{5000}{ft} & 632 & 123 & 87 & 84 & 95.6 & 24.4 & 16\\
+\SI{8000}{ft} & 565 & 109 & 73 & 69 & 94.5 & 25.4 & 20\\
+\SI{13000}{ft} & 465 & 88 & 53 & 50--51 & 85 & 26.6 & 24--25\\\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Global ventilation--perfusion and the blood-gas readout}
+\label{sec:gx-global}
+\paragraph{Two $\dot V/\dot Q$ measures.} The model reports two ratios that answer different questions~\citep{west1964,west2021}. The mean ratio of the ventilated compartments,
+\begin{equation}
+\overline{\dot V/\dot Q}_{\mathrm{comp}}=(1-l_f)\,0.8+l_f\,l_q,
+\label{eq:gx-vqcomp}
+\end{equation}
+describes how ventilation is distributed among perfused units and is about 0.8 in a healthy upright adult. It does not depend on total alveolar ventilation. The global ratio $\dot V_A/\dot Q_t$ divides total alveolar ventilation by total cardiac output, shunted blood included. It rises with hyperventilation, falls with dead space, and falls below the compartmental value when shunt is large. In ARDS with 30\% shunt, for example, the compartmental ratio stays near 0.79 while the global ratio falls to about 0.55, because the shunted blood takes cardiac output without receiving ventilation~\citep{rahn1955,lumb2020}.
+
+\paragraph{Estimated arterial blood gas.} The monitor shows an estimated blood gas computed every frame. pH follows the Henderson--Hasselbalch equation,
+\begin{equation}
+\mathrm{pH}=6.1+\log_{10}\frac{[\mathrm{HCO_3^-}]}{0.0307\,\mathrm{PaCO_2}},\qquad
+\mathrm{BE}=([\mathrm{HCO_3^-}]-24.4)+16.2\,(\mathrm{pH}-7.40),
+\label{eq:gx-abg}
+\end{equation}
+where 0.0307 \si{\milli\mole\per\liter\per\mmHg} is the plasma solubility of CO\textsubscript{2}~\citep{narins1980} and $[\mathrm{HCO_3^-}]$ is the dynamic bicarbonate of \cref{sec:ctl-other}. Base excess uses the Van Slyke form for extracellular fluid~\citep{siggaardandersen1963}, whose coefficient 16.2 equals $2.3\,\mathrm{Hb}+7.7$ evaluated at the extracellular hemoglobin of \SI{3.7}{\gram\per\deci\liter}. It is therefore the standard base excess, independent of blood hemoglobin. PaO\textsubscript{2} and SaO\textsubscript{2} come from the gas-exchange solution. A stepwise rule labels the result: respiratory when PaCO\textsubscript{2} is above 45 or below \SI{35}{\mmHg}, metabolic when base excess is outside $\pm2$, mixed when both push pH the same way, and compensated when pH is normal.
+
+\paragraph{Acid--base classification.} The blood-gas display labels the result from pH, PaCO\textsubscript{2} and bicarbonate using conventional cut-offs~\citep{narins1980}: acidemia below pH 7.35 and alkalemia above 7.45; a respiratory process when PaCO\textsubscript{2} is above 45 (acidosis) or below \SI{35}{\mmHg} (alkalosis); and an added metabolic process when bicarbonate is below 22 or above \SI{26}{\milli\mole\per\liter} in the same direction. With a normal pH, a raised PaCO\textsubscript{2} with a raised bicarbonate is labeled compensated respiratory acidosis or metabolic alkalosis, and the reverse compensated respiratory alkalosis or metabolic acidosis. The label is a reading aid and does not feed back into the model.
+
+\section{Alternative gas-exchange models}
+\label{sec:gx-alt}
+\begin{description}[leftmargin=1em]
+\item[MIGET.] The multiple inert gas elimination technique recovers a continuous $\dot V/\dot Q$ distribution from six gases of widely different solubility~\citep{wagner1974}. It resolves bimodal distributions, shunt and diffusion limitation, but requires simultaneous blood and expired measurements of every gas. The three-compartment model is a discrete approximation with three parameters (shunt, low-$\dot V/\dot Q$ fraction and its ratio) that blood gases and P/F ratios can identify.
+\item[Riley--Cournand.] The ideal-alveolar model divides the alveolar--arterial difference into venous admixture and diffusion limitation~\citep{riley1949}. VentiVerse keeps the low-$\dot V/\dot Q$ compartment separate from true shunt because the two respond differently to oxygen: added FiO\textsubscript{2} corrects low-$\dot V/\dot Q$ hypoxemia, but not shunt.
+\item[West zones.] Perfusion depends on alveolar, arterial and venous pressures, giving three zones from apex to base, and PEEP can extend zone~1 dead space~\citep{west1964}. The model does not compute zone boundaries; its compartment fractions are fixed per phenotype and adjusted by posture.
+\item[Dissociation curve.] The Hill equation~\citep{hill1910} is inaccurate below about 30\% saturation. The model uses the Severinghaus curve~\citep{severinghaus1979} with the P\textsubscript{50} shifts of \citet{dash2016}. The full Dash--Bassingthwaighte model, with saturation-dependent cooperativity and coupled CO\textsubscript{2} binding, requires an iterative solution and is not used.
+\end{description}
+
+\section{Parameters}
+\begin{table}[ht]
+\centering
+\caption{Gas-exchange and circulation parameters. Class as in \cref{tab:mech-params}.}
+\label{tab:gx-params}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule
+$s_h$ & True shunt fraction & 0.02 & M/F \\
+$l_f$, $l_q$ & Low-$\dot V/\dot Q$ perfusion fraction and ratio & 0.03, 0.60 & F \\
+$D_{L\mathrm{O_2}}$, $V_c$ & Oxygen diffusing capacity, capillary volume & 30 mL/min/mmHg, 75 mL & R~\citep{roughton1957} \\
+$g$ & HPV strength & 1 & R~\citep{marshall1980} \\
+$\dot Q_0$ & Resting cardiac output & \SI{5}{\liter\per\minute} & R \\
+$HR_0$ & Resting heart rate & 70/min & R \\
+O\textsubscript{2}ER\textsubscript{max} & Maximal extraction ratio & 0.7 & R~\citep{schumacker1987} \\
+$\dot V_{\mathrm{O_2}}$, $R$ & Oxygen consumption, exchange ratio & 250 mL/min, 0.8 & M/R \\
+Hb & Hemoglobin & \SI{14}{\gram\per\deci\liter} & M \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{summarybox}
+Gas exchange is computed once per breath: alveolar gas, three perfusion compartments with Fick diffusion, content mixing, the Severinghaus curve with an in vivo P\textsubscript{50}, vasoconstriction that redistributes perfusion, and a cardiac output that responds to desaturation and anemia. The Haldane term links oxygen therapy to carbon dioxide.
+\end{summarybox}

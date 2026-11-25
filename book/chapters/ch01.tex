@@ -1,0 +1,86 @@
+\chapter{Introduction}
+\label{ch:ch01}
+
+% STYLE SAMPLE -- placeholder text showing the book's layout elements. Replaced when Chapter 1 is written.
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Explain why mathematical models are useful at the bedside and in teaching.
+  \item State the single-compartment equation of motion.
+  \item Interpret pressure and volume waveforms during volume-controlled ventilation.
+  \item Use disease duration (months since onset) to project how a chronic progressive disease changes physiology and ventilatory needs.
+\end{itemize}
+\end{objectives}
+
+\begin{authornote}
+\emph{Space reserved for the author's commentary.}
+\end{authornote}
+
+\section{Disease duration as a model input}
+\label{sec:disease-duration}
+For chronic progressive diseases, VentiVerse accepts a single additional input: \emph{months since onset}\index{months since onset}\index{disease progression}. Moving this input sets the patient parameters that change with the disease, inspiratory and expiratory strength (MIP, MEP), lung and chest-wall compliance, and the starting bicarbonate, along a population-average trajectory taken from published cohorts (\cref{fig:months-schematic}). The rest of the model is unchanged: the same equations for respiratory drive, muscle capacity, mechanics, sleep and renal compensation then predict the breathing pattern, blood gases and response to ventilation at that point in the disease.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{fig_schematic_months.png}
+\caption{Schematic of the disease-duration input. Choosing a disease and a month places the patient on a population-average trajectory; the simulator then predicts what that patient needs, now and at a later visit. Colors and months are illustrative.}
+\label{fig:months-schematic}
+\end{figure}
+
+This makes the simulator a teaching tool for the question clinicians face at every visit in a progressive disease: \emph{if these settings are right today, will they still be right at the next visit?} A patient can be simulated in the current state and then moved forward by the interval to the next appointment, with the same ventilator settings, to see when hypoventilation during sleep appears, when a backup rate becomes necessary, and when a fixed pressure support stops being enough. When visits are months apart, as is common in amyotrophic lateral sclerosis (ALS), this is the argument for volume-assured pressure support (VAPS), which raises pressure support automatically as the patient's own contribution falls.
+
+The trajectories describe population norms, not individual patients. In ALS, forced vital capacity (FVC) falls on average about 2.7 percentage points of predicted per month in clinical-trial cohorts~\citep{andrews2018}, but the rate differs several-fold between people and between onset types. The published data are not complete enough to calibrate an individual patient, and the simulator does not try to. Each existing simulated example sits exactly on its trajectory at an \emph{anchor month} (month 11 for limb-onset ALS, month 14 for bulbar-onset ALS, and 300 months of age for adult Duchenne muscular dystrophy, whose clock starts at birth), so the published validation runs are reproduced unchanged, and earlier or later months show the same patient at other stages (\cref{fig:months-trajectory}). In chronic obstructive pulmonary disease, chronic bronchitis and the COPD/OSA overlap, FEV$_1$ is not an input, but the months input moves FEV$_1$ along the published average decline~\citep{vestbo2011} and sets airway resistance, expiratory flow limitation, hyperinflation-limited inspiratory strength and gas exchange from it; the hypercapnic emphysema example sits at month 376 (FEV$_1$ 32\% of predicted). Because FEV$_1$ falls only about 0.1--0.2\% of predicted per month, the interval between visits matters far less in COPD than in ALS. Acute illnesses such as myasthenic crisis, the acute respiratory distress syndrome, exacerbations of COPD and status asthmaticus have no disease-duration input.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{fig_progression_months.png}
+\caption{VentiVerse output along the disease-duration input. (A) FVC and (B) MIP of the limb-onset and bulbar-onset ALS simulated examples from onset to 30 months; the dashed line is the published mean FVC decline of 2.7\% predicted per month in 893 placebo-treated trial participants~\citep{andrews2018}. Shading marks the commonly used thresholds for starting NIV (FVC below 50\% predicted, MIP below 60~\si{\cmH}). (C) Adult Duchenne muscular dystrophy from 18 to 30 years, with the published FVC at the start of home ventilation (mean $\pm$ SD). Circles mark the anchor months of the existing simulated examples. Curves are model output computed from piecewise-linear population trajectories of the inputs, not fitted patient data.}
+\label{fig:months-trajectory}
+\end{figure}
+
+\section{Layout sample}
+This page is a style sample showing how equations, figures, and teaching boxes will appear. The single-compartment model of the respiratory system\index{equation of motion} relates airway pressure to volume and flow~\citep{bates2009}:
+
+\begin{keyequation}[: Equation of Motion]
+\begin{equation}
+  \Paw(t) = \Rrs\,\Vdot(t) + \frac{V(t)}{\Crs} + \PEEP - \Pmus(t)
+  \label{eq:eom}
+\end{equation}
+\end{keyequation}
+
+With constant inspiratory flow $\Vdot$ and a passive patient ($\Pmus=0$), \cref{eq:eom} predicts a step rise in pressure of $\Rrs\Vdot$ followed by a linear rise of slope $\Vdot/\Crs$, as shown in \cref{fig:vc-sample}. During passive expiration, airway pressure returns to PEEP while alveolar pressure decays with time constant $\tau=\Rrs\Crs$.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.85\linewidth,height=5.2cm,xlabel={Time (\si{\second})},ylabel={Pressure (\si{\cmH})},
+  xmin=0,xmax=4,ymin=0,ymax=30,grid=major,grid style={gray!25},axis lines=left,
+  every axis plot/.style={line width=1.4pt}]
+  \addplot[bkblue] coordinates {(0,5) (0,10) (1,20) (1,5) (4,5)};
+  \addplot[bkteal,dashed,domain=0:1,samples=2] {5+10*x};
+  \addplot[bkteal,dashed,domain=1:4,samples=200] {5+10*exp(-(x-1)/0.5)};
+  \node[bkblue,anchor=south,font=\small] at (axis cs:0.55,19) {$\Paw$};
+  \node[bkteal,anchor=west,font=\small] at (axis cs:1.35,11) {$\Palv$};
+  \addplot[bkorange,dashed,line width=1pt,domain=0:4] {5};
+  \node[bkorange,anchor=south west,font=\small] at (axis cs:2.6,5) {PEEP};
+\end{axis}
+\end{tikzpicture}
+\caption{Sample figure: airway pressure (solid) and alveolar pressure (dashed) during volume-controlled ventilation with $\Rrs=\SI{10}{\cmH\per\liter\second}$, $\Crs=\SI{50}{\milli\liter\per\cmH}$, $\Vdot=\SI{0.5}{\liter\per\second}$.}
+\label{fig:vc-sample}
+\end{figure}
+
+\begin{example}{Peak and plateau pressure}
+With $\Rrs=\SI{10}{\cmH\per\liter\second}$, $\Vdot=\SI{0.5}{\liter\per\second}$, $\VT=\SI{500}{\milli\liter}$, $\Crs=\SI{50}{\milli\liter\per\cmH}$ and PEEP $=\SI{5}{\cmH}$:
+\[
+  P_{\text{peak}} = 10(0.5) + \frac{500}{50} + 5 = \SI{20}{\cmH},\qquad
+  P_{\text{plat}} = \frac{500}{50} + 5 = \SI{15}{\cmH}.
+\]
+\end{example}
+
+\begin{clinicalpearl}
+The difference between peak and plateau pressure reflects resistance; the difference between plateau pressure and PEEP (the driving pressure) reflects compliance.
+\end{clinicalpearl}
+
+\begin{simnote}
+In VentiVerse, set the mode to volume control and add an inspiratory hold to read plateau pressure directly from the pressure waveform.
+\end{simnote}

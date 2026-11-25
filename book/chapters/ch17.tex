@@ -1,0 +1,12 @@
+\chapter{Conclusions}
+\label{ch:concl}
+
+\begin{authornote}
+\emph{Space reserved for the author's closing commentary.}
+\end{authornote}
+
+The model described in this book is one closed loop. Neural drive sets effort. Effort and the ventilator move gas through a two-compartment lung. Gas exchange sets arterial oxygen and CO\textsubscript{2}, which feed back into drive after circulatory delays. Sleep, posture and therapy act on the same loop. Each element is a published physiological relation with stated parameters (\crefrange{ch:ch06}{ch:ch11}). The elements are integrated with an explicit Euler step of \SI{2}{\milli\second} within each breath and exact updates between breaths, fast enough for a browser to run a night of breathing in minutes (\crefrange{ch:ch03}{ch:ch05}).
+
+A disease enters the model as a change in parameters, not new equations. The phenotype library (\cref{ch:ch12}) gives 92 such patients from preterm infants to adults. The ventilator modes (\cref{ch:ch13}) are the pressure and flow laws of the devices, and their effects on the patient emerge from the loop.
+
+The model is credible to the extent that each step is documented: equations solved correctly, parameters taken from measurement or bounded by the literature, and outputs compared blind with published patients (\cref{ch:ch14}). By that test the obstructive diseases are well supported. The neuromuscular diseases reproduce the direction of treatment effects but overestimate unsupported PaCO\textsubscript{2}, and the restrictive and pediatric phenotypes are not yet tested. The validation chapters that follow present each disease against its published cases, including the results that do not agree. The limitations of \cref{ch:appraisal} set the order of the work that remains.

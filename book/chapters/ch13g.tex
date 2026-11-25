@@ -1,0 +1,20 @@
+\chapter{Adaptive Support Ventilation}
+\label{ch:asv}
+
+\begin{authornote}
+\emph{Not modeled in VentiVerse.} This chapter describes the mode and what the model would need to simulate it. Author commentary to be added.
+\end{authornote}
+
+\section{Principle}
+Adaptive support ventilation (ASV) is a closed-loop mode that chooses tidal volume and rate to deliver a target minute ventilation with the least work of breathing~\citep{laubscher1994}. The clinician sets the percentage of a normal minute ventilation, \SI{0.1}{\liter\per\minute\per\kilo\gram} of ideal body weight for adults. The device estimates the expiratory time constant $RC_e$ from the expiratory flow--volume curve and a dead space of \SI{2.2}{\milli\liter\per\kilo\gram}, then picks the rate from the minimum-work relation of \citet{otis1950}:
+\begin{equation}
+f=\frac{\sqrt{1+2a\,RC_e\,(\dot V_E-f\,V_D)/V_D}-1}{a\,RC_e},\qquad a=\frac{2\pi^2}{60},\qquad V_T=\frac{\dot V_E}{f},
+\label{eq:asv-otis}
+\end{equation}
+where $\dot V_E$ is the target minute ventilation, $V_D$ the dead space, $RC_e$ the time constant in seconds and $f$ the rate in breaths per minute. Safety limits keep $V_T$ above twice the dead space and below the volume at a set plateau pressure, and keep expiratory time above about two time constants to limit gas trapping. Pressure control is used for mandatory breaths and pressure support for spontaneous ones, and the inspiratory pressure is adjusted breath by breath toward the target $V_T$.
+
+\section{Behavior and evidence}
+In passive patients ASV chooses larger tidal volumes and slower rates in obstructive disease, where $RC_e$ is long, and smaller volumes and faster rates in restrictive disease, where it is short~\citep{arnal2008}.
+
+\section{What modeling would require}
+The model's VAPS and iVAPS modes (\cref{sec:modes-adapt}) already adapt pressure toward a volume or alveolar-ventilation target. ASV would add an $RC_e$ estimator from the simulated expiratory flow, the solution of \cref{eq:asv-otis} each breath, and the safety limits.

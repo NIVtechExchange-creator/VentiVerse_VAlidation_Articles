@@ -1,0 +1,22 @@
+\chapter{Airway Pressure Release Ventilation}
+\label{ch:aprv}
+
+\begin{authornote}
+\emph{Not modeled in VentiVerse.} This chapter describes the mode and what the model would need to simulate it. Author commentary to be added.
+\end{authornote}
+
+\section{Principle}
+Airway pressure release ventilation (APRV) holds a high continuous pressure $P_{\mathrm{high}}$ for a long time $T_{\mathrm{high}}$ and releases it briefly to $P_{\mathrm{low}}$ for a short time $T_{\mathrm{low}}$~\citep{stock1987}. The patient may breathe spontaneously at any time, mostly at $P_{\mathrm{high}}$. Ventilation comes from the releases and from spontaneous breaths; the high mean pressure keeps lung recruited~\citep{habashi2005}.
+
+For a single-compartment lung with time constant $\tau=RC$, the volume released after time $t$ is
+\begin{equation}
+\Delta V(t)=C\,(P_{\mathrm{high}}-P_{\mathrm{low}})\bigl(1-e^{-t/\tau}\bigr),\qquad \dot V(t)=\dot V_{\mathrm{peak}}\,e^{-t/\tau}.
+\label{eq:aprv-release}
+\end{equation}
+In the time-controlled adaptive approach, $T_{\mathrm{low}}$ is set so that the release ends when expiratory flow has fallen to 75\% of its peak. From \cref{eq:aprv-release} this gives $T_{\mathrm{low}}=\tau\ln(4/3)\approx0.29\,\tau$, so most of the lung volume is retained and an intentional intrinsic PEEP remains.
+
+\section{Behavior and evidence}
+Spontaneous breathing during APRV improved ventilation--perfusion matching and reduced sedation and ventilator days compared with controlled ventilation in acute lung injury~\citep{putensen2001}, and early APRV shortened ventilation in ARDS in one randomized trial~\citep{zhou2017}.
+
+\section{What modeling would require}
+The model's two compartments, recruitment (\cref{sec:mech-recruit}) and intrinsic PEEP (\cref{ch:ch06}) are the elements APRV acts on. It would need a two-level time-cycled pressure command, spontaneous breaths at both levels without pressure support, and an optional release termination at a fraction of peak expiratory flow.

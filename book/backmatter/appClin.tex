@@ -1,0 +1,264 @@
+\chapter{Clinical Pathology Reference}
+\label{app:clin}
+
+This appendix summarizes, for each phenotype that commonly needs ventilatory support, the mechanism of failure, the presentation, the ventilation strategy and the adjunct treatments reported in the literature. Each entry ends with the phenotype as it is implemented: the parameter changes of \cref{sec:par-lib}, the untreated blood gas of \cref{tab:par-abg} for adults, and the adjuncts of \cref{tab:adj-defs} that the model applies to that phenotype, with their effectiveness. Clinical recommendations are summaries of the cited literature, not treatment guidance.
+
+\section{Neuromuscular Disease}
+Neuromuscular diseases cause pure \emph{pump failure}: CO\textsubscript{2} chemoreflex and central drive are intact or heightened (chronically elevated CO\textsubscript{2} set-point), but the Pmus ceiling is too low to sustain adequate alveolar ventilation. Lung parenchyma is initially structurally normal; failure is purely mechanical. Secondary atelectasis and infection from impaired cough progressively add a gas-exchange component. Treatment targets are: (i) augment minute ventilation to normalize PaCO\textsubscript{2}; (ii) maintain airway clearance; (iii) prevent progressive atelectasis.
+
+\subsection{ALS / Motor Neuron Disease}
+\textbf{Pathophysiology.} ALS causes progressive degeneration of upper and lower motor neurons supplying the phrenic nerve, intercostals, and accessory muscles. SNIP/MIP falls ~20--25\%/6 months in limb-onset disease~\citep{miller2009a}. Bulbar dysfunction adds aspiration risk. Lung mechanics remain normal until secondary atelectasis develops.
+
+\textbf{Presenting symptoms.} Orthopnea (diaphragm failure), morning headache (nocturnal CO\textsubscript{2} retention), dyspnea on minimal exertion, weak voice, paradoxical abdominal movement supine, reduced bilateral breath sounds.
+
+\textbf{MV strategy.} NIV is standard of care~\citep{bourke2006,miller2009a}: S/T mode when triggering is possible; PC mode for weak flow/poor triggering. VAPS preferred for VT stability as Pmax falls~\citep{nicholson2019}. IPAP 14--20 cmH\textsubscript{2}O, EPAP 4--6 cmH\textsubscript{2}O, backup RR 12--16/min, Ti 1.0--1.2 s. Target VT 8--10 mL/kg IBW. Tracheostomy for bulbar failure or patient preference. Device: Trilogy Evo (AVAPS low pressure-change rate).
+
+\textbf{Adjunct therapies.} Mechanical insufflation-exsufflation (MI-E / cough assist); oropharyngeal suction; riluzole; baclofen for spasticity; glycopyrrolate for sialorrhea.
+
+\textbf{Model representation.} Adult phenotype ``ALS / motor neuron disease': lung compliance $\times0.95$; chest-wall compliance $\times0.9$; maximal inspiratory pressure $\times0.45$; slow fraction 0.1 with $\kappa=1.3$. Untreated seed: PaCO\textsubscript{2} 40 mmHg, SaO\textsubscript{2} 96\%, HCO\textsubscript{3}\textsuperscript{$-$} 24 mEq/L. A months-since-onset progression time line is available. Adjuncts at full effectiveness: insufflation--exsufflation. Partial: HFCWO (0.5).
+
+\subsection{Chronic NMD / Duchenne Muscular Dystrophy}
+\textbf{Pathophysiology.} DMD causes X-linked progressive myopathy. Respiratory muscle weakness is compounded by kyphoscoliosis  and intercostal fibrosis. Cough peak flow typically $<$ 160 L/min at the stage requiring NIV.
+
+\textbf{Presenting symptoms.} Orthopnea, morning headache, recurrent chest infections, declining FVC, scoliotic posture, pulsus paradoxus.
+
+\textbf{MV strategy.} NIV S/T or AVAPS low rate~\citep{finder2004}. IPAP 16--22 cmH\textsubscript{2}O, EPAP 4--6 cmH\textsubscript{2}O, backup RR 14/min. 24-hour Trilogy Evo if daytime support required. Target VT 8--10 mL/kg IBW.
+
+\textbf{Adjunct therapies.} MI-E cough assist (daily, intensified during infections); deflazacort/prednisolone; ACE inhibitors/beta-blockers for cardiomyopathy; exon-skipping therapy (eteplirsen) in eligible mutations.
+
+\textbf{Model representation.} Adult phenotype ``Adult DMD / NMD': lung compliance $\times0.7$; chest-wall compliance $\times0.65$; maximal inspiratory pressure $\times0.2$; slow fraction 0.1 with $\kappa=1.3$; drive gain multiplier 2. Untreated seed: PaCO\textsubscript{2} 55 mmHg, SaO\textsubscript{2} 88\%, HCO\textsubscript{3}\textsuperscript{$-$} 32 mEq/L. A months-since-onset progression time line is available. Adjuncts at full effectiveness: insufflation--exsufflation. Partial: HFCWO (0.5).
+
+\subsection{Myasthenia Gravis --- Crisis}
+\textbf{Pathophysiology.} Autoimmune NMJ disorder (AChR-Ab or MuSK-Ab). Crisis is precipitated by infection, surgery, or medication change. Weakness \emph{fluctuates} (worse with sustained effort, better with rest) --- unlike ALS/DMD. Bulbar involvement adds aspiration and interface-seal difficulty.
+
+\textbf{Presenting symptoms.} Rapid-onset dyspnea, rapidly falling MIP/SNIP, dysarthria and dysphagia, ptosis, diplopia. Triggers: missed pyridostigmine, fluoroquinolones, aminoglycosides, contrast dye.
+
+\textbf{MV strategy.} NIV S/T if MIP $>$ 20 cmH\textsubscript{2}O and no bulbar crisis~\citep{thomas1997,gujjar2005}: IPAP 15 cmH\textsubscript{2}O, EPAP 6 cmH\textsubscript{2}O, FiO\textsubscript{2} 60\%, close monitoring. Intubation if MIP $<$ 20, rapid deterioration, or bulbar failure. Intubated: VC/PC, VT 6--8 mL/kg, minimize sedation to assess recovery. Hold pyridostigmine during intubation.
+
+\textbf{Adjunct therapies.} IVIG (2 g/kg $\times$ 5 days); plasma exchange (PLEX, 5 sessions $\times$ 10 days --- faster); high-dose corticosteroids; resume pyridostigmine pre-extubation. Avoid aminoglycosides, fluoroquinolones, $\beta$-blockers, calcium channel blockers, magnesium.
+
+\textbf{Model representation.} Adult phenotype ``Myasthenia gravis (MG crisis)': lung compliance $\times0.45$; chest-wall compliance $\times0.65$; maximal inspiratory pressure $\times0.2$; shunt 10\%; low-$\dot V/\dot Q$ fraction 30\%; slow fraction 0.2 with $\kappa=1.5$; drive gain multiplier 0.6. Untreated seed: PaCO\textsubscript{2} 50 mmHg, SaO\textsubscript{2} 87\%, HCO\textsubscript{3}\textsuperscript{$-$} 26 mEq/L. Adjuncts at full effectiveness: neostigmine, pyridostigmine, insufflation--exsufflation. Partial: HFCWO (0.5).
+
+\subsection{Guillain-Barré Syndrome --- Severe}
+\textbf{Pathophysiology.} Acute demyelinating polyradiculoneuropathy with ascending flaccid paralysis. In severe GBS, phrenic and intercostal nerves are functionally denervated. Central drive is \emph{fully intact} --- the chemoreflex fires normally and the Pre-BötC generates rhythmic commands --- but motor neurons cannot transmit them. MIP approaches 0 at nadir. The result: a strongly motivated patient who physically cannot breathe. Autonomic instability (BP swings, arrhythmias) complicates management.
+
+\textbf{Presenting symptoms.} Ascending weakness over days--weeks; paradoxical abdominal breathing; rapid shallow breathing with no visible chest expansion; air hunger; MIP $<$ 20 cmH\textsubscript{2}O; SpO\textsubscript{2} falling despite intact drive. ''20-30-40 rule'': intubate if MIP $<$ 20, FVC $<$ 30\% predicted, or PaO\textsubscript{2}/FiO\textsubscript{2} impaired.
+
+\textbf{MV strategy.} Elective intubation is standard once the 20-30-40 threshold is reached~\citep{sharshar2003}. VC-AC mode. VT 6--8 mL/kg IBW, RR 12--16/min, PEEP 5 cmH\textsubscript{2}O. Avoid NIV (bulbar compromise, aspiration). Tracheostomy if $>$ 2 weeks supported. Recovery: PC-AC or S/T NIV as Pmax gradually returns.
+
+\textbf{Adjunct therapies.} IVIG (2 g/kg $\times$ 5 days) or PLEX (5 exchanges --- equivalent efficacy, PLEX slightly faster). Gabapentin/pregabalin for neuropathic pain. Thromboprophylaxis (DVT very high risk). Autonomic management ($\beta$-blockade for tachycardia, vasopressors for hypotension). Passive physiotherapy.
+
+\textbf{Model representation.} Adult phenotype ``Guillain-Barré (respiratory involvement)': lung compliance $\times0.55$; chest-wall compliance $\times0.9$; maximal inspiratory pressure $\times0.19$; shunt 10\%; slow fraction 0.2 with $\kappa=1.3$. Untreated seed: PaCO\textsubscript{2} 44 mmHg, SaO\textsubscript{2} 92\%, HCO\textsubscript{3}\textsuperscript{$-$} 24 mEq/L. A months-since-onset progression time line is available. Adjuncts at full effectiveness: insufflation--exsufflation. Partial: HFCWO (0.5).
+
+\subsection{Spinal Cord Injury --- C4 Chronic}
+\textbf{Pathophysiology.} Complete C4 SCI leaves partial phrenic function (C3 intact) but eliminates all intercostal (T1--T12) and abdominal (T6--T12) muscle contribution. Absent intercostal splinting causes paradoxical rib cage indrawing during diaphragmatic contraction, wasting inspiratory effort. MIP $\approx$ 28 cmH\textsubscript{2}O. Chronic Clung reduction from recurrent microatelectasis. from loss of intercostal tone.
+
+\textbf{Presenting symptoms.} Limited spontaneous ventilation; dependence on diaphragm alone; weak productive cough (no abdominal effort); recurrent pneumonia from secretion retention; positional sensitivity (supine improves diaphragm mechanics, sitting worsens due to gravity).
+
+\textbf{MV strategy.} NIV S/T or AVAPS~\citep{brown2006}: IPAP 16--20 cmH\textsubscript{2}O, EPAP 4--6 cmH\textsubscript{2}O, backup RR 12--14/min. 24-hour invasive ventilation (Trilogy Evo) if complete diaphragm failure or NIV intolerance. Diaphragmatic pacing (PhrenIC) in selected C3--C5 injuries to eliminate ventilator dependence.
+
+\textbf{Adjunct therapies.} MI-E cough assist (mandatory --- no volitional cough). Assisted cough techniques (abdominal thrust). Mucolytic nebulisation. Rehabilitation physiotherapy. Urological management.
+
+\textbf{Model representation.} Adult phenotype ``SCI C3--C4 complete': lung compliance $\times0.85$; chest-wall compliance $\times0.62$; maximal inspiratory pressure $\times0.38$; shunt 3\%; slow fraction 0.18 with $\kappa=1.5$. Untreated seed: PaCO\textsubscript{2} 43 mmHg, SaO\textsubscript{2} 94\%, HCO\textsubscript{3}\textsuperscript{$-$} 26 mEq/L. A months-since-onset progression time line is available. Adjuncts at full effectiveness: none. Partial: HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\section{Obstructive Lung Disease}
+Obstructive diseases cause ventilatory failure via: (i) elevated resistance $\to$ increased WOB $\to$ muscle fatigue; (ii) dynamic hyperinflation and auto-PEEP $\to$ diaphragm flattening and mechanical disadvantage; (iii) V/Q maldistribution driving hypoxemia (low V/Q in bronchitis/asthma) or dead space (emphysema). CO\textsubscript{2} chemoreflex may be chronically blunted (raised set-point). Treatment: reduce resistance (bronchodilators, steroids), decompress auto-PEEP (reduce RR, prolonged expiration, PEEP stenting), augment ventilation.
+
+\subsection{COPD Exacerbation (AECOPD)}
+\textbf{Pathophysiology.} Acute inflammatory exacerbation (viral/bacterial trigger) raises resistance further ($\times$4.0, absolute 20 cmH\textsubscript{2}O$\cdot$s/L). Additional mucus, bronchospasm, and edema increase WOB beyond respiratory muscle capacity $\to$ acute-on-chronic hypercapnic failure. Auto-PEEP rises sharply at any tachypnoeic rate .
+
+\textbf{Presenting symptoms.} Increased dyspnea, purulent sputum, wheeze, tachypnea, accessory muscle use, cyanosis, confusion (CO\textsubscript{2} narcosis). ABG: PaCO\textsubscript{2} $>$ 63, pH $<$ 7.35.
+
+\textbf{MV strategy.} NIV first-line when pH 7.25--7.35~\citep{plant2000,confalonieri2005}: IPAP 12--16 cmH\textsubscript{2}O, EPAP 4--6 cmH\textsubscript{2}O (~80\% PEEPi), FiO\textsubscript{2} 28--35\% (SpO\textsubscript{2} target 88--92\%), backup RR 14--16/min. Intubation if pH $<$ 7.25, encephalopathy, or NIV failure: VC, RR 10--12/min (maximise Te), VT 6 mL/kg, Pplat $<$ 28 cmH\textsubscript{2}O. Permissive hypercapnia acceptable.
+
+\textbf{Adjunct therapies.} Continuous SABA + SAMA nebulisation; IV/oral corticosteroids (prednisolone 40 mg $\times$ 5 days); antibiotics (amoxicillin-clavulanate/doxycycline if purulent); controlled low-flow O\textsubscript{2} (24--28\% Venturi); mucolytics; thromboprophylaxis.
+
+\textbf{Model representation.} Adult phenotype ``COPD exacerbation (AECOPD)': airway resistance $\times4$; lung compliance $\times1.2$; maximal inspiratory pressure $\times0.82$; shunt 2\%; low-$\dot V/\dot Q$ fraction 20\%; slow fraction 0.45 with $\kappa=10$; drive gain multiplier 4. Untreated seed: PaCO\textsubscript{2} 63 mmHg, SaO\textsubscript{2} 83\%, HCO\textsubscript{3}\textsuperscript{$-$} 33 mEq/L. Adjuncts at full effectiveness: SABA, LABA, ipratropium, corticosteroids, HFCWO. Partial: MgSO$_4$ (0.3), racemic epinephrine (0.15), inhaled NO (0.3), hypertonic saline (0.7), N-acetylcysteine (0.7), dornase alfa (0.3), inhaled antibiotics (0.5), insufflation--exsufflation (0.6).
+
+\subsection{Status Asthmaticus (Intubated)}
+\textbf{Pathophysiology.} Refractory bronchospasm with mucus plugging: R = 30 cmH\textsubscript{2}O$\cdot$s/L ($\times$6 baseline) Time constant $\tau$ = RC = 30 $\times$ 0.080 $\approx$ 2.4 s/compartment. At RR $>$ 12/min, Te $<$ 3$\tau$ $\to$ incomplete exhalation $\to$ severe auto-PEEP (10--20 cmH\textsubscript{2}O) $\to$ hemodynamic compromise. ''Silent chest'' = near-complete obstruction, minimal airflow.
+
+\textbf{Presenting symptoms (pre-intubation).} Severe wheeze, inability to speak, SpO\textsubscript{2} $<$ 90\%, PaCO\textsubscript{2} normalising (exhaustion sign), paradoxical abdominal breathing. Post-intubation: extreme PIP, difficulty ventilating, hemodynamic instability.
+
+\textbf{MV strategy.} VC mode; VT 6 mL/kg IBW; RR 6--10/min; PEEP 0--5 cmH\textsubscript{2}O (do not add to auto-PEEP); fastest rise time (square flow, maximum Te); Pplat $<$ 30 cmH\textsubscript{2}O; permissive hypercapnia (PaCO\textsubscript{2} 60--80, pH $>$ 7.20)~\citep{tuxen1987,leatherman2004}. Mandatory deep sedation + NMB to suppress spontaneous effort.
+
+\textbf{Adjunct therapies.} Continuous SABA nebulisation; IV magnesium sulphate 2 g over 20 min~\citep{rowe2000}; IV corticosteroids; ketamine induction (bronchodilatory); heliox 70:30 (reduces turbulent flow resistance); propofol infusion (mild bronchodilation); NMB (cisatracurium). ECCO\textsubscript{2}R for refractory cases.
+
+\textbf{Model representation.} Adult phenotype ``Status asthmaticus (intubated)': airway resistance $\times6.1$; lung compliance $\times0.2$; maximal inspiratory pressure $\times0.12$; low-$\dot V/\dot Q$ fraction 30\%; slow fraction 0.3 with $\kappa=40$. Untreated seed: PaCO\textsubscript{2} 52 mmHg, SaO\textsubscript{2} 87\%, HCO\textsubscript{3}\textsuperscript{$-$} 22 mEq/L. Adjuncts at full effectiveness: SABA, LABA, ipratropium, MgSO$_4$, corticosteroids. Partial: racemic epinephrine (0.15), inhaled NO (0.3), N-acetylcysteine (0.4), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{COPD / EFL --- Blue Bloater with Dynamic Collapse}
+\textbf{Pathophysiology.} Tracheobronchomalacia pattern overlaid on chronic bronchitis: malacic airways collapse during expiration (Starling-resistor mechanism). Even normal tidal expiration triggers partial tracheal collapse, generating high auto-PEEP at low respiratory rates. Combined with mass loading (obesity) and chronic bronchitis (low V/Q, shunt), this produces the most severe combined obstructive-hypercapnic phenotype.
+
+\textbf{Presenting symptoms.} Central cyanosis, polycythaemia, cor pulmonale, audible expiratory stridor on forced expiration, PaCO\textsubscript{2} 56 mmHg chronically, SpO\textsubscript{2} 86\% on air.
+
+\textbf{MV strategy.} EPAP as pneumatic stent of collapsing airway: 8--10 cmH\textsubscript{2}O minimum~\citep{rossi1995,appendini1994}. Auto EPAP mode (A40) or AVAPS-AE (Trilogy Evo) for dynamic titration. IPAP 20--26 cmH\textsubscript{2}O for adequate PS. Suppress spontaneous effort if dyssynchrony worsens collapse.
+
+\textbf{Adjunct therapies.} LAMA bronchodilators (reduce secretions, mild bronchodilation); mucolytics (NAC, hypertonic saline); nocturnal NIV; phlebotomy if haematocrit $>$ 54\%.
+
+\textbf{Model representation.} Adult phenotype ``COPD / expiratory flow limitation (EFL), intrinsic PEEP': airway resistance $\times3.5$; lung compliance $\times1.1$; maximal inspiratory pressure $\times0.65$; shunt 2\%; low-$\dot V/\dot Q$ fraction 22\%; slow fraction 0.5 with $\kappa=4.5$; drive gain multiplier 4. Untreated seed: PaCO\textsubscript{2} 64 mmHg, SaO\textsubscript{2} 81\%, HCO\textsubscript{3}\textsuperscript{$-$} 33 mEq/L. Adjuncts at full effectiveness: SABA, LABA, ipratropium, corticosteroids, HFCWO. Partial: MgSO$_4$ (0.3), racemic epinephrine (0.15), hypertonic saline (0.7), N-acetylcysteine (0.7), dornase alfa (0.3), inhaled antibiotics (0.5), insufflation--exsufflation (0.6).
+
+\section{Restrictive, Parenchymal, and Gas-Exchange Failure}
+\subsection{ARDS --- Moderate (P/F 100--200)}
+\textbf{Pathophysiology.} Diffuse alveolar damage: alveolar flooding, surfactant dysfunction, collapse. Baby lung concept~\citep{gattinoni2005a}: only 200--500 g aerated. Shunt fraction 30--40\% causes refractory hypoxemia. Crs 30--45 mL/cmH\textsubscript{2}O with sigmoidal P-V curve (LIP 10--14, UIP 25--30 cmH\textsubscript{2}O). Alveolar dead space elevated from vascular injury and overdistension.
+
+\textbf{Presenting symptoms.} Bilateral CXR infiltrates; P/F 100--200 on PEEP $\geq$ 5; acute onset $<$ 7 days; SpO\textsubscript{2} $<$ 90\% on moderate FiO\textsubscript{2}; severe dyspnea, tachypnea.
+
+\textbf{MV strategy.} ARDSNet: VT 6 mL/kg IBW, Pplat $<$ 30 cmH\textsubscript{2}O, PEEP 10--14 cmH\textsubscript{2}O, FiO\textsubscript{2} 40--70\%, target SpO\textsubscript{2} 88--95\%~\citep{ards2000}. $\Delta$P $<$ 14 cmH\textsubscript{2}O~\citep{amato2015}. Sedation $\pm$ NMB first 48 hours.
+
+\textbf{Adjunct therapies.} Prone positioning $\geq$ 16 h/day if P/F $<$ 150~\citep{guerin2013a}; recruitment manoeuvres + sustained PEEP; iNO 5--20 ppm for refractory hypoxemia; IV furosemide (Lasix) for fluid-overload/edema component~\citep{marini1992,lemaire1988}; conservative fluid management.
+
+\textbf{Model representation.} Adult phenotype ``ARDS (moderate --- P/F 100--200)': airway resistance $\times1.1$; lung compliance $\times0.2$; maximal inspiratory pressure $\times0.9$; shunt 25\%; low-$\dot V/\dot Q$ fraction 18\%; slow fraction 0.28 with $\kappa=2.5$. Untreated seed: PaCO\textsubscript{2} 36 mmHg, SaO\textsubscript{2} 82\%, HCO\textsubscript{3}\textsuperscript{$-$} 20 mEq/L. Adjuncts at full effectiveness: corticosteroids, surfactant, inhaled NO, prone position. Partial: SABA (0.15), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{ARDS --- Severe (P/F $<$ 100)}
+\textbf{Pathophysiology.} Near-complete flooding/collapse. VD/VT 0.60--0.70, Crs $<$ 25 mL/cmH\textsubscript{2}O. Extreme heterogeneity means single ventilator pressure targets both overdistensible and recruitable zones simultaneously.
+
+\textbf{MV strategy.} As moderate ARDS + high-PEEP table (14--20 cmH\textsubscript{2}O); VT 4--6 mL/kg; mandatory prone $\geq$ 16 h/day~\citep{guerin2013a}; deep sedation + NMB~\citep{papazian2010}; $\Delta$P-guided VT reduction if $\Delta$P $>$ 14 at VT 6~\citep{amato2015}. VV-ECMO if P/F $<$ 80 refractory.
+
+\textbf{Adjunct therapies.} As moderate ARDS plus: mandatory NMB~\citep{papazian2010}; methylprednisolone 1 mg/kg/day (day 7+ fibroproliferative phase); IV furosemide for negative fluid balance; conservative fluid management.
+
+\textbf{Model representation.} Adult phenotype ``ARDS (severe --- P/F $<$100)': airway resistance $\times1.2$; lung compliance $\times0.13$; maximal inspiratory pressure $\times0.78$; shunt 42\%; low-$\dot V/\dot Q$ fraction 25\%; slow fraction 0.25 with $\kappa=2$. Untreated seed: PaCO\textsubscript{2} 52 mmHg, SaO\textsubscript{2} 68\%, HCO\textsubscript{3}\textsuperscript{$-$} 19 mEq/L. Adjuncts at full effectiveness: corticosteroids, surfactant, inhaled NO, prone position. Partial: SABA (0.15), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Obese ARDS (BMI 40, P/F 120)}
+\textbf{Pathophysiology.} ARDS compounded by: reduced FRC from mass loading; driving high Pplat even at low VT; higher O\textsubscript{2} consumption; difficult prone positioning. Transpulmonary pressure may be acceptable even when Pplat appears elevated (chest wall accounts for large fraction of total pressure).
+
+\textbf{MV strategy.} Standard lung-protective strategy, but: Pplat $<$ 32--35 cmH\textsubscript{2}O may be acceptable if transpulmonary P $\leq$ 25 cmH\textsubscript{2}O. Higher PEEP benefits (recruit basal atelectasis). Reverse Trendelenburg 30--45\textdegree{}. Prone positioning strongly beneficial despite logistical difficulty.
+
+\textbf{Adjunct therapies.} IV furosemide for negative fluid balance~\citep{marini1992,lemaire1988}; reverse Trendelenburg; NMB; esophageal manometry for PEEP-titration guidance.
+
+\textbf{Model representation.} Adult phenotype ``Obese ARDS (BMI 40 --- P/F 120)': airway resistance $\times1.2$; lung compliance $\times0.12$; chest-wall compliance $\times0.38$; maximal inspiratory pressure $\times0.82$; shunt 35\%; low-$\dot V/\dot Q$ fraction 22\%; slow fraction 0.28 with $\kappa=3$. Untreated seed: PaCO\textsubscript{2} 50 mmHg, SaO\textsubscript{2} 70\%, HCO\textsubscript{3}\textsuperscript{$-$} 20 mEq/L. Adjuncts at full effectiveness: corticosteroids, surfactant, inhaled NO, prone position. Partial: SABA (0.15), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Post-Op / Post-Laparotomy Atelectasis}
+\textbf{Pathophysiology.} Diaphragm splinting + supine positioning + anaesthetic surfactant suppression $\to$ basal atelectasis $\to$ FRC $\downarrow$ 15--20\%, shunt $\uparrow$ to 10--20\%. Opioid analgesia blunts chemoreflex and cough effectiveness.
+
+\textbf{MV strategy.} HFNC first-line (30--40 L/min); NIV CPAP 8--10 cmH\textsubscript{2}O or BiPAP (IPAP 12/EPAP 8) for moderate failure; incentive spirometry; early mobilisation. FiO\textsubscript{2} titration corrects the responsive shunt.
+
+\textbf{Adjunct therapies.} Epidural / TAP block analgesia (opioid-sparing); early physiotherapy; HFNC to wash dead space.
+
+\textbf{Model representation.} Adult phenotype ``Post-op abdominal / laparotomy': airway resistance $\times1.1$; lung compliance $\times0.82$; chest-wall compliance $\times0.72$; maximal inspiratory pressure $\times0.72$; shunt 8\%; low-$\dot V/\dot Q$ fraction 10\%; slow fraction 0.22 with $\kappa=2$. Untreated seed: PaCO\textsubscript{2} 42 mmHg, SaO\textsubscript{2} 91\%, HCO\textsubscript{3}\textsuperscript{$-$} 24 mEq/L. Adjuncts at full effectiveness: prone position. Partial: surfactant (0.4), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Pulmonary Fibrosis (IPF)}
+\textbf{Pathophysiology.} Progressive fibrotic destruction of alveolar walls and capillary bed: Dead space elevated from vascular destruction. Unlike ARDS, fibrosis is largely irreversible --- MV is used for acute exacerbations or as bridge to transplant. Hypoxaemia is partly exercise-dependent; at rest, modest FiO\textsubscript{2} increase provides relief. CO\textsubscript{2} is typically low (driven by tachypnea); hypercapnia is a late and ominous sign.
+
+\textbf{MV strategy.} Acute exacerbation: intubation often futile (short-term survival $<$ 30\%); NIV or HFNC for palliation or bridge. If intubated: VT 4--6 mL/kg IBW (very stiff lung, small VT mandatory to avoid barotrauma), PEEP 5--10 cmH\textsubscript{2}O. Honest goals-of-care discussion mandatory before intubation.
+
+\textbf{Adjunct therapies.} Pirfenidone or nintedanib (anti-fibrotic --- slow progression; no acute effect). Prednisolone for acute exacerbation (controversial). Supplemental O\textsubscript{2} (long-term LTOT if PaO\textsubscript{2} $<$ 60 mmHg). Lung transplantation (only curative option).
+
+\textbf{Model representation.} Adult phenotype ``Pulmonary fibrosis (IPF)': lung compliance $\times0.25$; maximal inspiratory pressure $\times0.85$; shunt 6\%; low-$\dot V/\dot Q$ fraction 18\%; slow fraction 0.22 with $\kappa=1.5$. Untreated seed: PaCO\textsubscript{2} 37 mmHg, SaO\textsubscript{2} 87\%, HCO\textsubscript{3}\textsuperscript{$-$} 22 mEq/L. Adjuncts at full effectiveness: none. Partial: HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\section{Obesity-Related Ventilatory Failure}
+Obesity impairs respiration via: (i) mass loading of chest wall and diaphragm; (ii) increased CO\textsubscript{2} production (higher metabolic rate); (iii) upper-airway obstruction (OSA); (iv) blunted CO\textsubscript{2} chemoreflex (OHS). The hypoventilation device selector identifies OHS as a high-priority NIV category, distinguishing OHS + severe OSA (CPAP may be first-line) from OHS without OSA (BiPAP/AVAPS required from outset).
+
+\subsection{Obesity Hypoventilation Syndrome (OHS)}
+\textbf{Pathophysiology.} BMI $\geq$ 30 + daytime PaCO\textsubscript{2} $\geq$ 45 mmHg. Mechanism: reduced Crs (mass loading), elevated VO\textsubscript{2}/VCO\textsubscript{2}, and blunted chemoreflex gain (possible leptin resistance). Nocturnal REM hypoventilation $\to$ sustained CO\textsubscript{2} retention $\to$ metabolic alkalosis $\to$ raised CO\textsubscript{2} set-point. PaCO\textsubscript{2} 58--65 mmHg chronically; HCO\textsubscript{3}\textsuperscript{$-$} 36--40 mEq/L.
+
+\textbf{MV strategy.} AVAPS or S/T: VT target 8 mL/kg IBW; IPAP 16--20 cmH\textsubscript{2}O, EPAP 8--10 cmH\textsubscript{2}O; backup RR 14/min. AVAPS-AE if severe OSA co-present. Device: DreamStation AVAPS (lower complexity) or Trilogy Evo (daytime support). Target PaCO\textsubscript{2} $\leq$ 45 mmHg or pre-morbid baseline.
+
+\textbf{Adjunct therapies.} Weight loss (bariatric surgery if BMI $>$ 40 --- achieves NIV discontinuation in ~30\%); supplemental O\textsubscript{2} added to NIV if SpO\textsubscript{2} $<$ 88\%; diuretics for cor pulmonale fluid overload; CPAP alone insufficient in OHS without OSA.
+
+\textbf{Model representation.} Adult phenotype ``Obesity hypoventilation (OHS)': airway resistance $\times1.6$; lung compliance $\times0.4$; chest-wall compliance $\times0.4$; maximal inspiratory pressure $\times0.8$; shunt 8\%; low-$\dot V/\dot Q$ fraction 12\%; slow fraction 0.15 with $\kappa=2$; drive gain multiplier 0.28. Untreated seed: PaCO\textsubscript{2} 58 mmHg, SaO\textsubscript{2} 83\%, HCO\textsubscript{3}\textsuperscript{$-$} 36 mEq/L. Adjuncts at full effectiveness: prone position. Partial: surfactant (0.4), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{OHS + Obstructive (Overlap Syndrome)}
+\textbf{Pathophysiology.} OHS + COPD/chronic bronchitis: combined mass-loading and obstructive resistance. Auto-PEEP adds to mass-load intrinsic PEEP. PaCO\textsubscript{2} $>$ 62 mmHg; most severe chronic hypercapnic phenotype in the adult simulator.
+
+\textbf{MV strategy.} EPAP 8--12 cmH\textsubscript{2}O (stent obstruction + overcome obesity PEEP); IPAP 22--26 cmH\textsubscript{2}O; AVAPS or AVAPS-AE on Trilogy Evo; backup RR 14/min. Supplemental O\textsubscript{2} (both hypercapnic and hypoxemic failure).
+
+\textbf{Adjunct therapies.} SABA/SAMA bronchodilators; ICS; weight loss; mucolytics; positional therapy (30\textdegree{} head-up reduces diaphragm mass loading); Lasix if cor pulmonale with fluid overload.
+
+\textbf{Model representation.} Adult phenotype ``OHS + obstructive lung disease': airway resistance $\times3.5$; lung compliance $\times0.35$; chest-wall compliance $\times0.35$; maximal inspiratory pressure $\times0.75$; shunt 10\%; low-$\dot V/\dot Q$ fraction 20\%; slow fraction 0.35 with $\kappa=8$; drive gain multiplier 0.22. Untreated seed: PaCO\textsubscript{2} 62 mmHg, SaO\textsubscript{2} 80\%, HCO\textsubscript{3}\textsuperscript{$-$} 38 mEq/L. Adjuncts at full effectiveness: prone position. Partial: surfactant (0.4), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\section{Pediatric Conditions Requiring Mechanical Ventilation}
+Pediatric respiratory mechanics differ fundamentally from adults: proportionally higher resistance per unit weight; high chest-wall compliance relative to Clung (tendency to wall indrawing rather than outward recoil); higher RR; higher VO\textsubscript{2}/kg; smaller absolute dead space. NIV requires weight-adjusted settings; VT targets (5--8 mL/kg IBW) are similar in proportion.
+
+\subsection{SMA Type 1 (Infant)}
+\textbf{Pathophysiology.} Homozygous SMN1 deletion $\to$ lower motor neuron degeneration $\to$ severe flaccid paralysis of limb and respiratory muscles before 6 months. diaphragm and intercostals functionally absent. Without treatment historically fatal by 2 years.
+
+\textbf{MV strategy.} NIV PC mode: IPAP 10--16 cmH\textsubscript{2}O, EPAP 4--6 cmH\textsubscript{2}O, backup RR 30--40/min, Ti 0.5--0.7 s; VT 8--10 mL/kg. Tracheostomy + home ventilator if disease severe before gene therapy takes effect.
+
+\textbf{Adjunct therapies.} Nusinersen (intrathecal, every 4 months); onasemnogene abeparvovec (Zolgensma --- one-time IV gene therapy, best $<$ 6 months pre-symptomatic); risdiplam (oral daily); MI-E cough assist; gastrostomy.
+
+\textbf{Model representation.} Infant phenotype ``SMA type 1': airway resistance $\times1.05$; lung compliance $\times0.72$; chest-wall compliance $\times0.72$; maximal inspiratory pressure $\times0.25$; slow fraction 0.1 with $\kappa=1.3$. Adjuncts at full effectiveness: insufflation--exsufflation. Partial: HFCWO (0.5).
+
+\subsection{RSV Bronchiolitis (Infant)}
+\textbf{Pathophysiology.} RSV causes bronchiolar inflammation, epithelial necrosis, mucus plugging $\to$, air trapping, mild low-V/Q mismatch. Compliant chest wall causes paradoxical inspiratory rib-cage indrawing. Apnoea risk in premature infants.
+
+\textbf{Presenting symptoms.} Coryza $\to$ wheeze and crackles, recession, tachypnea (RR $>$ 60/min), SpO\textsubscript{2} $<$ 92\%, poor feeding, apnea.
+
+\textbf{MV strategy.} HFNC first-line; NIV BiPAP (IPAP 12--14/EPAP 5--7 cmH\textsubscript{2}O, FiO\textsubscript{2} 40--55\%, backup RR 35--40/min, Ti 0.5 s) if HFNC fails~\citep{javouhey2008}. Invasive: VC, VT 6 mL/kg, PEEP 5 cmH\textsubscript{2}O, RR 35--40/min.
+
+\textbf{Adjunct therapies.} Nasopharyngeal suction (critical relief for obligate nasal breathers); 3\% saline nebulisation; supportive fluids; palivizumab or nirsevimab prophylaxis for high-risk infants.
+
+\textbf{Model representation.} Infant phenotype ``RSV bronchiolitis': airway resistance $\times2.8$; lung compliance $\times1.05$; low-$\dot V/\dot Q$ fraction 15\%; slow fraction 0.3 with $\kappa=6$. Adjuncts at full effectiveness: SABA, LABA, ipratropium, corticosteroids, HFCWO. Partial: MgSO$_4$ (0.3), racemic epinephrine (0.15), hypertonic saline (0.7), N-acetylcysteine (0.7), dornase alfa (0.3), inhaled antibiotics (0.5), insufflation--exsufflation (0.6).
+
+\subsection{RDS --- Preterm and Term Neonate}
+\textbf{Pathophysiology.} Surfactant deficiency $\to$ high alveolar surface tension $\to$ progressive collapse. Shunt $\uparrow$ (collapsed alveoli perfused). Preterm chest wall very compliant  --- amplifies collapse tendency. Grunting = partial glottic closure generating intrinsic PEEP (compensatory adaptation).
+
+\textbf{MV strategy.} CPAP 4--8 cmH\textsubscript{2}O via nasal prongs (INSURE protocol). If CPAP fails: intubation $\to$ surfactant $\to$ return to CPAP. Invasive: VT 4--6 mL/kg, PEEP 4--6 cmH\textsubscript{2}O, RR 40--60/min, Ti 0.3 s~\citep{sweet2022}.
+
+\textbf{Adjunct therapies.} Exogenous surfactant (poractant alfa/beractant) --- compliance improves within 30 min~\citep{engle2008}; caffeine citrate (reduces apnea, facilitates extubation); antenatal betamethasone (reduces RDS severity 50\%).
+
+\textbf{Model representation.} Preterm phenotype ``RDS': airway resistance $\times1.35$; lung compliance $\times0.4$; chest-wall compliance $\times1.25$; maximal inspiratory pressure $\times1.15$; slow fraction 0.2 with $\kappa=2.5$. Adjuncts at full effectiveness: corticosteroids, surfactant, prone position. Partial: SABA (0.15), inhaled NO (0.3), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\textbf{Model representation.} Neonate phenotype ``RDS': airway resistance $\times1.3$; lung compliance $\times0.45$; chest-wall compliance $\times1.2$; maximal inspiratory pressure $\times1.1$; slow fraction 0.2 with $\kappa=2.5$. Adjuncts at full effectiveness: corticosteroids, surfactant, prone position. Partial: SABA (0.15), inhaled NO (0.3), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Bronchopulmonary Dysplasia (BPD)}
+\textbf{Pathophysiology.} Chronic lung disease of prematurity: heterogeneous Clung (overdistension + atelectasis), elevated small-airway resistance (fibrotic/bronchospastic), high V/Q mismatch, VDalv 1.0 mL/kg. Pulmonary hypertension in 25--40\% of severe BPD (worsens oxygenation, adds RV strain).
+
+\textbf{MV strategy.} Chronic NIV (PC or AVAPS, Trilogy Evo): IPAP 12--16 cmH\textsubscript{2}O, EPAP 5--8 cmH\textsubscript{2}O, FiO\textsubscript{2} 25--40\%. Target SpO\textsubscript{2} 92--96\% (avoid hypoxia driving PH). Permissive hypercapnia (pH 7.30--7.40) acceptable.
+
+\textbf{Adjunct therapies.} Inhaled bronchodilators (ipratropium, salbutamol); diuretics (furosemide, spironolactone); caffeine; sildenafil for BPD-associated PH.
+
+\textbf{Model representation.} Neonate phenotype ``BPD (bronchopulmonary dysplasia)': airway resistance $\times2.3$; lung compliance $\times0.7$; chest-wall compliance $\times1.1$; maximal inspiratory pressure $\times1.05$; slow fraction 0.25 with $\kappa=3.5$. Adjuncts at full effectiveness: SABA, LABA, ipratropium, corticosteroids. Partial: MgSO$_4$ (0.3), racemic epinephrine (0.15), N-acetylcysteine (0.4), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Meconium Aspiration Syndrome (MAS)}
+\textbf{Pathophysiology.} Aspiration of meconium-stained fluid in term/post-term neonate: (i) mechanical ball-valve obstruction (gas trapping); (ii) chemical pneumonitis (meconium bile acids); (iii) surfactant inactivation. Result: severe mixed restrictive-obstructive-gas-exchange failure --- shunt 28--30\%, with risk of PPHN from hypoxic pulmonary vasoconstriction.
+
+\textbf{MV strategy.} Aggressive early surfactant instillation. VC/PC ventilation: VT 5--7 mL/kg, PEEP 4--6 cmH\textsubscript{2}O, FiO\textsubscript{2} 1.00 initially; RR 40--50/min; short inspiratory time. iNO if PPHN develops. ECMO if refractory (P/F $<$ 60 despite optimized management).
+
+\textbf{Adjunct therapies.} Exogenous surfactant (lavage technique in MAS --- dilutional instillation); iNO (if PPHN component); HFO as rescue; ECMO.
+
+\textbf{Model representation.} Neonate phenotype ``Meconium aspiration (MAS)': airway resistance $\times2.8$; lung compliance $\times0.6$; shunt 28\%; low-$\dot V/\dot Q$ fraction 22\%; slow fraction 0.22 with $\kappa=3.5$. Adjuncts at full effectiveness: corticosteroids, surfactant, HFCWO. Partial: SABA (0.15), inhaled NO (0.3), hypertonic saline (0.7), N-acetylcysteine (0.7), dornase alfa (0.3), inhaled antibiotics (0.5), insufflation--exsufflation (0.6).
+
+\subsection{Persistent Pulmonary Hypertension of the Newborn (PPHN)}
+\textbf{Pathophysiology.} Failure of normal postnatal pulmonary vascular resistance drop (from ~80 Wood units in foetus to ~3 Wood units in neonate). High PVR maintains right-to-left shunting through PFO and ductus arteriosus (foetal circulation persists). Shunt fraction 35--45\%. Lung mechanics may be near-normal (pure vascular disease) or compromised if secondary to MAS/RDS. PaO\textsubscript{2} responds dramatically to iNO (redistribution of blood flow to ventilated alveoli).
+
+\textbf{MV strategy.} Controlled ventilation: VT 4--6 mL/kg, PEEP 4--5 cmH\textsubscript{2}O, RR 50--60/min, FiO\textsubscript{2} 1.00; target PaO\textsubscript{2} $>$ 80 mmHg and PaCO\textsubscript{2} 35--40 mmHg (mild alkalosis reduces PVR); avoid hypoxia, acidosis, hypothermia (all worsen PVR).
+
+\textbf{Adjunct therapies.} iNO 20 ppm (selective pulmonary vasodilator; reduces shunt dramatically)~\citep{clark2000}; HFO as alternative oscillation strategy; ECMO for refractory cases; sildenafil oral/IV; prostacyclin (epoprostenol) infusion.
+
+\textbf{Model representation.} Neonate phenotype ``Pulm. hypertension (PPHN)': lung compliance $\times0.88$; shunt 40\%; slow fraction 0.1 with $\kappa=1.5$. Adjuncts at full effectiveness: inhaled NO. Partial: HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Congenital Diaphragmatic Hernia (CDH)}
+\textbf{Pathophysiology.} Abdominal visceral herniation into the thorax during foetal development causes ipsilateral lung hypoplasia (severely reduced alveolar number and surface area) and contralateral lung compromise. Results in: --0.45 (hypoplastic lung), high PVR, shunt 32--35\%, combined restrictive + vascular failure. High morbidity/mortality from degree of pulmonary hypoplasia.
+
+\textbf{MV strategy.} Gentle ventilation strategy (permissive hypercapnia, target pH $>$ 7.20, PaCO\textsubscript{2} 45--60 mmHg): VT 4--6 mL/kg, PIP $<$ 25 cmH\textsubscript{2}O, PEEP 3--5 cmH\textsubscript{2}O, FiO\textsubscript{2} titrated. Surgical repair when hemodynamically stable. iNO for PPHN component.
+
+\textbf{Adjunct therapies.} iNO; ECMO (in centers with expertise, for refractory failure); sildenafil post-ECMO; surgical repair. Avoid aggressive hyperventilation (causes barotrauma to hypoplastic lung).
+
+\textbf{Model representation.} Neonate phenotype ``Congenital diaphragmatic hernia (CDH)': airway resistance $\times1.6$; lung compliance $\times0.45$; chest-wall compliance $\times1.1$; maximal inspiratory pressure $\times0.9$; shunt 32\%; low-$\dot V/\dot Q$ fraction 22\%; slow fraction 0.18 with $\kappa=2.5$. Adjuncts at full effectiveness: surfactant, inhaled NO, prone position. Partial: HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Acute Severe Asthma (Child)}
+\textbf{Pathophysiology.} Severe bronchospasm, mucosal edema, mucus plugging in child:, air trapping. Similar to adult status asthmaticus but the child tends to have more reversible bronchospasm and is rarely intubated. Paradoxical pulse $>$ 15 mmHg and inability to complete a sentence are intubation warning signs.
+
+\textbf{MV strategy.} NIV BiPAP (IPAP 10--18/EPAP 5--7 cmH\textsubscript{2}O)~\citep{soroksky2003}; if intubated: VC, VT 6 mL/kg, RR 10--14/min, PEEP 3--5 cmH\textsubscript{2}O, permissive hypercapnia.
+
+\textbf{Adjunct therapies.} Continuous SABA (salbutamol) nebulisation; ipratropium bromide; IV MgSO\textsubscript{4} 50 mg/kg (max 2 g); IV corticosteroids (hydrocortisone); ketamine for intubation; heliox.
+
+\textbf{Model representation.} Child phenotype ``Acute severe asthma': airway resistance $\times4$; lung compliance $\times1.2$; maximal inspiratory pressure $\times1.1$; low-$\dot V/\dot Q$ fraction 25\%; slow fraction 0.45 with $\kappa=12$. Adjuncts at full effectiveness: SABA, LABA, ipratropium, MgSO$_4$, corticosteroids. Partial: racemic epinephrine (0.15), inhaled NO (0.3), N-acetylcysteine (0.4), HFCWO (0.2), insufflation--exsufflation (0.15).
+
+\subsection{Cystic Fibrosis (CF, Moderate --- Child)}
+\textbf{Pathophysiology.} CF causes CFTR dysfunction $\to$ abnormally viscous airway secretions $\to$ chronic infection (Pseudomonas aeruginosa, Staphylococcus aureus) $\to$ progressive bronchiectasis., . Periodic pulmonary exacerbations require intensified airway clearance and IV antibiotics. End-stage CF $\to$ respiratory failure requiring NIV or transplantation.
+
+\textbf{MV strategy.} During exacerbation: NIV S/T (IPAP 14--16/EPAP 5--8 cmH\textsubscript{2}O) as bridge to recovery or transplant. Avoid intubation where possible (difficult weaning from airway colonisation). Target SpO\textsubscript{2} 92--96\%, PaCO\textsubscript{2} gradual normalisation.
+
+\textbf{Adjunct therapies.} Dornase alfa (DNase) --- degrades extracellular DNA in CF sputum~\citep{fuchs1994}; tobramycin inhaled (anti-Pseudomonas, 28-day cycles)~\citep{ramsey1999}; hypertonic saline 7\% (mucociliary clearance)~\citep{donaldson2006}; IV piperacillin-tazobactam + tobramycin for exacerbations; airway clearance physiotherapy twice daily; ivacaftor/elexacaftor-tezacaftor-ivacaftor (CFTR modulators --- transformative for eligible mutations); lung transplantation.
+
+\textbf{Model representation.} Child phenotype ``Cystic fibrosis (CF, moderate)': airway resistance $\times3$; lung compliance $\times1.05$; maximal inspiratory pressure $\times0.95$; shunt 5\%; low-$\dot V/\dot Q$ fraction 20\%; slow fraction 0.4 with $\kappa=8$. Adjuncts at full effectiveness: SABA, LABA, ipratropium, corticosteroids, hypertonic saline, N-acetylcysteine, dornase alfa, inhaled antibiotics, HFCWO. Partial: MgSO$_4$ (0.3), racemic epinephrine (0.15), insufflation--exsufflation (0.6).
+
+\subsection{Neonatal Pneumonia / Group B Streptococcal Sepsis}
+\textbf{Pathophysiology.} Early-onset neonatal sepsis (GBS, E. coli) causes alveolar infiltration, inflammatory exudate, and V/Q mismatch with shunt 18--20\%. Combined restrictive (from consolidation) and shunt-mediated hypoxemia. Systemic sepsis increases VO\textsubscript{2} $\times$1.15. Pulmonary hypertension complication in severe cases.
+
+\textbf{MV strategy.} Controlled VC: VT 5--7 mL/kg, PEEP 5--6 cmH\textsubscript{2}O, RR 40--50/min, FiO\textsubscript{2} titrated. Antibiotic therapy is the definitive treatment; ventilatory support is supportive.
+
+\textbf{Adjunct therapies.} IV penicillin + gentamicin (GBS first-line)~\citep{stoll2011}; ampicillin + gentamicin (broad empirical coverage); iNO if PPHN develops; exogenous surfactant if surfactant dysfunction (pneumonia-related inactivation); volume resuscitation; vasopressors for septic shock.
+
+\textbf{Model representation.} Neonate phenotype ``Neonatal pneumonia / GBS sepsis': airway resistance $\times1.3$; lung compliance $\times0.65$; shunt 18\%; low-$\dot V/\dot Q$ fraction 12\%; slow fraction 0.18 with $\kappa=2.5$. Adjuncts at full effectiveness: corticosteroids, HFCWO, prone position. Partial: SABA (0.15), surfactant (0.4), inhaled NO (0.3), hypertonic saline (0.7), N-acetylcysteine (0.7), dornase alfa (0.3), inhaled antibiotics (0.5), insufflation--exsufflation (0.6).

@@ -1,0 +1,67 @@
+\chapter{Critical Appraisal and Future Development}
+\label{ch:appraisal}
+
+This chapter collects the model's limitations, its strengths and the developments that would remove the most important limitations. Each item describes the current code. Under the acceptance rule of \cref{ch:ch14}, an error in size is accepted when the simulated treatment response has the same direction as the published one. The items below say where that rule is at risk.
+
+\section{Limitations by subsystem}
+\label{sec:app-lim}
+
+\paragraph{Mechanics.} The lung is two parallel compartments (\cref{ch:ch06}). This captures time-constant inequality, intrinsic PEEP and pendelluft, but not serial heterogeneity, regional gravity gradients or a continuous distribution of time constants~\citep{otis1956,bates2009a}. Volume-dependent compliance uses lower and upper inflection pressures with linear penalties and a stiffening term near total lung capacity. True pressure--volume hysteresis exists only through the ARDS recruitment states. The airway resistance is linear plus the flow-limitation and upper-airway elements; turbulent Rohrer terms are not used~\citep{rohrer1915}.
+
+\paragraph{Muscles.} Effort is a parametric waveform with separate rise and fall exponents (\cref{ch:ch07}). There is no post-inspiratory braking and no expiratory muscle activity, except the active-expiration input in the central-airway-collapse phenotypes. Breath stacking from expiratory effort therefore cannot occur.
+
+\paragraph{Control.} The controller is a gain model with delayed peripheral and central signals (\cref{ch:ch08}). It has no cortical or behavioral drive, so dyspnea, anxiety and voluntary breath holding are absent. Loop gain is a result of the gains and delays, not a set input~\citep{khoo1982}.
+
+\paragraph{Gas exchange.} Ventilation--perfusion inequality is three compartments: normal, low-$\dot V/\dot Q$ and shunt. Accuracy at extreme ratios and at high FiO\textsubscript{2} has not been tested against MIGET distributions~\citep{wagner1974,west1969}. The model has one arterial PCO\textsubscript{2}, so the Enghoff dead space differs from the Bohr dead space less than it does in patients with shunt~\citep{enghoff1938}. Body temperature is not an input. Cardiac output responds to hypoxemia, anemia, metabolic rate, hyperoxia and mean airway pressure (\cref{eq:gx-hl}), but not to sepsis, hypovolemia or ventricular failure. The hypoxemic response comes from one acute study and does not decline with acclimatization~\citep{phillips1988}. The anemia response comes from acute isovolemic hemodilution~\citep{weiskopf1998}.
+
+\paragraph{CO\textsubscript{2} stores.} The body has a lung store and one tissue store (\cref{ch:ch10}). Muscle and bone stores with time constants of tens of minutes to hours are lumped into the tissue store. This matters for recovery after hours of hyperventilation, not for the minutes-to-hours windows of the validation cases.
+
+\paragraph{Capnography.} The volumetric capnogram is drawn from the dead-space volumes and the alveolar dead-space fraction, not computed from gas transport. Its phase III slope is therefore set by one parameter, and cardiogenic oscillations are absent~\citep{fletcher1981}.
+
+\paragraph{Sleep.} After an arousal from REM, sleep always returns to REM, so arousals never end a REM period early. Stage transitions follow age-stratified Markov matrices and do not respond to the patient's gas exchange, except through arousals (\cref{ch:ch11}).
+
+\paragraph{Ventilator interaction.} Triggering is ideal: support begins at neural onset with no delay, trigger work or missed efforts (\cref{sec:modes-trigger}). Ineffective efforts and trigger-sensitivity adjustment therefore cannot be shown. Double triggering requires patient flow above \SI{1.2}{\liter\per\minute} after an early cycle and appears mainly with strong, long efforts. Leak modeling is described in \cref{ch:leak}.
+
+\paragraph{Adjuncts.} Therapies are fixed fractional effects, without dose--response, delivery-route or tolerance effects (\cref{ch:adjunct}).
+
+\paragraph{Phenotypes.} Each phenotype is one median patient at one time point, except where a progression time line exists. Pediatric and neonatal values rest on few measurements (\cref{sec:par-lib}).
+
+\paragraph{Validation.} The obstructive diseases agree well with published PaCO\textsubscript{2}: 15 pairs, bias \SI{-0.5}{\mmHg}, correlation 0.94. The neuromuscular diseases agree less well: 11 pairs, bias \SI{+5.6}{\mmHg}, correlation 0.17, with the model reading high in unsupported patients. Three treatment responses go in the opposite direction to the published ones and are not accepted (\cref{ch:ch14}). Restrictive, pediatric, neonatal and central-hypoventilation phenotypes have not yet been validated.
+
+\section{Strengths}
+\label{sec:app-str}
+\begin{itemize}
+\item CO\textsubscript{2} is conserved. Lung and tissue stores balance production, storage and elimination each breath, so PaCO\textsubscript{2} follows irregular breathing, apnea and sleep without resetting to a steady state.
+\item Dead space is a volume, so $V_D/V_T$ rises when breathing becomes rapid and shallow. Hypoventilation from a small tidal volume emerges without a separate rule.
+\item Oxygen is mixed by content, not by partial pressure, so the disproportionate effect of shunt on PaO\textsubscript{2}, and its resistance to oxygen, follow~\citep{west1969}.
+\item The chemoreflex closes the loop with gas exchange. Shunt, FiO\textsubscript{2}, $\dot V/\dot Q$ mismatch and posture all feed back into effort and rate, with physiological delays.
+\item Muscle capacity, fatigue and the oxygen cost of breathing connect load to failure, so the rapid shallow breathing and hypercapnia of an overloaded pump emerge.
+\item The time constants of a heterogeneous lung give intrinsic PEEP, gas trapping and the response to external PEEP without fitting.
+\item The ARDS recruitment states, with an opening time constant of \SI{0.15}{\second} and a closing time constant of \SI{10}{\second}, reproduce the flow and pressure signatures of intrabreath recruitment.
+\item Reverse triggering arises from a timed-inflation reflex. Double triggering arises from premature cycling.
+\item Developmental chest-wall scaling makes infants more vulnerable to collapse and gas trapping than adults with the same lung disease.
+\item Adjunct responses depend on the phenotype, so a therapy has no effect where its target pathology is absent.
+\item Each validation case is run blind, and calibration is kept separate from validation.
+\end{itemize}
+
+\section{Future development}
+\label{sec:app-fut}
+\begin{table}[htbp]\centering\small
+\caption{Developments that would remove the main limitations.}
+\label{tab:app-fut}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.48\linewidth}>{\raggedright\arraybackslash}p{0.28\linewidth}@{}}
+\toprule Priority & Development & Limitation addressed\\\midrule
+High & Trigger threshold, delay and trigger work & Ineffective efforts, trigger settings\\
+High & Validation of restrictive and pediatric phenotypes & Untested phenotypes\\
+High & Recalibrate neuromuscular unsupported PaCO\textsubscript{2} & Neuromuscular bias\\
+Medium & Expiratory muscle effort and post-inspiratory braking & Breath stacking, expiratory loading\\
+Medium & Arousal-dependent REM termination & REM fragmentation\\
+Medium & Cardiac output with volume status and ventricular function & Heart--lung interaction in shock and heart failure\\
+Medium & Multi-compartment $\dot V/\dot Q$ distribution & Extreme ratios, high FiO\textsubscript{2}, Enghoff--Bohr gap\\
+Medium & Dose--response adjunct pharmacology & Fixed adjunct effects\\
+Low & Slow muscle and bone CO\textsubscript{2} stores & Recovery after prolonged hyperventilation\\
+Low & Gas-transport capnogram & Phase III slope\\
+Low & Body temperature input & Dissociation curve, metabolic rate\\
+Low & Unmodeled modes (to be chosen) & Mode coverage\\\bottomrule
+\end{tabular}
+\end{table}

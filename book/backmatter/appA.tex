@@ -1,0 +1,75 @@
+\chapter{Symbols, Units, and Conversions}
+\label{app:appA}
+
+\section{Symbols}
+Symbols used in the parameter tables, in order of first appearance, with the chapter that defines them.
+
+{\small\begin{longtable}{@{}p{0.2\linewidth} p{0.62\linewidth} l@{}}
+\toprule
+Symbol & Meaning & Chapter \\
+\midrule\endhead
+\bottomrule\endfoot
+$R$ & Total airway resistance & \cref{ch:ch06} \\
+$C_L$, $C_{cw}$ & Lung and chest-wall compliance & \cref{ch:ch06} \\
+$f_s$ & Slow-compartment fraction of compliance & \cref{ch:ch06} \\
+$\kappa$ & Time-constant ratio $\tau_2/\tau_1$ & \cref{ch:ch06} \\
+$IC$ & Inspiratory capacity, onset of stiffening & \cref{ch:ch06} \\
+$G_{\mathrm{EFL}}$, $P_{\mathrm{stent}}$ & Flow-limitation severity, stenting pressure & \cref{ch:ch06} \\
+$P_{\mathrm{crit}}$, $R_{us}$ & Pharyngeal critical pressure, upstream resistance & \cref{ch:ch06} \\
+$\tau_{\mathrm{rise}}$, $\tau_{\mathrm{fall}}$ & Pressurization and release time constants & \cref{ch:ch06} \\
+MIP, MEP & Maximal inspiratory and expiratory pressure & \cref{ch:ch07} \\
+$x_f$ & FRC as a fraction of vital capacity & \cref{ch:ch07} \\
+$a$ & Length--tension slope & \cref{ch:ch07} \\
+$h$ & Hill curvature constant & \cref{ch:ch07} \\
+$\dot V_{\max}$ & Maximal shortening flow & \cref{ch:ch07} \\
+$TT_{\mathrm{crit}}$ & Critical tension--time index & \cref{ch:ch07} \\
+$t_{\lim}$ & Endurance time & \cref{ch:ch07} \\
+$\tau_{\mathrm{rec}}$, $F_{\max}$ & Fatigue recovery, maximal fatigue & \cref{ch:ch07} \\
+$\eta$ & Muscle efficiency & \cref{ch:ch07} \\
+$A_0$ & Wakefulness drive & \cref{ch:ch08} \\
+$G$ & Neural CO\textsubscript{2} gain & \cref{ch:ch08} \\
+$P_{\mathrm{set}}$ & CO\textsubscript{2} setpoint at bicarbonate 24 & \cref{ch:ch08} \\
+$f_0$, $k_f$ & Basal rate, CO\textsubscript{2} frequency gain & \cref{ch:ch08} \\
+$S_{\mathrm{thr}}$, $K_{\mathrm{hyp}}$, $k_{f,\mathrm{hyp}}$ & Hypoxic threshold and gains & \cref{ch:ch08} \\
+$K_{\mathrm{pH}}$ & Acidosis gain & \cref{ch:ch08} \\
+$f_p$; $T_p$, $\tau_p$; $T_c$, $\tau_c$ & Peripheral share; delays and lags & \cref{ch:ch08} \\
+-- & Apneic threshold below setpoint & \cref{ch:ch08} \\
+$L_0$, $L_1$ & Load range for blunting and rapid shallow breathing & \cref{ch:ch08} \\
+$s_h$ & True shunt fraction & \cref{ch:ch09} \\
+$l_f$, $l_q$ & Low-$\dot V/\dot Q$ perfusion fraction and ratio & \cref{ch:ch09} \\
+$D_{L\mathrm{O_2}}$, $V_c$ & Oxygen diffusing capacity, capillary volume & \cref{ch:ch09} \\
+$g$ & HPV strength & \cref{ch:ch09} \\
+$\dot Q_0$ & Resting cardiac output & \cref{ch:ch09} \\
+$\dot V_{\mathrm{O_2}}$, $R$ & Oxygen consumption, exchange ratio & \cref{ch:ch09} \\
+Hb & Hemoglobin & \cref{ch:ch09} \\
+$\tau_{\mathrm{CO_2}}$ & Lung store time constant at predicted FRC & \cref{ch:ch10} \\
+$C_t$, $\tau_t$ & Tissue store capacity and time constant & \cref{ch:ch10} \\
+$V_{D,\mathrm{anat}}$ & Anatomic dead space & \cref{ch:ch10} \\
+$V_{D,\mathrm{mask}}$ & Interface dead space at $V_T = \SI{750}{\milli\liter}$ & \cref{ch:ch10} \\
+$V_{D,\mathrm{alv}}$ & Alveolar dead space & \cref{ch:ch10} \\
+$\tau_{\mathrm{rise}}$ & Pressurization time constant & \cref{ch:ch13} \\
+$\tau_{\mathrm{fall}}$ & Depressurization time constant & \cref{ch:ch13} \\
+$s$ & VAPS adjustment speed & \cref{ch:ch13} \\
+$K_e$ & Nasopharyngeal resistance in high flow & \cref{ch:ch13} \\
+\end{longtable}}
+
+\section{Units and conversions}
+\begin{table}[ht]
+\centering
+\caption{Units used in the model and their conversions.}
+\label{tab:appA-conv}
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+Quantity & Conversion \\
+\midrule
+Pressure & \SI{1}{\cmH} $=$ \SI{0.7356}{\mmHg} $=$ \SI{0.0981}{\kilo\pascal} \\
+Partial pressure & \SI{1}{\kilo\pascal} $=$ \SI{7.50}{\mmHg} \\
+Resistance & \SI{1}{\cmH\per(\liter\per\second)} $=$ \SI{0.0981}{\kilo\pascal\second\per\liter} \\
+Compliance & \SI{1}{\milli\liter\per\cmH} $=$ \SI{10.2}{\milli\liter\per\kilo\pascal} \\
+Flow & \SI{1}{\liter\per\second} $=$ \SI{60}{\liter\per\minute} \\
+Gas volume & STPD to BTPS at \SI{37}{\celsius}, \SI{760}{\mmHg}: $\times\,1.21$ \\
+Alveolar CO\textsubscript{2} & $\mathrm{PaCO_2} = 0.863\,\dot V_{\mathrm{CO_2}}\,(\mathrm{mL/min,\ STPD})/\dot V_A\,(\mathrm{L/min,\ BTPS})$ \\
+\bottomrule
+\end{tabular}
+\end{table}

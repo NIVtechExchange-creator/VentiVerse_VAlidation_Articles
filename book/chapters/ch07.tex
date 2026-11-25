@@ -1,0 +1,193 @@
+\chapter{Respiratory Muscles}
+\label{ch:ch07}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Describe the shape of the simulated inspiratory muscle pressure and its breath-to-breath variation.
+  \item Explain how muscle capacity depends on strength, lung volume and shortening velocity.
+  \item Relate the tension--time index to fatigue and recovery.
+  \item Compute work of breathing and the oxygen cost of the respiratory muscles.
+\end{itemize}
+\end{objectives}
+
+\section{The muscle pressure waveform}
+\label{sec:mus-wave}
+The respiratory muscles enter the equation of motion (\cref{eq:num-eom}) as a single pressure source $P_m(t)$, the pressure the inspiratory muscles generate across the respiratory system. Its amplitude is set each breath by the controller (\cref{ch:ch08}) and its duration by the neural inspiratory time $T_I^{n}$. Its shape follows the rise and decline of diaphragm electrical activity~\citep{roussos1982}. With $\theta = t/T_I^{n}$ the fraction of neural inspiration elapsed and $\theta_p$ the fraction at which effort peaks,
+\begin{keyequation}
+\begin{equation}
+P_m(t) = -A\,s(\theta),\qquad
+s(\theta)=\begin{cases}
+\sin^{e_r}\!\Bigl(\dfrac{\pi}{2}\,\dfrac{\theta}{\theta_p}\Bigr), & \theta<\theta_p,\\[8pt]
+\sin^{e_f}\!\Bigl(\dfrac{\pi}{2}\,\dfrac{1-\theta}{1-\theta_p}\Bigr), & \theta\ge\theta_p,
+\end{cases}
+\label{eq:mus-wave}
+\end{equation}
+\end{keyequation}
+where $A$ is the effort amplitude in \si{\cmH} and $e_r$, $e_f$ are rise and fall exponents. With the defaults $\theta_p = 0.5$ and $e_r = e_f = 1$ the shape is the half-sine $\sin(\pi\theta)$ used widely in simulation. When breath-to-breath variability is enabled, each breath draws its own shape: $\theta_p = 0.5 + 0.6\,c\,g_1$ (limited to 0.15--0.85) and $e_{r,f} = 1 + 2.5\,c\,g_{2,3}$ (limited to 0.25--4), where the $g_k$ are standard normal deviates and $c$ is the phenotype's coefficient of variation of effort shape (\cref{fig:mus-wave}). A power-law rise, $s = (\theta/0.5)^{N}$, is available for teaching. Expiration is passive except where a phenotype sets active expiratory muscle pressure.
+
+\paragraph{Fitting measured FVC.} A measured FVC, in liters or percent predicted, can be used to set the patient. In \emph{MIP + FVC $\to$ $C_L$} mode the model computes the vital capacity the entered MIP and MEP allow with normal lung compliance, $VC_W$, and sets lung compliance to $C_L=k_L\,C_{L,\mathrm{base}}$ with $k_L=\mathrm{FVC}/VC_W$ (minimum 0.15; a ratio above 1.5 is rejected because the FVC is larger than the muscles allow). In \emph{FVC $\to$ MIP} mode the compliances are kept and MIP is found by bisection between 1 and \SI{200}{\cmH} so that the model vital capacity equals the measured FVC. The first mode suits restrictive lung disease with known strength; the second suits neuromuscular disease, where FVC falls because of weakness.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.72\linewidth,height=5.2cm,xmin=0,xmax=1,ymin=0,ymax=1.05,xlabel={$\theta = t/T_I^{n}$},ylabel={$s(\theta)$},grid=major,grid style={gray!20},legend pos=north east,legend style={font=\scriptsize,draw=none,fill=none}]
+\addplot[bkblue,thick,domain=0:1,samples=101]{sin(deg(pi*x))};\addlegendentry{default: $\theta_p=0.5$, $e_r=e_f=1$}
+\addplot[bkorange,thick,domain=0:0.3,samples=40,forget plot]{sin(deg(pi/2*x/0.3))^2};
+\addplot[bkorange,thick,domain=0.3:1,samples=60]{sin(deg(pi/2*(1-x)/0.7))^0.6};\addlegendentry{early peak: $\theta_p=0.3$, $e_r=2$, $e_f=0.6$}
+\addplot[bkteal,thick,domain=0:0.75,samples=60,forget plot]{sin(deg(pi/2*x/0.75))^0.6};
+\addplot[bkteal,thick,domain=0.75:1,samples=40]{sin(deg(pi/2*(1-x)/0.25))^2};\addlegendentry{late peak: $\theta_p=0.75$, $e_r=0.6$, $e_f=2$}
+\end{axis}
+\end{tikzpicture}
+\caption{Normalized inspiratory muscle pressure from \cref{eq:mus-wave}, for the default shape and two shapes within the range drawn when breath-to-breath variability is on.}
+\label{fig:mus-wave}
+\end{figure}
+
+\section{Muscle capacity}
+\label{sec:mus-cap}
+The effort the controller asks for cannot exceed what the muscles can deliver at that instant. The model limits $P_m$ to a capacity that falls with lung volume and with the speed of shortening, the two classical properties of skeletal muscle~\citep{hill1938,braun1982}:
+\begin{keyequation}
+\begin{equation}
+P_{\mathrm{cap}} = \mathrm{MIP}\,(1-F)\,(1 - a\,x)\,\frac{1 - v}{1 + v/h},
+\qquad x = x_f + \frac{\Delta V}{VC_0},\quad v = \frac{\dot V}{\dot V_{\max}}.
+\label{eq:mus-cap}
+\end{equation}
+\end{keyequation}
+Here MIP is the patient's maximal inspiratory pressure; $F$ is the fraction of capacity lost to fatigue (\cref{sec:mus-fat}); $x$ is lung volume as a fraction of predicted vital capacity $VC_0$, starting at $x_f = 1/3$ at functional residual capacity and rising with the inspired volume $\Delta V$; $a = 0.70$ is the slope of the length--tension relation; $v$ is inspiratory flow as a fraction of the maximal shortening flow $\dot V_{\max} = 8\,VC_0/4.8$ \si{\liter\per\second}; and $h = 0.25$ is Hill's curvature constant. The capacity at functional residual capacity, $P_{\mathrm{cap,FRC}} = \mathrm{MIP}(1-F)(1-a x_f)$, is the reference for effort and fatigue. \Cref{fig:mus-cap} shows the surface.
+
+\paragraph{Predicted strength and volume.} When a study reports MIP or the maximal expiratory pressure (MEP) as a percentage of predicted, the predicted values are the adult regressions of Evans and Whitelaw~\citep{evans2009}: for men $\mathrm{MIP} = 120 - 0.41\,\mathrm{age}$ and $\mathrm{MEP} = 174 - 0.83\,\mathrm{age}$; for women $\mathrm{MIP} = 108 - 0.61\,\mathrm{age}$ and $\mathrm{MEP} = 131 - 0.86\,\mathrm{age}$ (\si{\cmH}, age in years). Predicted forced vital capacity uses the NHANES~III equations of Hankinson and colleagues~\citep{hankinson1999}. The model's own vital capacity is found by solving for the volumes at which the inspiratory and expiratory muscles can no longer overcome the recoil of the lung and chest wall; this lets a weak patient's reported FVC be checked against the MIP and MEP set for that patient.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.2cm,grid=major,grid style={gray!20},legend style={font=\scriptsize,draw=none,fill=none}]
+\nextgroupplot[xlabel={Lung volume, fraction of VC ($x$)},ylabel={$P_{\mathrm{cap}}/\mathrm{MIP}$},xmin=0,xmax=1,ymin=0,ymax=1.05,legend pos=north east]
+\addplot[bkblue,thick,domain=0:1]{1-0.7*x};\addlegendentry{$v=0$}
+\addplot[bkorange,thick,domain=0:1]{(1-0.7*x)*(1-0.1)/(1+0.1/0.25)};\addlegendentry{$v=0.1$}
+\addplot[bkteal,thick,domain=0:1]{(1-0.7*x)*(1-0.3)/(1+0.3/0.25)};\addlegendentry{$v=0.3$}
+\draw[dashed,gray] (axis cs:0.333,0) -- (axis cs:0.333,1);
+\node[font=\scriptsize,gray,anchor=south west] at (axis cs:0.34,0.02) {FRC};
+\nextgroupplot[xlabel={Tension--time index $TT$},ylabel={$t_{\lim}$ (min)},ymode=log,xmin=0.15,xmax=0.4,ymin=1,ymax=200]
+\addplot[red!70!black,thick,domain=0.15:0.4,samples=60]{0.1*x^(-3.6)};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Left: inspiratory muscle capacity from \cref{eq:mus-cap} with $F = 0$, as a function of lung volume at three shortening velocities; resting breathing uses $v$ well below 0.1. Right: endurance time at tension--time indices above the critical value 0.15, $t_{\lim} = 0.1\,TT^{-3.6}$ minutes~\citep{bellemare1982}.}
+\label{fig:mus-cap}
+\end{figure}
+
+\section{Fatigue and recovery}
+\label{sec:mus-fat}
+Bellemare and Grassino showed that the diaphragm can sustain a load indefinitely only while its tension--time index stays below about 0.15, and that above it the time to task failure falls steeply~\citep{bellemare1982}. The model computes the index at the end of every breath from the mean muscle pressure during inspiration $\bar P_m$ and the duty cycle,
+\begin{equation}
+TT = \frac{\bar P_m}{P_{\mathrm{cap,FRC}}}\cdot\frac{T_I}{T_{\mathrm{tot}}},
+\label{eq:mus-tt}
+\end{equation}
+and updates the fatigue fraction $F$:
+\begin{equation}
+F \leftarrow \begin{cases}
+\min\!\Bigl(0.6,\; F + 0.2\,\dfrac{T/60}{t_{\lim}}\Bigr),\quad t_{\lim} = 0.1\,TT^{-3.6}, & TT > 0.15,\\[8pt]
+F\,e^{-T/\tau_{\mathrm{rec}}},\quad \tau_{\mathrm{rec}} = \SI{12}{\hour}, & TT \le 0.15,
+\end{cases}
+\label{eq:mus-fat}
+\end{equation}
+where $T$ is the breath duration in seconds. A breathing pattern held at a given $TT$ for $t_{\lim}$ minutes therefore loses 20\% of capacity, and fatigue is capped at a 60\% loss. Recovery is slow, consistent with the hours-long recovery of low-frequency fatigue~\citep{roussos1982}; the 12-hour constant is a model assumption.
+
+In myasthenia gravis the loss of strength is use-dependent within minutes. For this phenotype a second state $F_{mg}$ follows
+\begin{equation}
+\frac{\dd F_{mg}}{\dd t} = \frac{u\,(1-F_{mg})}{\tau_f} - \frac{(1-u)\,F_{mg}}{\tau_r},
+\label{eq:mus-mg}
+\end{equation}
+where $u$ is the breath's demand relative to capacity multiplied by its duty cycle, and $\tau_f$, $\tau_r$ are fatigue and recovery time constants set in the myasthenia disease chapter. Capacity is then multiplied by $1 - k\,F_{mg}$.
+
+\section{Work of breathing and muscle oxygen cost}
+\label{sec:mus-wob}
+The patient's inspiratory work is the integral of muscle pressure over inspired volume~\citep{otis1954,campbell1958},
+\begin{equation}
+W = -\int_{\dot V>0} P_m\,\dd V,
+\label{eq:mus-wob}
+\end{equation}
+counting only segments in which volume is increasing, converted to joules with \SI{1}{\cmH\liter} $= \SI{0.0981}{\joule}$. The Campbell diagram in the simulator plots estimated pleural pressure against volume, with the chest-wall relaxation line of slope $C_{cw}$; the area between them is the same work. The oxygen cost of breathing is the mechanical power divided by an efficiency $\eta$ (default 5\%) and the energy equivalent of oxygen, about \SI{20}{\joule\per\milli\liter}:
+\begin{equation}
+\dot V_{O_2,\mathrm{resp}} = \frac{\dot W}{20\,\eta},\qquad
+\tau_{\mathrm{resp}}\frac{\dd \dot V_{O_2,\mathrm{resp}}^{\,s}}{\dd t} = \dot V_{O_2,\mathrm{resp}} - \dot V_{O_2,\mathrm{resp}}^{\,s},\quad \tau_{\mathrm{resp}} = \SI{60}{\second}.
+\label{eq:mus-vo2}
+\end{equation}
+The smoothed cost $\dot V_{O_2,\mathrm{resp}}^{\,s}$ is added to metabolic oxygen consumption and, through the respiratory exchange ratio, to carbon dioxide production. At rest it is 1--2 \si{\milli\liter\per\minute}; in severe obstruction it can add tens of \si{\milli\liter\per\minute}, enough to raise PaCO\textsubscript{2} when ventilation cannot rise.
+
+\section{Breath-to-breath variability}
+\label{sec:mus-cv}
+Even quiet breathing in healthy adults is not metronomic. Tidal volume, rate and timing vary from breath to breath, and the amount of variation carries clinical meaning~\citep{wysocki2006}. Variability falls when a large chemical or mechanical drive dominates the controller, as in restrictive lung disease~\citep{brack2002}, and rises in REM sleep, when pontine input overrides the medullary rhythm~\citep{orem2000}. In disorders of the rhythm generator itself it becomes the defining sign.
+
+\paragraph{Noise model.} Five breath parameters each receive their own multiplicative Gaussian perturbation, drawn once per breath:
+\begin{equation}
+x_{\mathrm{breath}}=x_{\mathrm{base}}\bigl(1+\mathrm{CV}_x\,m_x\,\xi\bigr),\qquad
+\xi=\sqrt{-2\ln u_1}\cos(2\pi u_2),\quad u_1,u_2\sim U(0,1),
+\label{eq:mus-cv}
+\end{equation}
+where $\mathrm{CV}_x$ is the coefficient of variation (standard deviation divided by mean) for parameter $x$, $m_x$ is the clinical-state modifier below, and $\xi$ is a standard-normal variate from the Box--Muller transform~\citep{box1958}. The five parameters are the metabolic rate (which sets $\dot V_{\mathrm{CO_2}}$), the basal neural rate, the peak muscle pressure, the neural inspiratory time and the shape of the effort waveform (\cref{sec:mus-wave}). Shape noise moves the time of peak effort between 15 and \SI{85}{\percent} of neural inspiration ($0.5+0.6\,\mathrm{CV}\,\xi$) and gives the rising and falling limbs independent sharpness exponents ($1+2.5\,\mathrm{CV}\,\xi$, held between 0.25 and 4). With zero shape CV the waveform is the symmetric half-sine. Unequal limbs add even and odd harmonics, as seen in recorded efforts. Rate noise is applied to the basal rate before the chemical rate terms of \cref{ch:ch08} are added, so the chemoreflex response itself stays deterministic. Rate noise multiplies the sleep-modified rate, adding to the REM irregularity of \cref{ch:ch11}. With all CVs at zero the model is deterministic apart from the sleep engine.
+
+\paragraph{Phenotype defaults.} Selecting a phenotype loads its CV values (\cref{tab:mus-cvdef}). Values follow four rules. Normal awake adults have a rate CV of about 0.06 and a volume CV of 0.10--0.13~\citep{wysocki2006}. A large chemical drive, as in ARDS, status asthmaticus, Kussmaul breathing or fever, lowers the CV. Loop-gain disorders such as Cheyne--Stokes respiration raise rate and amplitude CVs to 0.30--0.50. Rhythm-generator disorders such as Rett syndrome and brainstem malformations give high uncorrelated CVs of 0.20--0.35. In neuromuscular disease, where weakness limits amplitude but the drive is intact, CVs are near normal. Neonates and preterm infants start slightly above adult values. These defaults are class~A (assumption) values, chosen within published ranges where they exist.
+
+\begin{table}[htbp]\centering\small
+\caption{Selected phenotype defaults for breath-to-breath CV.}
+\label{tab:mus-cvdef}
+\begin{tabular}{@{}llccccc@{}}\toprule
+Group & Phenotype & $\dot V_{\mathrm{CO_2}}$ & Rate & Peak $P_{\mathrm{mus}}$ & $T_I$ & Shape\\\midrule
+Adult & Normal & 0.05 & 0.06 & 0.10 & 0.06 & 0.04\\
+Adult & ALS & 0.04 & 0.07 & 0.10 & 0.07 & 0.04\\
+Neonate & Normal neonate & 0.06 & 0.09 & 0.12 & 0.08 & 0.05\\
+Preterm & Normal preterm & 0.05 & 0.10 & 0.14 & 0.10 & 0.06\\
+Preterm & Apnea of prematurity & 0.07 & 0.20 & 0.22 & 0.18 & 0.10\\
+Child & Rett syndrome & 0.07 & 0.20 & 0.25 & 0.18 & 0.08\\
+Adult & Congenital central hypoventilation & 0.06 & 0.18 & 0.22 & 0.18 & 0.08\\
+Adult & Opioid central apnea & 0.06 & 0.25 & 0.30 & 0.22 & 0.10\\
+Adult & Primary central sleep apnea & 0.06 & 0.30 & 0.35 & 0.25 & 0.08\\
+Adult & Cheyne--Stokes (heart failure) & 0.07 & 0.40 & 0.50 & 0.30 & 0.10\\
+Adult & ARDS, P/F $<100$ & 0.03 & 0.04 & 0.07 & 0.04 & 0.03\\
+Adult & Status asthmaticus & 0.03 & 0.05 & 0.08 & 0.05 & 0.03\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Clinical-state modifiers.} A separate selector multiplies all five CVs without changing the phenotype values, separating what the disease contributes from what the acute state adds (\cref{tab:mus-cvmod}). For example, an adult with acute pain has a rate CV of $0.06\times1.8=0.11$, while a patient with COPD and fever has $0.08\times0.35=0.03$, a very regular tachypnea. Pregnancy lowers CV through progesterone-driven tonic ventilation~\citep{skatrud1978} and is allowed only for female patients. Anxiety and panic produce sighing and breath-holding~\citep{ley1985}. The multipliers are class~A values.
+
+\begin{table}[htbp]\centering\small
+\caption{Clinical-state CV multipliers $m_x$ in \cref{eq:mus-cv}.}
+\label{tab:mus-cvmod}
+\begin{tabular}{@{}lccccc@{}}\toprule
+State & $\dot V_{\mathrm{CO_2}}$ & Rate & Peak $P_{\mathrm{mus}}$ & $T_I$ & Shape\\\midrule
+None & 1.00 & 1.00 & 1.00 & 1.00 & 1.00\\
+Fever $>\SI{38.5}{\celsius}$ & 0.40 & 0.35 & 0.35 & 0.35 & 0.50\\
+Acute pain or stress & 1.50 & 1.80 & 1.60 & 1.50 & 1.30\\
+Pregnancy & 0.50 & 0.40 & 0.50 & 0.40 & 0.50\\
+Hypothyroidism & 0.40 & 0.30 & 0.40 & 0.30 & 0.40\\
+Anxiety or panic & 1.30 & 2.00 & 1.50 & 1.80 & 1.40\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Limitations.} Each breath's noise is drawn independently, so the model has no correlated, low-frequency oscillation of the kind that persists across many breaths. Three shape numbers per breath cannot reproduce all the ways real effort waveforms change with fatigue, posture and reflexes. Large $\dot V_{\mathrm{CO_2}}$ CVs enter the CO\textsubscript{2} store and add noise to PaCO\textsubscript{2}, so values above 0.15 are not used in long runs.
+
+\section{Parameters}
+\begin{table}[ht]
+\centering
+\caption{Respiratory muscle parameters. Class as in \cref{tab:mech-params}.}
+\label{tab:mus-params}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l c@{}}
+\toprule
+Symbol & Meaning & Value & Class \\
+\midrule
+MIP, MEP & Maximal inspiratory and expiratory pressure & measured, or \% predicted~\citep{evans2009} & M \\
+$x_f$ & FRC as a fraction of vital capacity & 1/3 & R \\
+$a$ & Length--tension slope & 0.70 & R~\citep{braun1982} \\
+$h$ & Hill curvature constant & 0.25 & R~\citep{hill1938} \\
+$\dot V_{\max}$ & Maximal shortening flow & $8\,VC_0/4.8$ \si{\liter\per\second} & A \\
+$TT_{\mathrm{crit}}$ & Critical tension--time index & 0.15 & R~\citep{bellemare1982} \\
+$t_{\lim}$ & Endurance time & $0.1\,TT^{-3.6}$ min & R~\citep{bellemare1982} \\
+$\tau_{\mathrm{rec}}$, $F_{\max}$ & Fatigue recovery, maximal fatigue & \SI{12}{\hour}, 0.6 & A \\
+$\eta$ & Muscle efficiency & 5\% & R \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{summarybox}
+Muscle pressure is a variable half-sine whose amplitude comes from the controller and whose ceiling comes from strength, lung volume and flow. Fatigue builds when the tension--time index exceeds 0.15 at the rate implied by Bellemare and Grassino's endurance curve and recovers over hours. Work of breathing feeds back to carbon dioxide production, so a heavily loaded patient makes more CO\textsubscript{2} as well as having less reserve.
+\end{summarybox}

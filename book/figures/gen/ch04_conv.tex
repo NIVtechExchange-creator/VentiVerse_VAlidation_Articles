@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{loglogaxis}[width=0.8\linewidth,height=6.2cm,xlabel={Step size $\Delta t$ (ms)},ylabel={Max.\ volume error (\% of $V_T$)},
+ grid=major,grid style={gray!20},legend pos=south west,legend style={font=\small,draw=none,fill=none},ymin=1e-8,ymax=5,xtick={0.5,1,2,5,10,20},xticklabels={0.5,1,2,5,10,20}]
+\addplot[bkblue,thick,mark=*] coordinates {(0.5,0.033659) (1,0.06738) (2,0.13501) (5,0.33942) (10,0.68525) (20,1.3979)};
+\addlegendentry{explicit Euler}
+\addplot[bkorange,thick,mark=square*] coordinates {(2,2.4493e-08) (10,1.6389e-05) (20,0.00028557)};
+\addlegendentry{classical RK4}
+\addplot[gray,dashed,domain=0.5:20] {0.25*x};
+\addlegendentry{reference slope 1}
+\addplot[gray,dotted,thick,domain=2:20] {1.0e-7*(x/2)^4};
+\addlegendentry{reference slope 4}
+\draw[red!70!black,thick] (axis cs:2,1e-8) -- (axis cs:2,5);
+\node[red!70!black,font=\scriptsize,anchor=west] at (axis cs:2.1,1.5) {VentiVerse step};
+\end{loglogaxis}
+\end{tikzpicture}

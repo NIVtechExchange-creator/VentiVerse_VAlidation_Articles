@@ -1,0 +1,179 @@
+\chapter{Ventilation Modes and Pressure Control}
+\label{ch:ch13}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Describe how each modeled mode sets the airway pressure or flow within a breath.
+  \item Explain triggering, cycling and the backup rate.
+  \item Write the adaptive rules of the volume-assured and alveolar-ventilation-targeted modes.
+  \item Describe how high-flow therapy and oxygen entrained at the mask are represented.
+\end{itemize}
+\end{objectives}
+
+This chapter covers the modes that the model implements. Leak is treated in \cref{ch:leak} and patient--ventilator asynchrony in \cref{ch:async}; here leak appears only where a mode's equations depend on it. The terms follow the taxonomy of Chatburn and colleagues~\citep{chatburn2014}: a breath is \emph{triggered} (started), \emph{targeted} (pressure or flow controlled within the breath) and \emph{cycled} (ended).
+
+\section{The pressure command}
+\label{sec:modes-cmd}
+In every pressure-targeted mode the device sets a command pressure and the airway pressure follows it with a first-order response (\cref{ch:ch03}):
+\begin{keyequation}
+\begin{equation}
+\frac{\dd\Paw}{\dd t} = \frac{P_{\mathrm{cmd}} - \Paw}{\tau},\qquad
+\tau = \begin{cases}\tau_{\mathrm{rise}} & P_{\mathrm{cmd}} \ge \Paw\\ \tau_{\mathrm{fall}} = \SI{0.15}{\second} & P_{\mathrm{cmd}} < \Paw\end{cases},\qquad
+P_{\mathrm{cmd}} = \begin{cases}\mathrm{PEEP} + \mathrm{PS} & \text{support on}\\ \mathrm{PEEP} & \text{support off}\end{cases}
+\label{eq:modes-cmd}
+\end{equation}
+\end{keyequation}
+where PS is the pressure support (IPAP minus EPAP on bilevel devices). The rise setting $k = 1,\dots,6$ gives $\tau_{\mathrm{rise}} = 0.1k$ seconds, and $k = 0$ gives \SI{50}{\milli\second}, which spans the range of pressurization rates studied in noninvasive pressure support~\citep{prinianakis2004}. A real ventilator closes a pressure loop on the measured airway pressure; the first-order response is the closed-loop behavior of such a controller, not a model of its internal gains. Because $\Paw$ is an input to the equation of motion (\cref{ch:ch06}), patient effort changes flow and volume but not the delivered pressure, as with an ideal pressure controller.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.3cm,grid=major,grid style={gray!20},legend style={font=\tiny,draw=none,fill=none}]
+\nextgroupplot[xlabel={Time (s)},ylabel={$\Paw$ (\si{\cmH})},xmin=0,xmax=2.5,ymin=0,ymax=18,legend pos=north east]
+\addplot[bkblue,thick,domain=0:1.2,samples=80,forget plot]{4+12*(1-exp(-x/0.1))};
+\addplot[bkblue,thick,domain=1.2:2.5,samples=60]{4+12*(1-exp(-1.2/0.1))*exp(-(x-1.2)/0.15)};\addlegendentry{rise 1 (\SI{0.1}{\second})}
+\addplot[bkorange,thick,domain=0:1.2,samples=80,forget plot]{4+12*(1-exp(-x/0.3))};
+\addplot[bkorange,thick,domain=1.2:2.5,samples=60]{4+12*(1-exp(-1.2/0.3))*exp(-(x-1.2)/0.15)};\addlegendentry{rise 3 (\SI{0.3}{\second})}
+\addplot[bkteal,thick,domain=0:1.2,samples=80,forget plot]{4+12*(1-exp(-x/0.6))};
+\addplot[bkteal,thick,domain=1.2:2.5,samples=60]{4+12*(1-exp(-1.2/0.6))*exp(-(x-1.2)/0.15)};\addlegendentry{rise 6 (\SI{0.6}{\second})}
+\nextgroupplot[xlabel={Time (s)},ylabel={Commanded flow (\si{\liter\per\minute})},xmin=0,xmax=1.6,ymin=0,ymax=50,legend pos=north east]
+\addplot[bkblue,thick] coordinates {(0,30) (1,30) (1,0) (1.6,0)};\addlegendentry{square}
+\addplot[bkorange,thick,domain=0:1,samples=20] {60*0.5*(4/3-(2/3)*x)};\addlegendentry{descending ramp}
+\addplot[bkorange,thick,forget plot] coordinates {(1,20) (1,0) (1.6,0)};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Left: airway pressure from \cref{eq:modes-cmd} with PEEP \SI{4}{\cmH}, PS \SI{12}{\cmH} and a \SI{1.2}{\second} inspiration at three rise settings. At rise 6 the pressure reaches only 87\% of the target before cycling. Right: volume-control flow commands of \cref{eq:modes-vc} for \SI{500}{\milli\liter} in \SI{1}{\second}.}
+\label{fig:modes-curves}
+\end{figure}
+
+\section{Triggering and the backup rate}
+\label{sec:modes-trigger}
+A breath starts either at the onset of neural inspiration (a patient-triggered breath) or when the backup timer expires (a timed breath). The breath length is
+\begin{equation}
+T = \min\bigl(t_{\mathrm{neural}},\;60/f_{\mathrm{backup}}\bigr),
+\label{eq:modes-T}
+\end{equation}
+where $t_{\mathrm{neural}}$ is the time to the next neural onset from the oscillator of \cref{ch:ch08} and $f_{\mathrm{backup}}$ the backup rate (none in high-flow therapy and the neural mode). Triggering is ideal: support starts at the neural onset with no trigger delay or missed efforts. After a timed breath the neural oscillator is either reset or continues its phase, according to a user setting; the choice determines whether timed breaths entrain the patient's rhythm.
+
+\section{Cycling}
+\label{sec:modes-cycle}
+Timed breaths and all breaths in pressure control and volume control end at the set inspiratory time $T_I$, limited to 90\% of the breath. Patient-triggered breaths in S/T, PSV and the volume-assured modes are flow-cycled. Support ends when, after at least \SI{0.25}{\second}, inspiratory flow falls below the inspired volume divided by \SI{3}{\second}:
+\begin{equation}
+\dot V(t) \le \frac{V(t) - V_{\mathrm{EE}}}{\SI{3}{\second}},\qquad t \ge \SI{0.25}{\second},
+\label{eq:modes-set}
+\end{equation}
+where $V_{\mathrm{EE}}$ is the end-expiratory volume. Unlike a fixed percentage of peak flow, this criterion scales with breath size. Patient effort is not stopped by cycling. If the effort is still present \SI{80}{\milli\second} after an early cycle and generates inspiratory flow above \SI{1.2}{\liter\per\minute}, the device triggers once more, which reproduces double triggering from premature cycling~\citep{thille2006}.
+
+\section{Pressure-targeted modes}
+\label{sec:modes-pressure}
+\begin{description}[leftmargin=*,style=nextline]
+\item[CPAP] \Cref{eq:modes-cmd} with PS $= 0$. The airway pressure stays at the set level, and its effects come from raising $\Paw$ above the upper-airway closing pressure (\cref{sec:mech-ua}) and above flow-limiting pressures in the lower airways.
+\item[PSV and S/T] Patient-triggered, pressure-targeted and flow-cycled breaths; S/T adds timed breaths at the backup rate, time-cycled at $T_I$.
+\item[Pressure control] All breaths, triggered or timed, are time-cycled at $T_I$.
+\item[HOT-HMV] S/T or pressure control with oxygen entrained at the mask and a room-air ventilator gas source~\citep{murphy2017}. The inspired oxygen fraction is estimated as
+\begin{equation}
+F_{I\mathrm{O_2}} = 0.21 + 0.79\,\frac{\dot Q_{\mathrm{O_2}}}{\dot Q_{\mathrm{O_2}} + \dot V_E + \bar Q_{\mathrm{leak}}},
+\label{eq:modes-hot}
+\end{equation}
+with $\dot Q_{\mathrm{O_2}}$ the oxygen flow, $\dot V_E$ minute ventilation and $\bar Q_{\mathrm{leak}}$ the mean intentional plus unintentional leak, all in \si{\liter\per\minute}, so delivered oxygen falls as pressure and leak rise. Unintentional leak also lowers delivered IPAP by \SI{0.026}{\cmH} per \si{\liter\per\minute} of leak, from bench data.
+\end{description}
+
+\section{Volume control}
+\label{sec:modes-vc}
+Volume control commands flow, not pressure. The set volume $V_{\mathrm{set}}$ is delivered over $T_I$ as a square or descending-ramp waveform,
+\begin{equation}
+\dot V_{\mathrm{cmd}} = \frac{V_{\mathrm{set}}}{T_I}\quad\text{or}\quad \dot V_{\mathrm{cmd}} = \frac{V_{\mathrm{set}}}{T_I}\left(\frac43 - \frac23\,\frac{t}{T_I}\right),
+\label{eq:modes-vc}
+\end{equation}
+and the airway pressure that produces this flow is found from the two-compartment equation of motion,
+\begin{equation}
+\Paw = \mathrm{PEEP} + P_{\mathrm{mus}} + \frac{\dot V_{\mathrm{cmd}} + V_1/(R_1C_1) + V_2/(R_2C_2)}{1/R_1 + 1/R_2},
+\label{eq:modes-vcp}
+\end{equation}
+where $V_i$ are the compartment volumes above end-expiration and $P_{\mathrm{mus}}$ (negative during inspiratory effort) is the muscle pressure. An inspiring patient therefore lowers the airway pressure during the breath, the scooped pressure waveform of flow starvation. If the computed pressure exceeds \SI{60}{\cmH} (\SI{90}{\cmH} in the status asthmaticus phenotype) the device limits it. Expiration is a decay from the peak pressure to PEEP with $\tau_{\mathrm{fall}}$.
+
+\section{Adaptive modes}
+\label{sec:modes-adapt}
+\label{sec:modes-adaptive}
+\paragraph{Volume-assured pressure support (VAPS).} After each breath the device estimates elastance from the delivered pressure and volume, $\hat E = \overline{\mathrm{PS}/V_T}$ averaged over up to eight breaths, and changes support toward the volume target $V_{T,\mathrm{tgt}}$~\citep{storre2006}:
+\begin{equation}
+\Delta\mathrm{PS} = \mathrm{clip}\!\left(-\frac{\hat E\,(V_T - V_{T,\mathrm{tgt}})}{2},\;\pm\frac{s}{f}\right),\qquad
+\mathrm{PS} \in [\mathrm{PS_{min}},\,\mathrm{PS_{max}}],
+\label{eq:modes-vaps}
+\end{equation}
+with $s$ the adjustment speed in \si{\cmH\per\minute} (default 2.5) and $f$ the breathing rate, so the change per minute does not depend on rate. The factor $\tfrac12$ corrects half the estimated error each breath.
+
+\paragraph{Alveolar-ventilation targeting (iVAPS).} The device estimates anatomic dead space from height, $V_{D,\mathrm{est}} = 0.00093\,h^{2.33}$ \si{\milli\liter} with $h$ in centimeters (\SI{152}{\milli\liter} at \SI{170}{\centi\meter}), computes alveolar ventilation $\dot V_{A,\mathrm{est}} = f\,(V_T - V_{D,\mathrm{est}})$ averaged over three breaths and adjusts support by a proportional rule~\citep{kelly2014}:
+\begin{equation}
+\Delta\mathrm{PS} = \mathrm{clip}\bigl(0.5\,(\dot V_{A,\mathrm{tgt}} - \dot V_{A,\mathrm{est}}),\;\pm 2\bigr)\ \si{\cmH},\qquad
+\mathrm{PS} \in [\mathrm{PS_{min}},\,\mathrm{PS_{max}}].
+\label{eq:modes-ivaps}
+\end{equation}
+The device's dead-space estimate is not the model's dead space (\cref{ch:ch10}). When the two differ, as with an interface or in rapid shallow breathing, the device's target is met while true alveolar ventilation is not, as happens in practice.
+
+\paragraph{Neural pressure support.} An experimental mode delivers pressure in proportion to the patient's instantaneous effort, $P_{\mathrm{cmd}} = \mathrm{PEEP} + \min\bigl(P_{\max},\;g\,\max(0,-P_{\mathrm{mus}})\bigr)$, with $\tau_{\mathrm{rise}} = \SI{40}{\milli\second}$ so that pressure tracks effort. This is the principle of proportional assist and neurally adjusted ventilation~\citep{younes1992,sinderby1999}, applied to the model's known $P_{\mathrm{mus}}$; it has no backup rate and has not been validated against either device.
+
+\section{High-flow therapy}
+\label{sec:modes-hf}
+High-flow nasal therapy delivers a constant flow $Q$ and has no pressure support. It acts through a small positive pressure and through washout of anatomic dead space~\citep{parke2009,moller2015}. The pharyngeal pressure is modeled as
+\begin{equation}
+P_{\mathrm{insp}} = K_e\,Q,\qquad P_{\mathrm{exp}} = 3\,K_e\,Q,
+\label{eq:modes-hf}
+\end{equation}
+with $Q$ in \si{\liter\per\second} and nasopharyngeal resistance $K_e = 2.0$ (men) or 2.4 (women) \si{\cmH\per(\liter\per\second)}. The expiratory value acts as PEEP; at \SI{40}{\liter\per\minute} it is about \SI{4}{\cmH} in a man, near the values measured with the mouth closed~\citep{parke2009}. The fraction of anatomic dead space washed out is
+\begin{equation}
+w_{\mathrm{HF}} = w_{\max}\,\frac{Q}{Q + 30}\,\bigl(1 - 0.9\,m\bigr),
+\label{eq:modes-hfw}
+\end{equation}
+with $Q$ in \si{\liter\per\minute}, $w_{\max} = 0.52$ (men) or 0.43 (women), and $m = 1$ when the mouth is open. Bilevel high flow uses separate inspiratory and expiratory flows in the same equations and allows a backup rate.
+
+\paragraph{Device performance.} Bench testing shows that high-flow devices do not hold the set flow when the patient's inspiratory demand is high~\citep{sun2021}. For a selected device the delivered flow is
+\begin{equation}
+Q_{\mathrm{del}}=Q\bigl[1-s\,\min(1,\,D)\,(1-0.7\,m)\bigr]+b,\qquad \mathrm{FiO_{2,del}}=\mathrm{FiO_2}+100\,f,
+\label{eq:modes-hfdev}
+\end{equation}
+where $D$ is the ratio of the patient's peak inspiratory flow to the set flow, $m$ is the mouth-open fraction (0 nasal, 0.5 partial, 1 mouth breathing), and the sag $s$, bias $b$ (L/min) and FiO\textsubscript{2} offset $f$ are taken from the bench data by flow band (\cref{tab:modes-hfdev}). An ideal device holds the set flow.
+
+\begin{table}[ht]
+\centering
+\caption{High-flow device factors from bench data~\citep{sun2021}. Sag and bias bands are set flow $\le$35 (sag) or $\le$40 (bias), to 60, and above 60 L/min; FiO\textsubscript{2} bands are set FiO\textsubscript{2} $\le$40, to 50, and above 50\%.}
+\label{tab:modes-hfdev}
+\begin{tabular}{lccc}
+\toprule
+Device & Sag $s$ & Bias $b$ (L/min) & FiO\textsubscript{2} offset $f$\\
+\midrule
+OH-70C & 0.058 / 0.144 / 0.393 & 4.4 / 5.7 / 5.7 & 0.003 / $-0.017$ / $-0.024$\\
+AIRVO 2 & 0.083 / 0.314 / 0.314 & $-0.2$ / $-0.9$ / $-0.9$ & $-0.002$ / $-0.004$ / $-0.014$\\
+bellavista 1000 & 0.039 / 0.054 / 0.282 & $-0.7$ / $-1.4$ / 0.6 & 0.009 / 0.025 / 0.026\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Invasive airways}
+\label{sec:modes-tubes}
+With an endotracheal or tracheostomy tube the interface dead space is removed and a tube resistance is added in series with the airway resistance, for example \num{4.0}, \num{3.0} and \SI{1.8}{\cmH\per(\liter\per\second)} for 7.5- and 8.0-mm endotracheal tubes and a 7.6-mm tracheostomy tube. The upper-airway, stenosis and central-airway collapse models of \cref{ch:ch06} are bypassed. In GBS, myasthenic crisis and spinal cord injury an invasive airway also multiplies airway resistance by 0.6 and anatomic dead space by 0.67, because the tube bypasses the upper airway of a patient whose problem is weakness rather than airway disease~\citep{brown2006}.
+
+\section{Settings and adjustable parameters}
+\begin{table}[ht]
+\centering
+\caption{Device parameters and defaults. Class as in \cref{tab:mech-params}.}
+\label{tab:modes-params}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule
+$\tau_{\mathrm{rise}}$ & Pressurization time constant & 0.05--\SI{0.6}{\second} (setting) & R~\citep{prinianakis2004} \\
+$\tau_{\mathrm{fall}}$ & Depressurization time constant & \SI{0.15}{\second} & A \\
+-- & Flow-cycle criterion & $V/(\SI{3}{\second})$ after \SI{0.25}{\second} & A \\
+-- & Retrigger threshold & \SI{1.2}{\liter\per\minute} after \SI{80}{\milli\second} & A \\
+$s$ & VAPS adjustment speed & \SI{2.5}{\cmH\per\minute} & R~\citep{storre2006} \\
+-- & iVAPS gain and step limit & 0.5 \si{\cmH} per \si{\liter\per\minute}, $\pm2$ per breath & A \\
+$K_e$ & Nasopharyngeal resistance in high flow & 2.0 / 2.4 \si{\cmH\per(\liter\per\second)} & R~\citep{parke2009} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{summarybox}
+Pressure-targeted modes share one first-order pressure command; they differ in how breaths are triggered, cycled and how support is adapted. Volume control solves the equation of motion for the pressure that delivers a commanded flow. High-flow therapy is a flow-dependent pressure plus dead-space washout, and mask-entrained oxygen gives an FiO\textsubscript{2} that falls with ventilation and leak.
+\end{summarybox}

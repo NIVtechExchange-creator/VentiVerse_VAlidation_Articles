@@ -1,0 +1,144 @@
+{\scriptsize\setlength{\tabcolsep}{2.5pt}\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}cccccccccccc>{\raggedright\arraybackslash}p{0.13\linewidth}@{}}
+\caption{Adult phenotypes as implemented. $m_R$, $m_{C_L}$, $m_{C_{cw}}$, $m_P$: multipliers of \cref{eq:par-mult}; $f_s$, $\kappa$: slow fraction and time-constant ratio; $V_{D,alv}$ in mL/kg; $s_h$, $l_f$, $l_q$: shunt, low-$\dot V/\dot Q$ fraction and ratio; $d_g$, $f_g$: gain multipliers of \cref{eq:ctl-gain}; $f_0$: basal rate (/min); --: not set, so the category baseline (\cref{tab:par-dev}) applies.}\label{tab:par-lib-adult}\\
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endfirsthead
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endhead\bottomrule\endfoot
+Normal & 1 & 1 & 1 & 1 & 0.35 & 1.5 & 0.15 & -- & -- & 4 & 2.5 & -- & --\\
+\multicolumn{14}{@{}l}{\textit{Neuromuscular}}\\
+ALS / motor neuron disease & 1 & 0.95 & 0.9 & 0.45 & 0.1 & 1.3 & 0.15 & -- & -- & 1 & 1 & -- & \citep{miller2009}\\
+ALS: bulbar onset & 1 & 0.95 & 0.9 & 0.4 & 0.1 & 1.3 & 0.15 & -- & -- & 2 & 1 & -- & \citep{miller2009}\\
+ALS: limb onset & 1 & 0.95 & 0.9 & 0.5 & 0.1 & 1.3 & 0.15 & -- & -- & 2 & 1 & -- & \citep{miller2009}\\
+Adult DMD / NMD & 1 & 0.7 & 0.65 & 0.2 & 0.1 & 1.3 & 0.15 & -- & -- & 2 & 1 & -- & \citep{finder2004}\\
+Myasthenia gravis (MG crisis) & 1 & 0.45 & 0.65 & 0.2 & 0.2 & 1.5 & 0.2 & 0.1 & 0.3/0.2 & 0.6 & 0.6 & 20 & \citep{thomas1997}\\
+Myasthenia gravis (generalized, stable) & 1 & 0.92 & 0.88 & 0.54 & 0.2 & 1.5 & 0.2 & -- & -- & 1 & 1 & 16 & \citep{thomas1997}\\
+Guillain-Barr\'e (respiratory involvement) & 1 & 0.55 & 0.9 & 0.19 & 0.2 & 1.3 & 0.15 & 0.1 & -- & 1 & 1 & 20 & \citep{sharshar2003}\\
+SCI C1--C2 complete (no diaphragm) & 1 & 0.8 & 0.65 & 0.03 & 0.18 & 1.5 & 0.17 & 0.03 & -- & 1 & 1 & 16 & \citep{brown2006}\\
+SCI C3--C4 complete & 1 & 0.85 & 0.62 & 0.38 & 0.18 & 1.5 & 0.17 & 0.03 & -- & 1 & 1 & 16 & \citep{brown2006}\\
+SCI C5 complete & 1 & 0.88 & 0.62 & 0.54 & 0.18 & 1.5 & 0.17 & 0.03 & -- & 1 & 1 & 16 & \citep{brown2006}\\
+SCI C6--C8 complete & 1 & 0.95 & 0.65 & 0.62 & 0.18 & 1.5 & 0.17 & 0.03 & -- & 1 & 1 & 16 & \citep{brown2006}\\
+SCI C4 incomplete & 1 & 1 & 0.72 & 0.59 & 0.18 & 1.5 & 0.17 & 0.03 & -- & 1 & 1 & 16 & \citep{brown2006}\\
+\multicolumn{14}{@{}l}{\textit{Obstructive lung}}\\
+COPD / emphysema, stable borderline hypercapnic & 2.5 & 1.15 & 1 & 1 & 0.35 & 7 & 1.5 & -- & 0.3/0.3 & 4 & 0.7 & -- & \citep{odonnell1993,wagner1977}\\
+COPD / emphysema, stable hypercapnic & 3 & 1.15 & 1 & 0.53 & 0.35 & 7 & 0.11 & -- & 0.2/0.3 & 4 & 0.7 & -- & \citep{odonnell1993,wagner1977}\\
+COPD / chronic bronchitis, stable hypercapnic & 3.2 & 1 & 1 & 0.9 & 0.5 & 4.5 & 0.2 & 0.02 & 0.25/0.25 & 4 & 0.6 & 18 & \citep{wagner1977,hogg2004}\\
+Bronchiectasis, hypercapnic respiratory failure & 2.4 & 0.75 & 1 & 0.75 & 0.5 & 4.5 & 0.15 & 0.04 & 0.3/0.25 & 4 & 0.6 & 18 & --\\
+Cystic fibrosis, hypercapnic respiratory failure & 2.4 & 0.65 & 1 & 0.85 & 0.5 & 4.5 & 0.2 & 0.04 & 0.32/0.25 & 4 & 0.6 & 19 & \citep{elborn2016}\\
+Bronchiolitis obliterans syndrome (BOS) after lung transplant & 3 & 0.85 & 1 & 1 & 0.5 & 4.5 & 0.2 & 0.03 & 0.25/0.3 & 4 & 0.77 & 20 & \citep{jobe2001}\\
+COPD / OSA overlap syndrome & 1.6 & 1 & 0.8 & 0.9 & 0.45 & 4 & 0.2 & 0.03 & 0.15/0.3 & 4 & 0.6 & 16 & --\\
+COPD / OSA overlap, hypercapnic & 2.4 & 1 & 0.8 & 0.9 & 0.45 & 4 & 0.2 & 0.03 & 0.22/0.3 & 4 & 0.6 & 16 & --\\
+COPD / expiratory flow limitation (EFL), intrinsic PEEP & 3.5 & 1.1 & 1 & 0.65 & 0.5 & 4.5 & 0.2 & 0.02 & 0.22/0.35 & 4 & 0.6 & 18 & \citep{rossi1995,koulouris1995}\\
+COPD exacerbation (AECOPD) & 4 & 1.2 & 1 & 0.82 & 0.45 & 10 & 0 & 0.02 & 0.2/0.3 & 4 & 0.65 & 22 & \citep{plant2000}\\
+Status asthmaticus (intubated) & 6.1 & 0.2 & 1 & 0.12 & 0.3 & 40 & 5.9 & -- & 0.3/0.25 & 1 & 1 & 8 & \citep{global2023}\\
+Tracheal stenosis (fixed) & 1 & 1 & 1 & 1 & 0.35 & 1.5 & 0.15 & -- & -- & 4 & 6 & -- & \citep{grillo1995}\\
+Tracheobronchomalacia & 1 & 1 & 1 & 1 & 0.35 & 1.5 & 0.15 & -- & -- & 2 & 6 & -- & \citep{ernst2004}\\
+Excessive dynamic airway collapse (EDAC) & 1 & 1 & 1 & 1 & 0.35 & 1.5 & 0.15 & -- & -- & 2 & 6 & -- & \citep{ernst2004}\\
+Tracheobronchomalacia with COPD & 2.5 & 1.15 & 1 & 1 & 0.35 & 7 & 0.7 & -- & -- & 4 & 0.7 & -- & \citep{ernst2004}\\
+\multicolumn{14}{@{}l}{\textit{Restrictive / parenchymal}}\\
+Pulmonary fibrosis (IPF) & 1 & 0.25 & 1 & 0.85 & 0.22 & 1.5 & 0.8 & 0.06 & 0.18/-- & 1 & 1 & 20 & \citep{nava1999}\\
+Restrictive chest wall / kyphoscoliosis & 1 & 0.9 & 0.4 & 0.85 & 0.1 & 1.3 & 0.15 & -- & -- & 1 & 1 & -- & \citep{buyse2003}\\
+Pneumonia (lobar consolidation) & 1.15 & 0.75 & 1 & 0.9 & 0.3 & 2.5 & 0.5 & 0.22 & 0.15/-- & 1 & 1 & 22 & \citep{torres2021}\\
+ARDS (moderate --- P/F 100--200) & 1.1 & 0.2 & 1 & 0.9 & 0.28 & 2.5 & 1.2 & 0.25 & 0.18/-- & 1 & 1 & 20 & \citep{ards2012,gattinoni2005,sweet2022}\\
+ARDS (severe --- P/F $<$100) & 1.2 & 0.13 & 1 & 0.78 & 0.25 & 2 & 1.3 & 0.42 & 0.25/-- & 1 & 1 & 24 & \citep{ards2012,gattinoni2005,sweet2022}\\
+\multicolumn{14}{@{}l}{\textit{Obesity}}\\
+Obesity hypoventilation (OHS) & 1.6 & 0.4 & 0.4 & 0.8 & 0.15 & 2 & 0.55 & 0.08 & 0.12/-- & 0.28 & 0.22 & 9 & \citep{masa2019,pelosi1998a,ards2012}\\
+OHS + obstructive lung disease & 3.5 & 0.35 & 0.35 & 0.75 & 0.35 & 8 & 0.9 & 0.1 & 0.2/-- & 0.22 & 0.18 & 9 & \citep{masa2019,pelosi1998a}\\
+Obese ARDS (BMI 40 --- P/F 120) & 1.2 & 0.12 & 0.38 & 0.82 & 0.28 & 3 & 0.9 & 0.35 & 0.22/-- & 1 & 1 & 22 & \citep{ards2012,gattinoni2005,pelosi1998a}\\
+Post-op abdominal / laparotomy & 1.1 & 0.82 & 0.72 & 0.72 & 0.22 & 2 & 0.3 & 0.08 & 0.1/-- & 1 & 1 & 18 & \citep{couture2020}\\
+\multicolumn{14}{@{}l}{\textit{Transplant / surgical}}\\
+Single-lung transplant (emphysema native) & 2 & 0.9 & 1 & 0.85 & 0.45 & 8 & 0.65 & 0.05 & 0.18/-- & 1 & 1 & -- & \citep{odonnell1993,wagner1977}\\
+\multicolumn{14}{@{}l}{\textit{Central hypoventilation}}\\
+Cheyne-Stokes (CHF / post-stroke) & 1 & 0.95 & 1 & 0.9 & 0.3 & 1.5 & 0.2 & -- & -- & 2.2 & 2.2 & 14 & \citep{bradley2003,naughton1993}\\
+Primary central sleep apnea & 1 & 1 & 1 & 0.88 & 0.25 & 1.5 & 0.2 & -- & -- & 2 & 2 & 12 & \citep{bradley2003,dempsey2010}\\
+Ondine's curse (acquired brainstem) & 1 & 1 & 1 & 0.88 & 0.22 & 1.5 & 0.2 & -- & -- & 0.15 & 0.15 & 14 & \citep{weesemayer2010,sarnat2004}\\
+Central apnea --- opioid-induced & 1.1 & 0.98 & 1 & 0.82 & 0.25 & 1.5 & 0.2 & -- & -- & 0.3 & 0.3 & 9 & \citep{pattinson2008}\\
+CCHS (adult, PHOX2B 20/27) & 1 & 1 & 1 & 0.9 & 0.2 & 1.5 & 0.2 & -- & -- & 0.18 & 0.18 & 15 & \citep{weesemayer2010,trang2005}\\
+\end{longtable}}
+
+{\scriptsize\setlength{\tabcolsep}{2.5pt}\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}cccccccccccc>{\raggedright\arraybackslash}p{0.13\linewidth}@{}}
+\caption{Child (5--15 years) phenotypes as implemented. $m_R$, $m_{C_L}$, $m_{C_{cw}}$, $m_P$: multipliers of \cref{eq:par-mult}; $f_s$, $\kappa$: slow fraction and time-constant ratio; $V_{D,alv}$ in mL/kg; $s_h$, $l_f$, $l_q$: shunt, low-$\dot V/\dot Q$ fraction and ratio; $d_g$, $f_g$: gain multipliers of \cref{eq:ctl-gain}; $f_0$: basal rate (/min); --: not set, so the category baseline (\cref{tab:par-dev}) applies.}\label{tab:par-lib-child}\\
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endfirsthead
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endhead\bottomrule\endfoot
+Normal child & 1 & 1 & 1 & 1 & 0.25 & 1.5 & 0.25 & -- & -- & 1 & 1 & -- & --\\
+\multicolumn{14}{@{}l}{\textit{Neuromuscular}}\\
+SMA type 2 & 1.05 & 0.72 & 0.62 & 0.42 & 0.1 & 1.3 & 0.3 & -- & -- & 1 & 1 & -- & \citep{mercuri2018}\\
+DMD / chronic NMD & 1.05 & 0.7 & 0.52 & 0.38 & 0.1 & 1.3 & 0.3 & -- & -- & 1 & 1 & -- & \citep{finder2004}\\
+Diaphragm paralysis (hemidiaphragm) & 1 & 0.7 & 0.7 & 0.52 & 0.18 & 1.5 & 0.3 & 0.08 & 0.1/-- & 1 & 1 & 22 & --\\
+\multicolumn{14}{@{}l}{\textit{Obstructive lung}}\\
+Asthma (stable / moderate) & 2.8 & 1.1 & 1 & 1 & 0.3 & 7 & 0.5 & -- & 0.15/-- & 1 & 1 & -- & \citep{global2023}\\
+Acute severe asthma & 4 & 1.2 & 1 & 1.1 & 0.45 & 12 & 0.7 & -- & 0.25/-- & 1 & 1 & 32 & \citep{global2023}\\
+Cystic fibrosis (CF, moderate) & 3 & 1.05 & 1 & 0.95 & 0.4 & 8 & 0.8 & 0.05 & 0.2/-- & 1 & 1 & 22 & \citep{elborn2016}\\
+Bronchiolitis obliterans (BO) & 4 & 0.88 & 1 & 0.9 & 0.45 & 10 & 0.7 & 0.06 & 0.18/-- & 1 & 1 & 22 & \citep{jobe2001}\\
+Tracheomalacia (pediatric) & 2.5 & 1.05 & 1 & 1 & 0.4 & 8 & 0.5 & -- & -- & 1 & 1 & -- & \citep{ernst2004}\\
+\multicolumn{14}{@{}l}{\textit{Restrictive / parenchymal}}\\
+Restrictive chest wall / kyphoscoliosis & 1 & 0.85 & 0.42 & 0.8 & 0.1 & 1.3 & 0.25 & -- & -- & 1 & 1 & -- & \citep{buyse2003}\\
+Community-acquired pneumonia (CAP) & 1.15 & 0.72 & 1 & 0.9 & 0.28 & 2.5 & 0.5 & 0.18 & 0.12/-- & 1 & 1 & 28 & \citep{torres2021}\\
+\multicolumn{14}{@{}l}{\textit{Central hypoventilation}}\\
+CCHS (school age, on nocturnal BPAP) & 1 & 1 & 1 & 0.88 & 0.12 & 1.3 & 0.25 & -- & -- & 0.15 & 0.15 & 16 & \citep{weesemayer2010,trang2005}\\
+Prader-Willi syndrome & 1.3 & 0.72 & 0.72 & 0.78 & 0.18 & 1.5 & 0.3 & 0.05 & 0.1/-- & 0.4 & 0.4 & 14 & \citep{hertz1993,gillett2016}\\
+Rett syndrome & 1 & 0.95 & 1 & 0.8 & 0.15 & 1.3 & 0.28 & -- & -- & 0.5 & 0.5 & 20 & \citep{julu2001}\\
+Cheyne-Stokes (CNS tumor / AVM) & 1 & 1 & 1 & 0.88 & 0.2 & 1.5 & 0.25 & -- & -- & 2.2 & 2.2 & 18 & \citep{bradley2003,naughton1993}\\
+\end{longtable}}
+
+{\scriptsize\setlength{\tabcolsep}{2.5pt}\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}cccccccccccc>{\raggedright\arraybackslash}p{0.13\linewidth}@{}}
+\caption{Infant (1--18 months) phenotypes as implemented. $m_R$, $m_{C_L}$, $m_{C_{cw}}$, $m_P$: multipliers of \cref{eq:par-mult}; $f_s$, $\kappa$: slow fraction and time-constant ratio; $V_{D,alv}$ in mL/kg; $s_h$, $l_f$, $l_q$: shunt, low-$\dot V/\dot Q$ fraction and ratio; $d_g$, $f_g$: gain multipliers of \cref{eq:ctl-gain}; $f_0$: basal rate (/min); --: not set, so the category baseline (\cref{tab:par-dev}) applies.}\label{tab:par-lib-infant}\\
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endfirsthead
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endhead\bottomrule\endfoot
+Normal infant & 1 & 1 & 1 & 1 & 0.15 & 1.3 & 0.35 & -- & -- & 1 & 1 & -- & --\\
+\multicolumn{14}{@{}l}{\textit{Neuromuscular}}\\
+SMA type 1 & 1.05 & 0.72 & 0.72 & 0.25 & 0.1 & 1.3 & 0.35 & -- & -- & 1 & 1 & -- & \citep{mercuri2018}\\
+SMA type 2 & 1.05 & 0.82 & 0.78 & 0.45 & 0.1 & 1.3 & 0.35 & -- & -- & 1 & 1 & -- & \citep{mercuri2018}\\
+\multicolumn{14}{@{}l}{\textit{Respiratory disease}}\\
+BPD (former preterm) & 2 & 0.72 & 0.95 & 0.9 & 0.25 & 3.5 & 0.8 & -- & -- & 1 & 1 & -- & \citep{jobe2001,jobe2011}\\
+RSV bronchiolitis & 2.8 & 1.05 & 1 & 1 & 0.3 & 6 & 0.6 & -- & 0.15/-- & 1 & 1 & -- & \citep{ralston2014}\\
+Pertussis (whooping cough) & 1.8 & 0.92 & 1 & 0.88 & 0.2 & 2.5 & 0.4 & -- & 0.12/-- & 1 & 1 & 38 & --\\
+\multicolumn{14}{@{}l}{\textit{Airway}}\\
+Croup (laryngotracheobronchitis) & 3.5 & 1 & 1 & 1 & 0.18 & 2 & 0.35 & -- & -- & 1 & 1 & 38 & \citep{wagner1977,hogg2004,bjornson2008}\\
+\multicolumn{14}{@{}l}{\textit{Circulation}}\\
+Congenital heart disease (L$\to$R shunt) & 1.2 & 0.72 & 1 & 0.92 & 0.22 & 2.5 & 0.4 & 0.12 & 0.15/-- & 1 & 1 & 38 & --\\
+\multicolumn{14}{@{}l}{\textit{Central hypoventilation}}\\
+CCHS (infant, PHOX2B) & 1 & 1 & 1 & 0.92 & 0.1 & 1.3 & 0.35 & -- & -- & 0.12 & 0.12 & 28 & \citep{weesemayer2010,trang2005}\\
+Leigh syndrome (infantile) & 1 & 1 & 1 & 0.72 & 0.12 & 1.3 & 0.35 & -- & -- & 0.2 & 0.22 & 30 & \citep{leigh1951}\\
+Periodic breathing (physiologic, ex-preterm) & 1 & 1 & 1.05 & 0.88 & 0.12 & 1.5 & 0.4 & -- & -- & 1.8 & 1.8 & 40 & \citep{khoo1982}\\
+\end{longtable}}
+
+{\scriptsize\setlength{\tabcolsep}{2.5pt}\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}cccccccccccc>{\raggedright\arraybackslash}p{0.13\linewidth}@{}}
+\caption{Term neonate (0--4 weeks) phenotypes as implemented. $m_R$, $m_{C_L}$, $m_{C_{cw}}$, $m_P$: multipliers of \cref{eq:par-mult}; $f_s$, $\kappa$: slow fraction and time-constant ratio; $V_{D,alv}$ in mL/kg; $s_h$, $l_f$, $l_q$: shunt, low-$\dot V/\dot Q$ fraction and ratio; $d_g$, $f_g$: gain multipliers of \cref{eq:ctl-gain}; $f_0$: basal rate (/min); --: not set, so the category baseline (\cref{tab:par-dev}) applies.}\label{tab:par-lib-neonate}\\
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endfirsthead
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endhead\bottomrule\endfoot
+Normal neonate & 1 & 1 & 1 & 1 & 0.1 & 1.5 & 0.4 & -- & -- & 1 & 1 & -- & --\\
+\multicolumn{14}{@{}l}{\textit{Respiratory disease}}\\
+RDS & 1.3 & 0.45 & 1.2 & 1.1 & 0.2 & 2.5 & 0.7 & -- & -- & 1 & 1 & -- & \citep{sweet2022}\\
+BPD (bronchopulmonary dysplasia) & 2.3 & 0.7 & 1.1 & 1.05 & 0.25 & 3.5 & 1 & -- & -- & 1 & 1 & -- & \citep{jobe2001,jobe2011}\\
+TTN (transient tachypnoea) & 1.25 & 0.7 & 1.05 & 1.1 & 0.15 & 2 & 0.5 & -- & -- & 1 & 1 & 60 & \citep{guglani2008}\\
+Neonatal pneumonia / GBS sepsis & 1.3 & 0.65 & 1 & 1 & 0.18 & 2.5 & 0.5 & 0.18 & 0.12/-- & 1 & 1 & 65 & \citep{torres2021,stoll2011}\\
+Meconium aspiration (MAS) & 2.8 & 0.6 & 1 & 1 & 0.22 & 3.5 & 0.8 & 0.28 & 0.22/-- & 1 & 1 & 65 & \citep{wiswell1990}\\
+\multicolumn{14}{@{}l}{\textit{Circulation}}\\
+Pulm. hypertension (PPHN) & 1 & 0.88 & 1 & 1 & 0.1 & 1.5 & 0.4 & 0.4 & -- & 1 & 1 & 55 & \citep{steinhorn2010}\\
+Congenital diaphragmatic hernia (CDH) & 1.6 & 0.45 & 1.1 & 0.9 & 0.18 & 2.5 & 0.9 & 0.32 & 0.22/-- & 1 & 1 & 55 & \citep{deprest2009}\\
+\multicolumn{14}{@{}l}{\textit{Airway}}\\
+Subglottic stenosis & 4 & 1 & 1 & 1 & 0.1 & 1.5 & 0.3 & -- & -- & 1 & 1 & 45 & \citep{grillo1995}\\
+\multicolumn{14}{@{}l}{\textit{Central hypoventilation}}\\
+CCHS --- PHOX2B (neonatal) & 1 & 1 & 1 & 0.92 & 0.1 & 1.5 & 0.4 & -- & -- & 0.12 & 0.12 & 28 & \citep{weesemayer2010,trang2005}\\
+Joubert syndrome (brainstem dysplasia) & 1 & 1 & 1 & 0.82 & 0.12 & 1.5 & 0.4 & -- & -- & 0.4 & 0.4 & 30 & \citep{joubert1969,maria1999,sarnat2004}\\
+Congenital brainstem malformation & 1 & 1 & 1 & 0.75 & 0.12 & 1.5 & 0.4 & -- & -- & 0.3 & 0.3 & 35 & \citep{sarnat2004}\\
+\end{longtable}}
+
+{\scriptsize\setlength{\tabcolsep}{2.5pt}\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.27\linewidth}cccccccccccc>{\raggedright\arraybackslash}p{0.13\linewidth}@{}}
+\caption{Preterm ($<37$ weeks) phenotypes as implemented. $m_R$, $m_{C_L}$, $m_{C_{cw}}$, $m_P$: multipliers of \cref{eq:par-mult}; $f_s$, $\kappa$: slow fraction and time-constant ratio; $V_{D,alv}$ in mL/kg; $s_h$, $l_f$, $l_q$: shunt, low-$\dot V/\dot Q$ fraction and ratio; $d_g$, $f_g$: gain multipliers of \cref{eq:ctl-gain}; $f_0$: basal rate (/min); --: not set, so the category baseline (\cref{tab:par-dev}) applies.}\label{tab:par-lib-preterm}\\
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endfirsthead
+\toprule Phenotype & $m_R$ & $m_{C_L}$ & $m_{C_{cw}}$ & $m_P$ & $f_s$ & $\kappa$ & $V_{D,alv}$ & $s_h$ & $l_f$/$l_q$ & $d_g$ & $f_g$ & $f_0$ & Sources\\\midrule\endhead\bottomrule\endfoot
+Normal preterm & 1 & 1 & 1 & 1 & 0.1 & 1.5 & 0.3 & -- & -- & 1 & 1 & -- & --\\
+\multicolumn{14}{@{}l}{\textit{Respiratory disease}}\\
+RDS & 1.35 & 0.4 & 1.25 & 1.15 & 0.2 & 2.5 & 0.7 & -- & -- & 1 & 1 & -- & \citep{sweet2022}\\
+Evolving BPD & 2 & 0.75 & 1.15 & 1.1 & 0.25 & 3.5 & 1 & -- & -- & 1 & 1 & -- & \citep{jobe2001,jobe2011}\\
+TTN (transient tachypnoea) & 1.3 & 0.65 & 1.1 & 1.1 & 0.15 & 2 & 0.6 & -- & -- & 1 & 1 & 65 & \citep{guglani2008}\\
+Meconium aspiration (MAS) & 2 & 0.55 & 1 & 1 & 0.2 & 3 & 0.8 & 0.3 & 0.2/-- & 1 & 1 & 65 & \citep{wiswell1990}\\
+Congenital diaphragmatic hernia (CDH) & 1.5 & 0.35 & 1.1 & 0.9 & 0.2 & 2.5 & 1 & 0.35 & 0.25/-- & 1 & 1 & 60 & \citep{deprest2009}\\
+\multicolumn{14}{@{}l}{\textit{Circulation}}\\
+Pulm. hypertension (PPHN) & 1 & 0.88 & 1 & 1 & 0.12 & 1.5 & 0.3 & 0.4 & -- & 1 & 1 & 60 & \citep{steinhorn2010}\\
+\multicolumn{14}{@{}l}{\textit{Drive}}\\
+Apnea of prematurity (AOP) & 1 & 1 & 1 & 0.85 & 0.1 & 1.5 & 0.3 & -- & -- & 1 & 1 & 40 & \citep{martin2011}\\
+\multicolumn{14}{@{}l}{\textit{Central hypoventilation}}\\
+CCHS / Ondine's curse (preterm) & 1 & 1 & 1.05 & 0.88 & 0.1 & 1.5 & 0.3 & -- & -- & 0.12 & 0.12 & 35 & \citep{weesemayer2010,trang2005}\\
+Cheyne-Stokes (immature CNS) & 1 & 1.05 & 1.05 & 0.9 & 0.15 & 1.5 & 0.4 & -- & -- & 2 & 2 & 38 & \citep{bradley2003,naughton1993}\\
+Leigh syndrome (neonatal-onset) & 1 & 1 & 1 & 0.7 & 0.12 & 1.5 & 0.3 & -- & -- & 0.22 & 0.22 & 35 & \citep{leigh1951}\\
+\end{longtable}}

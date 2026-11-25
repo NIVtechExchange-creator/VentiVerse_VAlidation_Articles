@@ -1,0 +1,162 @@
+\chapter{Numerical Methods: Euler Integration and Exact Updates}
+\label{ch:ch03}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Write the model's fast and slow state equations as ordinary differential equations.
+  \item Apply the explicit Euler method to the equation of motion and state its stability limit.
+  \item Derive the exact one-step update used for the slow chemical states.
+  \item Choose a step size from the shortest time constant in the model.
+\end{itemize}
+\end{objectives}
+
+\section{Two kinds of state}
+\label{sec:num-states}
+The model has two kinds of state variable. \emph{Fast states} change appreciably within a single breath: the volume of each lung compartment, the airway pressure delivered by the ventilator, and the muscle pressure. \emph{Slow states} change appreciably only over several breaths: the arterial partial pressure of carbon dioxide (PaCO\textsubscript{2}), the carbon dioxide stored in the tissues, the chemoreceptor signals, and the plasma bicarbonate concentration. The fast states are integrated with a fixed step $\Delta t = \SI{2}{\milli\second}$ through the breath. The slow states are advanced once at the end of each breath using the average ventilation of that breath, by the exact solution of a first-order equation. This split follows directly from the time scales in \cref{tab:overview-timescales}.
+
+\section{The fast state equations}
+\label{sec:num-fast}
+For each of the two parallel lung compartments $i = 1, 2$, the equation of motion~\citep{otis1956,bates2009} states that the pressure applied across the compartment is used to overcome its resistance and its elastic recoil:
+\begin{keyequation}
+\begin{equation}
+R_i\,\frac{\dd V_i}{\dd t} \;=\; \bigl(\Paw(t) - \PEEP\bigr) \;-\; P_m(t) \;-\; \frac{s(V)\,V_i}{C_i},
+\qquad i = 1,2.
+\label{eq:num-eom}
+\end{equation}
+\end{keyequation}
+Here $V_i$ is the volume of compartment $i$ above its end-expiratory volume (\si{\liter}); $\dd V_i/\dd t$ is the flow into it (\si{\liter\per\second}); $R_i$ is its airway resistance (\si{\cmH\per\liter\second}); $C_i$ is its compliance (\si{\liter\per\cmH}); $\Paw$ is the pressure at the airway opening; $\PEEP$ is the set end-expiratory pressure; $P_m$ is the muscle pressure, which the model takes as negative while the inspiratory muscles contract, in the same direction as the fall in pleural pressure they produce; and $s(V)\ge 1$ is a stiffening factor that rises as total volume $V = V_1+V_2$ approaches total lung capacity (\cref{ch:ch06}). With a ventilator absent, $\Paw = \PEEP$ and $P_m$ alone drives the flow.
+
+In pressure-targeted modes the ventilator does not apply its set pressure instantly. The delivered airway pressure follows the commanded pressure $P_{\mathrm{cmd}}$ with a first-order lag,
+\begin{equation}
+\tau_{\mathrm{p}}\,\frac{\dd \Paw}{\dd t} \;=\; P_{\mathrm{cmd}}(t) - \Paw(t),
+\qquad
+\tau_{\mathrm{p}} = \begin{cases} \tau_{\mathrm{rise}}, & P_{\mathrm{cmd}} \ge \Paw,\\ \tau_{\mathrm{fall}}, & P_{\mathrm{cmd}} < \Paw,\end{cases}
+\label{eq:num-paw}
+\end{equation}
+where $\tau_{\mathrm{rise}}$ is set from the ventilator's rise-time setting and $\tau_{\mathrm{fall}}$ represents the release of pressure at cycling. \Cref{ch:ch13} describes how $P_{\mathrm{cmd}}$ is set in each mode.
+
+\section{Explicit Euler integration}
+\label{sec:num-euler}
+The explicit (forward) Euler method replaces the derivative by the change over one step, evaluated with the state at the start of the step~\citep{butcher2016,hairer1993}. For a state $x$ obeying $\dd x/\dd t = f(x,t)$,
+\begin{equation}
+x^{n+1} \;=\; x^{n} + \Delta t\, f\bigl(x^{n}, t^{n}\bigr),
+\label{eq:num-euler}
+\end{equation}
+where $x^n$ is the value at time $t^n = n\,\Delta t$. Applied to \cref{eq:num-eom,eq:num-paw}, each \SI{2}{\milli\second} step computes the two compartment flows from the current pressures and volumes, then advances
+\begin{equation}
+V_i^{n+1} = V_i^{n} + \Delta t\,\dot V_i^{\,n},
+\qquad
+\Paw^{n+1} = \Paw^{n} + \frac{\Delta t}{\tau_{\mathrm{p}}}\bigl(P_{\mathrm{cmd}}^{n} - \Paw^{n}\bigr).
+\label{eq:num-euler-eom}
+\end{equation}
+The method needs one evaluation of the right-hand side per step, has no iteration, and lets every nonlinearity (flow limitation, upper-airway collapse, tube resistance, leak) be evaluated directly at the current state. These properties make it fast and simple to extend, which is why it is used here.
+
+\subsection{Accuracy and stability}
+\label{sec:num-stability}
+The price of that simplicity is a step-size limit. For passive expiration from a single compartment, \cref{eq:num-eom} reduces to $\dd V/\dd t = -V/\tau$ with time constant $\tau = RC$, whose exact solution over one step multiplies $V$ by $e^{-\Delta t/\tau}$. Euler's method multiplies it instead by $1 - \Delta t/\tau$. The two agree when $\Delta t \ll \tau$, the numerical solution oscillates when $\Delta t > \tau$, and it grows without bound when $\Delta t > 2\tau$:
+\begin{equation}
+\bigl|1 - \Delta t/\tau\bigr| < 1 \quad\Longleftrightarrow\quad \Delta t < 2\tau.
+\label{eq:num-stab}
+\end{equation}
+The local error of each step is of order $(\Delta t/\tau)^2$ and the accumulated error over a fixed time is of order $\Delta t/\tau$; Euler is a first-order method~\citep{butcher2016}. \Cref{fig:num-euler} shows the effect for $\tau = \SI{0.3}{\second}$, a typical expiratory time constant in COPD, and \cref{tab:num-err} gives the error after one time constant for the range of time constants in the model.
+
+\begin{figure}[ht]
+\centering
+\input{figures/gen/ch03_euler.tex}
+\caption{Passive exhalation of a single compartment with $\tau = RC = \SI{0.3}{\second}$: the exact solution of \cref{eq:num-eom} compared with explicit Euler at three step sizes. At the model's step of \SI{2}{\milli\second} the two curves cannot be told apart; at \SI{0.1}{\second} the error is visible, and at \SI{0.25}{\second} the compartment empties far too fast after the first step. Beyond $\Delta t = \tau$ the solution would oscillate about zero, and beyond the stability limit $2\tau = \SI{0.6}{\second}$ it would grow without bound. All curves are computed directly from the equations.}
+\label{fig:num-euler}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\caption{Relative error of explicit Euler after one time constant, $\bigl[(1-\Delta t/\tau)^{\tau/\Delta t} - e^{-1}\bigr]/e^{-1}$, in percent. Negative values mean Euler empties the compartment slightly too fast.}
+\label{tab:num-err}
+\small
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$\tau$ (s) & $\Delta t = \SI{2}{\milli\second}$ & $\Delta t = \SI{10}{\milli\second}$ & $\Delta t = \SI{50}{\milli\second}$ \\
+\midrule
+0.05 & $-$2.03 & $-$10.93 & $-$100.00 \\
+0.1 & $-$1.01 & $-$5.22 & $-$32.04 \\
+0.3 & $-$0.33 & $-$1.69 & $-$8.97 \\
+1 & $-$0.10 & $-$0.50 & $-$2.55 \\
+3 & $-$0.03 & $-$0.17 & $-$0.84 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The shortest time constants in the model belong to the fast compartment of a stiff, low-resistance lung and to the ventilator's pressure rise at its shortest settings, both near \SIrange{0.04}{0.05}{\second}. At \SI{2}{\milli\second} the error after one such time constant is about 2\%, and for the time constants typical of adult lungs (\SIrange{0.3}{1}{\second}) it is 0.1--0.3\%. A step of \SI{10}{\milli\second} would keep the model stable but would bias expiratory flow by up to 11\% in the stiffest cases, which is why the model uses \SI{2}{\milli\second}. \Cref{ch:ch05} checks this choice against simulations at \SI{1}{\milli\second}.
+
+\section{Exact updates for the slow states}
+\label{sec:num-exact}
+Most slow states obey an equation of the same form: the state $x$ relaxes toward a target $x_\infty$ with time constant $\tau$,
+\begin{equation}
+\tau\,\frac{\dd x}{\dd t} = x_\infty - x .
+\label{eq:num-first}
+\end{equation}
+If $x_\infty$ and $\tau$ are held constant over a breath of duration $T$ (a zero-order hold~\citep{franklin1998}), the equation can be solved exactly over the breath:
+\begin{keyequation}
+\begin{equation}
+x(t+T) \;=\; x_\infty + \bigl(x(t) - x_\infty\bigr)\,e^{-T/\tau}.
+\label{eq:num-exact}
+\end{equation}
+\end{keyequation}
+Unlike Euler, this update is stable and exact for any breath duration, including the long pauses of an apnea, because it is the true solution of \cref{eq:num-first} rather than an approximation to it. The model uses it for the following slow states.
+
+\paragraph{Arterial carbon dioxide.} The lung store of carbon dioxide gains CO\textsubscript{2} from metabolism and loses it in alveolar ventilation. Written for PaCO\textsubscript{2} (\si{\mmHg}), the mass balance is
+\begin{equation}
+\tau_{s}\,V_{\mathrm{ref}}\,\frac{\dd \mathrm{PaCO_2}}{\dd t} \;=\; 0.863\,\dot V_{\mathrm{CO_2}} + P_{I\mathrm{CO_2}}\,\dot V_A - \dot V_A\,\mathrm{PaCO_2},
+\label{eq:num-co2}
+\end{equation}
+where $\dot V_{\mathrm{CO_2}}$ is the carbon dioxide delivered to the lung (\si{\milli\liter\per\minute}, STPD); $\dot V_A$ is the alveolar ventilation over the breath (\si{\liter\per\minute}, BTPS); $0.863$ converts these units so that $0.863\,\dot V_{\mathrm{CO_2}}/\dot V_A$ is the steady-state PaCO\textsubscript{2} of the alveolar ventilation equation~\citep{west2012}; $P_{I\mathrm{CO_2}}$ is the inspired carbon dioxide pressure; $\tau_s$ is the lung store time constant (default \SI{30}{\second}, scaled by lung volume); and $V_{\mathrm{ref}} = 0.863\,\dot V_{\mathrm{CO_2}}/40$ is the alveolar ventilation that would hold PaCO\textsubscript{2} at \SI{40}{\mmHg}. \Cref{eq:num-co2} has the form of \cref{eq:num-first} with
+\begin{equation}
+x_\infty = \frac{0.863\,\dot V_{\mathrm{CO_2}}}{\dot V_A} + P_{I\mathrm{CO_2}},
+\qquad
+\frac{T}{\tau} = k = \frac{T\,\dot V_A}{\tau_s\,V_{\mathrm{ref}}},
+\label{eq:num-co2-k}
+\end{equation}
+so its exact update is $\mathrm{PaCO_2}(t+T) = x_\infty + \bigl(\mathrm{PaCO_2}(t)-x_\infty\bigr)e^{-k}$. When $\dot V_A$ approaches zero, $k \to 0$ and the model uses the limit of the same balance, $\mathrm{PaCO_2}(t+T) = \mathrm{PaCO_2}(t) + T\,\bigl(0.863\,\dot V_{\mathrm{CO_2}}\bigr)/(\tau_s V_{\mathrm{ref}})$, which is the linear rise of PaCO\textsubscript{2} in apnea. \Cref{ch:ch10} describes the tissue store that exchanges carbon dioxide with the lung store, and the limit on the apneic rise rate.
+
+\begin{clinicalpearl}
+Writing the PaCO\textsubscript{2} update as a mass balance, rather than as a relaxation toward $0.863\,\dot V_{\mathrm{CO_2}}/\dot V_A$ at a fixed rate, matters when breathing is irregular. A shallow breath then lowers the elimination term $\dot V_A\,\mathrm{PaCO_2}$ in proportion to its ventilation instead of raising the target sharply, and the average PaCO\textsubscript{2} over many irregular breaths settles where carbon dioxide output equals production.
+\end{clinicalpearl}
+
+\paragraph{Chemoreceptor signals.} Each chemoreceptor signal follows the arterial PaCO\textsubscript{2} after a circulatory delay $D$, with a first-order lag of time constant $\tau_c$:
+\begin{equation}
+\tau_c\,\frac{\dd P_{\mathrm{sens}}}{\dd t} = \mathrm{PaCO_2}(t-D) - P_{\mathrm{sens}}(t),
+\label{eq:num-chem}
+\end{equation}
+updated once per breath by \cref{eq:num-exact} with $x_\infty = \mathrm{PaCO_2}(t-D)$, read from a stored history of PaCO\textsubscript{2} by linear interpolation. The peripheral receptors use $D = \SI{6}{\second}$, $\tau_c = \SI{8}{\second}$ and the central receptors $D = \SI{10}{\second}$, $\tau_c = \SI{120}{\second}$ (\cref{ch:ch08}).
+
+\paragraph{Renal bicarbonate.} Plasma bicarbonate relaxes toward the value that would restore pH 7.40 at the current PaCO\textsubscript{2} with time constant $\tau_r \approx \SI{48}{\hour}$, also by \cref{eq:num-exact} (\cref{ch:ch08}).
+
+\section{Coupling the two regimes}
+\label{sec:num-coupling}
+\Cref{fig:num-loop} shows one cycle of the simulation. At the start of a breath the controller uses the sensed chemical state to set the drive, timing and muscle pressure waveform for that breath. The Euler loop then integrates the mechanics through the breath in \SI{2}{\milli\second} steps, while the ventilator logic triggers and cycles on the computed flow and pressure. At the end of the breath, the alveolar ventilation of that breath is passed to gas exchange and the exact updates advance the slow states by the breath duration $T$. Because the slow states are constant within a breath, the coupling error is bounded by how much they would have changed during one breath, which is small for every slow time constant in \cref{tab:overview-timescales}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  blk/.style={draw=bkblue,fill=bkblue!6,rounded corners=2pt,minimum width=3.6cm,minimum height=0.9cm,align=center,font=\sffamily\small},
+  fast/.style={draw=bkorange,fill=bkorange!8,rounded corners=2pt,minimum width=3.6cm,minimum height=0.9cm,align=center,font=\sffamily\small},
+  sig/.style={-{Latex[length=2mm]},thick,bkgray},
+  lab/.style={font=\scriptsize,text=black!70,align=center}]
+\node[blk] (a) at (0,0) {Breath setup\\drive, $T_i$, $T$, $P_m(t)$};
+\node[fast] (b) at (5.2,0) {Euler loop, $\Delta t=\SI{2}{\milli\second}$\\$V_1, V_2, \Paw$};
+\node[fast] (c) at (10.4,0) {Ventilator logic\\trigger, cycle, target};
+\node[blk] (d) at (5.2,-2.4) {End of breath\\$\dot V_A$, $V_D$, gas exchange};
+\node[blk] (e) at (0,-2.4) {Exact updates over $T$\\PaCO$_2$, stores, sensors, HCO$_3^-$};
+\draw[sig] (a) -- (b);
+\draw[sig] ([yshift=2mm]b.east) -- ([yshift=2mm]c.west);
+\draw[sig] ([yshift=-2mm]c.west) -- node[below,lab]{$\Paw$ command} ([yshift=-2mm]b.east);
+\draw[sig] (b) -- (d);
+\draw[sig] (d) -- (e);
+\draw[sig] (e) -- node[left,lab]{next\\breath} (a);
+\end{tikzpicture}
+\caption{One simulation cycle. Orange blocks run every \SI{2}{\milli\second} within the breath; blue blocks run once per breath.}
+\label{fig:num-loop}
+\end{figure}
+
+\begin{summarybox}
+Fast mechanical states are integrated by explicit Euler at \SI{2}{\milli\second}, well inside the stability limit $\Delta t < 2\tau$ and with under 2\% error even for the shortest time constants. Slow chemical states are advanced once per breath by the exact solution of their first-order equations, which is stable for any breath length, including apnea.
+\end{summarybox}

@@ -1,0 +1,125 @@
+\chapter{Sleep}
+\label{ch:ch11}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Describe the stage engine that generates a night of sleep in 30-second epochs.
+  \item List the physiological changes applied in each stage and their sources.
+  \item Explain how arousals are triggered and how REM periods are timed.
+  \item Describe the upper-airway collapse model used for overlap syndrome.
+\end{itemize}
+\end{objectives}
+
+\section{Why sleep is modeled}
+\label{sec:sl-why}
+Most noninvasive ventilation is delivered during sleep, and most hypoventilation first appears there. Sleep lowers chemosensitivity, raises upper-airway resistance and, in REM, removes most of the rib-cage and accessory muscle activity that weak or hyperinflated patients depend on~\citep{douglas1982,white2005}. A model calibrated only to awake patients would therefore miss the nights the therapy is meant to treat.
+
+\section{The stage engine}
+\label{sec:sl-engine}
+Sleep is represented by five states: wake (W), N1, N2, N3 and REM. After a 90-second onset period the stage is advanced every 30-second epoch, the standard scoring epoch~\citep{berry2012}, by drawing from a Markov transition matrix
+\begin{equation}
+\Pr\bigl(s_{k+1} = j \mid s_k = i\bigr) = P_{ij},
+\label{eq:sl-markov}
+\end{equation}
+where $s_k$ is the stage in epoch $k$. Three matrices (age under 40, 40--59 and 60 years or more) differ in how often N2 moves to N3 or to REM, so that slow-wave sleep falls and REM is reached more often with age, as in the meta-analysis of Ohayon and colleagues~\citep{ohayon2004}. Each row is then modified to impose the ultradian cycle:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Cycle.} The night is divided into \SI{90}{\minute} cycles. REM can be entered from N1 or N2 only in the last 20\% of a cycle and not in the first hour of sleep; at that point 25\% of the N2 row is moved to REM.
+  \item \textbf{REM period length.} At REM onset, the length of the period is drawn from a gamma distribution with shape 2.7 and an age-dependent mean (23.9, 21.9 and 19.1 minutes for the three age groups), truncated at 60 minutes. The distribution was fitted to 603 REM periods from 153 healthy nights in the Sleep-EDF database~\citep{kemp2000}.
+  \item \textbf{One period per cycle.} Once a period's time has elapsed, sleep returns to N2 and REM cannot start again until the next cycle. Time spent in brief arousals inside a REM period counts toward its length.
+\end{itemize}
+
+\section{Stage-dependent physiology}
+\label{sec:sl-phys}
+Each stage applies the multipliers of \cref{tab:sl-phys} to the subsystems of the previous chapters, every breath.
+
+\begin{table}[ht]
+\centering
+\caption{Sleep-stage multipliers as implemented. CO\textsubscript{2} shift is added to the setpoint $P_{\mathrm{set}}$ of \cref{ch:ch08}; arousal margin is the rise of PaCO\textsubscript{2} above the shifted setpoint that causes arousal. Sources: chemosensitivity~\citep{douglas1982,berthonjones1984}, upper-airway resistance and muscle tone~\citep{horner1996,white2005}, model of sleep effects on control~\citep{khoo1982}.}
+\label{tab:sl-phys}
+\small
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+Stage & CO\textsubscript{2} shift & Gain & Upper-airway $R$ & Muscle & $\dot V_{\mathrm{O_2}}$ & Basal rate & Arousal margin \\
+ & (mmHg) & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ & (mmHg) \\
+\midrule
+W   & 0   & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & -- \\
+N1  & 0.8 & 0.88 & 1.30 & 0.92 & 0.90 & 0.92 & 8 \\
+N2  & 1.5 & 0.78 & 1.55 & 0.85 & 0.90 & 0.88 & 14 \\
+N3  & 2.0 & 0.68 & 1.80 & 0.78 & 0.90 & 0.83 & 20 \\
+REM & 2.5 & 0.55 & 2.20 & 0.65 & 0.90 & 0.94 & 22 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In REM, the basal neural rate also varies by up to $\pm 28\%$ from breath to breath, representing the irregular breathing of phasic REM. The REM muscle reduction represents loss of intercostal and accessory activity; when the phenotype has bulbar-onset weakness the diaphragm is relatively spared, and only half the reduction is applied.
+
+\paragraph{REM hypopneas in muscle weakness.} In Duchenne muscular dystrophy, hypopneas and apneas occupy about 38\% of REM in patients who desaturate, last about \SI{23}{\second} and lower saturation from 95 to 74\%~\citep{smith1988}. The model reproduces this with episodes of mean length \SI{30}{\second} placed at random through REM, in which the muscle multiplier falls to
+\begin{equation}
+m_{\mathrm{hyp}} = \max\bigl(0.15,\;1 - 1.2\,w\bigr),\qquad
+w = 1 - \min\!\left(1,\frac{\mathrm{MIP}}{\mathrm{MIP_{pred}}}\right),
+\label{eq:sl-remhyp}
+\end{equation}
+where $w$ is the fractional weakness. The share of REM spent in these episodes rises with weakness, $\min(0.45,\;0.38\,w/0.7)$, so it is negligible in patients with normal strength.
+
+\section{Arousals}
+\label{sec:sl-arousal}
+Arousal is checked every breath. The patient wakes when
+\begin{equation}
+\mathrm{PaCO_2} > \max\bigl(P_{\mathrm{set}} + 1.5\,([\mathrm{HCO_3^-}] - 24),\;\overline{\mathrm{PaCO_2}}_{\mathrm{awake}}\bigr) + \Delta_s + A_s
+\quad\text{or}\quad \mathrm{SaO_2} < 70\%,
+\label{eq:sl-arousal}
+\end{equation}
+where $\Delta_s$ and $A_s$ are the CO\textsubscript{2} shift and arousal margin of the current stage and $\overline{\mathrm{PaCO_2}}_{\mathrm{awake}}$ is a running mean of the patient's own awake PaCO\textsubscript{2}. Using the patient's awake value prevents a chronically hypercapnic patient from waking all night simply because their PaCO\textsubscript{2} is above a normal setpoint. The margins increase from N1 to N3, consistent with the higher CO\textsubscript{2} arousal thresholds of deeper sleep~\citep{berthonjones1984}. Two other events also cause arousal: a breathing pause reaching \SI{20}{\second}, and upper-airway obstruction lasting \SI{20}{\second} (\cref{sec:sl-ua}).
+
+An arousal sets the stage to W and keeps it there for \SI{8}{\second} after the last stimulus. Arousals out of NREM return to N1; arousals out of REM return to REM while the period has time left. A brief arousal therefore appears on the hypnogram as a short tick above the current stage, and only an arousal that outlasts an epoch is scored as a wake epoch.
+
+\section{Upper-airway collapse}
+\label{sec:sl-ua}
+For overlap syndrome and obstructive sleep apnea, the upper airway is modeled as a Starling resistor (\cref{sec:mech-ua}): during sleep, inspiratory flow cannot exceed $(P_{\mathrm{nose}} - P_{\mathrm{crit}})/R_{us}$~\citep{gleadhill1991}. The critical pressure varies from epoch to epoch,
+\begin{equation}
+P_{\mathrm{crit},k} = P_{\mathrm{crit}} + \delta_s + \sigma\,z_k,
+\label{eq:sl-pcrit}
+\end{equation}
+with stage offset $\delta_s = \SI{-2}{\cmH}$ in N3 and $+1.5$ in REM (zero otherwise), spread $\sigma = \SI{2}{\cmH}$, and $z_k$ an approximately normal deviate bounded at $\pm3$. The phenotype value of $P_{\mathrm{crit}}$ is fitted to the published apnea--hypopnea index (\cref{ch:ch12}). While the airway is obstructed, PaCO\textsubscript{2} may rise by at most \SI{10}{\mmHg} in the first minute and \SI{3.5}{\mmHg\per\minute} after that~\citep{stock1988}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.3cm,grid=major,grid style={gray!20},legend style={font=\tiny,draw=none,fill=none}]
+\nextgroupplot[ybar,bar width=3pt,symbolic x coords={W,N1,N2,N3,REM},xtick=data,ylabel={Multiplier},ymin=0,ymax=2.4,legend pos=north west,enlarge x limits=0.15]
+\addplot[fill=bkblue,draw=none] coordinates {(W,1) (N1,0.88) (N2,0.78) (N3,0.68) (REM,0.55)};\addlegendentry{chemoreflex gain}
+\addplot[fill=bkorange,draw=none] coordinates {(W,1) (N1,0.92) (N2,0.85) (N3,0.78) (REM,0.65)};\addlegendentry{muscle}
+\addplot[fill=bkteal,draw=none] coordinates {(W,1) (N1,1.30) (N2,1.55) (N3,1.80) (REM,2.20)};\addlegendentry{upper-airway $R$}
+\nextgroupplot[xlabel={REM period length (min)},ylabel={Probability density (/min)},xmin=0,xmax=60,ymin=0,ymax=0.045]
+\addplot[bkblue,thick,domain=0.2:60,samples=120]{x^(1.7)*exp(-x/8.111)/(1.5446*8.111^2.7)};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Left: stage multipliers from \cref{tab:sl-phys}. Right: gamma distribution of REM period length (shape 2.7, mean \SI{21.9}{\minute}, the 40--59-year value) used at each REM onset, before truncation at \SI{60}{\minute}.}
+\label{fig:sl-curves}
+\end{figure}
+
+\section{Scoring the simulated night}
+\label{sec:sl-score}
+The blind-run export records the stage of every epoch and each event. Hypnograms in the disease chapters are drawn in the standard orientation, with wake at the top and REM marked by a bar. Total sleep time, the share of each stage, arousals per hour, the apnea--hypopnea index and the time below 90\% saturation are computed from the export with the definitions of the AASM manual~\citep{berry2012}. Because the stage engine is random, single nights differ: in the overlap examples the apnea--hypopnea index varies by about $\pm 8$ events per hour between nights with the same parameters, so published comparisons use the mean of repeat nights.
+
+\section{Repositioning during sleep}
+\label{sec:sl-pos}
+People sleeping at home do not stay in one position. Free-living accelerometry in 664 working adults found 1.6 position shifts per hour, a mean interval of \SI{37}{\minute}, and 37.5\% of time in bed supine, 54.1\% lateral and 7.3\% prone~\citep{skarpsno2017}. When the home-sleeper option is on (the default for a sleeping patient on NIV), the model reproduces this behavior.
+
+\paragraph{Interval between shifts.} Each interval is drawn from a gamma distribution with mean $\mu=\SI{37}{\minute}$ and coefficient of variation $\mathrm{CV}=0.5$, so the shape is $k=1/\mathrm{CV}^2$ and the scale $\mu/k$, with a minimum of \SI{1}{\minute}. A CV of 1 gives exponential (Poisson) timing, and smaller values give more regular turning. The first shift is drawn after sleep onset, starting from the selected position, which is restored on waking.
+
+\paragraph{Next position.} A shift always moves to a different position. If the new position were drawn from the target shares $p_i$ with the current position excluded, the uncommon positions would be overrepresented. Instead the transition probability from $i$ to $j$ is
+\begin{equation}
+P(i\to j)=\frac{q_j}{1-q_i},\qquad q_i(1-q_i)=c\,p_i,\qquad \sum_i q_i=1,
+\label{eq:sl-pos}
+\end{equation}
+where $q_i$ are auxiliary weights and $c$ is found by bisection. With the same interval distribution in every position, the stationary time share of this Markov chain is proportional to $q_i(1-q_i)$, which equals the target $p_i$. The default targets are supine 37.5\%, right and left lateral 27.05\% each, and prone 7.3\%, normalized to 100\%. In a check of 200\,000 simulated shifts the mean interval was \SI{37.1}{\minute} (1.62 shifts per hour), and the time shares were 37.9\%, 27.4\%, 27.5\% and 7.3\%.
+
+\paragraph{Effects.} A change of position applies the posture effects on chest-wall compliance, lung compliance and the slow-compartment fraction, and the esophageal baseline of \cref{sec:mech-pes}, at the next breath without resetting the simulation. Position is recorded every breath. Mean interval, CV and the four shares can be changed for a patient, for example fewer shifts in obesity and in women, as \citet{skarpsno2017} reported, or a supine-predominant mask wearer.
+
+\section{Limitations}
+The multipliers of \cref{tab:sl-phys} are applied as a step change at each stage transition, and several of them (metabolic suppression, basal rate, REM variability) are model assumptions drawn from ranges rather than fitted values. The model has no circadian process and no homeostatic sleep pressure; sleep architecture comes only from the transition matrices and the ultradian cycle.
+
+\begin{summarybox}
+A Markov engine with an imposed 90-minute cycle and gamma-distributed REM periods generates the night. Each stage scales the setpoint, chemoreflex gain, muscle output, upper-airway resistance, metabolism and basal rate. Arousals follow hypercapnia relative to the patient's own awake PaCO\textsubscript{2}, severe hypoxemia, pauses and obstruction, and the epoch-varying Pcrit generates obstructive events in overlap phenotypes.
+\end{summarybox}

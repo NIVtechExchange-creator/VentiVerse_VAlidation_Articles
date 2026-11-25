@@ -1,0 +1,106 @@
+\chapter{VentiVerse Model Parameters}
+\label{app:appB}
+
+This appendix collects the parameter tables of the model chapters. Classes: M, measured; R, cited range; F, fitted; A, assumption (\cref{sec:par-class}). Disease-specific values are given in \cref{tab:par-obst} and in the disease chapters.
+
+\section*{Respiratory Mechanics (\cref{ch:ch06})}
+\addcontentsline{toc}{section}{Respiratory Mechanics}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth} >{\raggedright\arraybackslash}p{0.43\linewidth} >{\raggedright\arraybackslash}p{0.26\linewidth} c@{}}
+\toprule
+Symbol & Meaning & Normal adult & Class \\
+\midrule\endhead
+\bottomrule\endfoot
+$R$ & Total airway resistance & \SI{5}{\cmH\per\liter\second} & M/R \\
+$C_L$, $C_{cw}$ & Lung and chest-wall compliance & set per phenotype & M/R \\
+$f_s$ & Slow-compartment fraction of compliance & 0.35 (supine) & R \\
+$\kappa$ & Time-constant ratio $\tau_2/\tau_1$ & 1.5 (obstructive up to 7) & R/F \\
+$IC$ & Inspiratory capacity, onset of stiffening & measured when given & M \\
+$G_{\mathrm{EFL}}$, $P_{\mathrm{stent}}$ & Flow-limitation severity, stenting pressure & 0 (COPD/EFL: 5, \SI{8}{\cmH}) & F \\
+$P_{\mathrm{crit}}$, $R_{us}$ & Pharyngeal critical pressure, upstream resistance & sleep only; $R_{us}$ \SI{12}{\cmH\per\liter\second} & F/A \\
+$\tau_{\mathrm{rise}}$, $\tau_{\mathrm{fall}}$ & Pressurization and release time constants & \SIrange{0.05}{0.6}{\second}, \SI{0.15}{\second} & A \\
+\end{longtable}}
+
+\section*{Respiratory Muscles (\cref{ch:ch07})}
+\addcontentsline{toc}{section}{Respiratory Muscles}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth} >{\raggedright\arraybackslash}p{0.43\linewidth} >{\raggedright\arraybackslash}p{0.26\linewidth} c@{}}
+\toprule
+Symbol & Meaning & Value & Class \\
+\midrule\endhead
+\bottomrule\endfoot
+MIP, MEP & Maximal inspiratory and expiratory pressure & measured, or \% predicted~\citep{evans2009} & M \\
+$x_f$ & FRC as a fraction of vital capacity & 1/3 & R \\
+$a$ & Length--tension slope & 0.70 & R~\citep{braun1982} \\
+$h$ & Hill curvature constant & 0.25 & R~\citep{hill1938} \\
+$\dot V_{\max}$ & Maximal shortening flow & $8\,VC_0/4.8$ \si{\liter\per\second} & A \\
+$TT_{\mathrm{crit}}$ & Critical tension--time index & 0.15 & R~\citep{bellemare1982} \\
+$t_{\lim}$ & Endurance time & $0.1\,TT^{-3.6}$ min & R~\citep{bellemare1982} \\
+$\tau_{\mathrm{rec}}$, $F_{\max}$ & Fatigue recovery, maximal fatigue & \SI{12}{\hour}, 0.6 & A \\
+$\eta$ & Muscle efficiency & 5\% & R \\
+\end{longtable}}
+
+\section*{Control of Breathing (\cref{ch:ch08})}
+\addcontentsline{toc}{section}{Control of Breathing}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth} >{\raggedright\arraybackslash}p{0.43\linewidth} >{\raggedright\arraybackslash}p{0.26\linewidth} c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule\endhead
+\bottomrule\endfoot
+$A_0$ & Wakefulness drive & \SI{5}{\cmH} & F \\
+$G$ & Neural CO\textsubscript{2} gain & \SI{0.25}{\cmH\per\mmHg} & R/F \\
+$P_{\mathrm{set}}$ & CO\textsubscript{2} setpoint at bicarbonate 24 & \SI{40}{\mmHg} & R \\
+$f_0$, $k_f$ & Basal rate, CO\textsubscript{2} frequency gain & 12/min, 0.18/min per mmHg & R/F \\
+$S_{\mathrm{thr}}$, $K_{\mathrm{hyp}}$, $k_{f,\mathrm{hyp}}$ & Hypoxic threshold and gains & 97\%, \SI{0.30}{\cmH}/\%, 0.4/min/\% & R/F~\citep{duffin2000} \\
+$K_{\mathrm{pH}}$ & Acidosis gain & \SI{0.25}{\cmH} per 0.01 pH & F \\
+$f_p$; $T_p$, $\tau_p$; $T_c$, $\tau_c$ & Peripheral share; delays and lags & 0.25; 6, 8 s; 10, 120 s & R~\citep{smith2006} \\
+-- & Apneic threshold below setpoint & \SI{3}{\mmHg} & R~\citep{skatrud1983} \\
+-- & Narcosis onset above setpoint & \SI{20}{\mmHg} & A \\
+$L_0$, $L_1$ & Load range for blunting and rapid shallow breathing & 0.25, 0.85 & A \\
+\end{longtable}}
+
+\section*{Gas Exchange and Circulation (\cref{ch:ch09})}
+\addcontentsline{toc}{section}{Gas Exchange and Circulation}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth} >{\raggedright\arraybackslash}p{0.43\linewidth} >{\raggedright\arraybackslash}p{0.26\linewidth} c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule\endhead
+\bottomrule\endfoot
+$s_h$ & True shunt fraction & 0.02 & M/F \\
+$l_f$, $l_q$ & Low-$\dot V/\dot Q$ perfusion fraction and ratio & 0.03, 0.60 & F \\
+$D_{L\mathrm{O_2}}$, $V_c$ & Oxygen diffusing capacity, capillary volume & 30 mL/min/mmHg, 75 mL & R~\citep{roughton1957} \\
+$g$ & HPV strength & 1 & R~\citep{marshall1980} \\
+$\dot Q_0$ & Resting cardiac output & \SI{5}{\liter\per\minute} & R \\
+$\dot V_{\mathrm{O_2}}$, $R$ & Oxygen consumption, exchange ratio & 250 mL/min, 0.8 & M/R \\
+Hb & Hemoglobin & \SI{14}{\gram\per\deci\liter} & M \\
+\end{longtable}}
+
+\section*{Carbon Dioxide Stores, Dead Space and Capnography (\cref{ch:ch10})}
+\addcontentsline{toc}{section}{Carbon Dioxide Stores, Dead Space and Capnography}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth} >{\raggedright\arraybackslash}p{0.43\linewidth} >{\raggedright\arraybackslash}p{0.26\linewidth} c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule\endhead
+\bottomrule\endfoot
+$\tau_{\mathrm{CO_2}}$ & Lung store time constant at predicted FRC & \SI{30}{\second} & R \\
+$C_t$, $\tau_t$ & Tissue store capacity and time constant & 3.5 mL/mmHg/kg, 20 min & R/A~\citep{farhi1955} \\
+-- & Maximal apneic PaCO\textsubscript{2} rise & 10 mmHg (1st min), then 3.5 mmHg/min & R~\citep{stock1988} \\
+$V_{D,\mathrm{anat}}$ & Anatomic dead space & \SI{150}{\milli\liter} & R \\
+$V_{D,\mathrm{mask}}$ & Interface dead space at $V_T = \SI{750}{\milli\liter}$ & 50--200 mL & R~\citep{fodil2011} \\
+$V_{D,\mathrm{alv}}$ & Alveolar dead space & 0 (phenotype) & F \\
+\end{longtable}}
+
+\section*{Ventilation Modes and Pressure Control (\cref{ch:ch13})}
+\addcontentsline{toc}{section}{Ventilation Modes and Pressure Control}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth} >{\raggedright\arraybackslash}p{0.43\linewidth} >{\raggedright\arraybackslash}p{0.26\linewidth} c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule\endhead
+\bottomrule\endfoot
+$\tau_{\mathrm{rise}}$ & Pressurization time constant & 0.05--\SI{0.6}{\second} (setting) & R~\citep{prinianakis2004} \\
+$\tau_{\mathrm{fall}}$ & Depressurization time constant & \SI{0.15}{\second} & A \\
+-- & Flow-cycle criterion & $V/(\SI{3}{\second})$ after \SI{0.25}{\second} & A \\
+-- & Retrigger threshold & \SI{1.2}{\liter\per\minute} after \SI{80}{\milli\second} & A \\
+$s$ & VAPS adjustment speed & \SI{2.5}{\cmH\per\minute} & R~\citep{storre2006} \\
+-- & iVAPS gain and step limit & 0.5 \si{\cmH} per \si{\liter\per\minute}, $\pm2$ per breath & A \\
+$K_e$ & Nasopharyngeal resistance in high flow & 2.0 / 2.4 \si{\cmH\per(\liter\per\second)} & R~\citep{parke2009} \\
+\end{longtable}}
+

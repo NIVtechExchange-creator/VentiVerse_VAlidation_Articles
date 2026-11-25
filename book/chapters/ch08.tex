@@ -1,0 +1,187 @@
+\chapter{Control of Breathing}
+\label{ch:ch08}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Write the model's equation for inspiratory effort as a function of sensed PaCO\textsubscript{2}, oxygen saturation and pH.
+  \item Explain how the frequency of the neural oscillator is set and what limits it.
+  \item Describe the apneic threshold, the hypoxia--CO\textsubscript{2} interaction and CO\textsubscript{2} narcosis.
+  \item Relate load-dependent blunting of the CO\textsubscript{2} response to rapid shallow breathing.
+\end{itemize}
+\end{objectives}
+
+\section{Structure of the controller}
+\label{sec:ctl-structure}
+Breathing is controlled by a brainstem rhythm generator whose output is scaled by chemical feedback from peripheral (carotid body) and central (medullary) chemoreceptors~\citep{khoo1982,duffin2000}. The model follows the same structure. At the start of each breath the controller reads a \emph{sensed} PaCO\textsubscript{2}, $P_s$, which is the weighted sum of a fast peripheral and a slow central signal (\cref{eq:num-chem}): weight 0.25 with a \SI{6}{\second} delay and \SI{8}{\second} lag peripherally, and weight 0.75 with a \SI{10}{\second} delay and \SI{120}{\second} lag centrally. These values are consistent with the speed and relative share of the two receptor groups measured by Smith and colleagues~\citep{smith2006}. From $P_s$, arterial saturation and pH, the controller sets two outputs for the coming breath: the effort amplitude $A$ used in \cref{eq:mus-wave} and the neural breathing frequency. \Cref{fig:ctl-step} shows the sensed signal after a step in arterial PCO\textsubscript{2}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.75\linewidth,height=5cm,xmin=-20,xmax=400,ymin=0,ymax=1.05,xlabel={Time after a step in arterial PCO\textsubscript{2} (s)},ylabel={Fraction of step sensed},grid=major,grid style={gray!20},legend pos=south east,legend style={font=\scriptsize,draw=none,fill=none}]
+\addplot[bkorange,thick,samples=200,domain=-20:400]{x<6?0:(1-exp(-(x-6)/8))};\addlegendentry{peripheral (delay 6 s, lag 8 s)}
+\addplot[bkteal,thick,samples=200,domain=-20:400]{x<10?0:(1-exp(-(x-10)/120))};\addlegendentry{central (delay 10 s, lag 120 s)}
+\addplot[bkblue,very thick,samples=300,domain=-20:400]{0.25*(x<6?0:(1-exp(-(x-6)/8)))+0.75*(x<10?0:(1-exp(-(x-10)/120)))};\addlegendentry{sensed $P_s$ (0.25 / 0.75)}
+\end{axis}
+\end{tikzpicture}
+\caption{Response of the sensed PCO\textsubscript{2} to a unit step in arterial PCO\textsubscript{2}, from \cref{eq:num-chem} with the model's default chemoreflex parameters. A quarter of the response arrives within about 30 seconds; the rest follows over several minutes.}
+\label{fig:ctl-step}
+\end{figure}
+
+\section{Effort amplitude}
+\label{sec:ctl-amp}
+The effort the controller requests is
+\begin{keyequation}
+\begin{equation}
+A = m_{F}\,m_{L}\Bigl[A_0\,s_A + G\,s_G\,m_{H}\,\bigl(P_s - P_{\mathrm{set}}\bigr)\Bigr] + A_{\mathrm{pH}} + A_{\mathrm{hyp}}\,c,
+\label{eq:ctl-amp}
+\end{equation}
+\end{keyequation}
+limited below at zero and above by the muscle capacity of \cref{eq:mus-cap}. The terms are:
+\begin{description}[leftmargin=1.2cm,style=nextline]
+\item[$A_0$] wakefulness drive, the effort present at the CO\textsubscript{2} setpoint (default \SI{5}{\cmH});
+\item[$G$] neural CO\textsubscript{2} gain in \si{\cmH\per\mmHg} (default 0.25; set per phenotype in \cref{ch:ch12});
+\item[$P_{\mathrm{set}}$] CO\textsubscript{2} setpoint, $P_{\mathrm{set}} = 40\cdot[\mathrm{HCO_3^-}]/24 + \Delta P_{\mathrm{sleep}}$, so that a retained bicarbonate raises the PaCO\textsubscript{2} the controller defends and sleep raises it further (\cref{ch:ch11});
+\item[$s_A$, $s_G$] sleep-stage multipliers on tonic effort and on chemical gain (1 when awake);
+\item[$m_H$] load-dependent blunting of the CO\textsubscript{2} response (\cref{sec:ctl-load});
+\item[$m_F$, $m_L$] optional multipliers for metabolic rate (feed-forward, $\sqrt{\dot V_{O_2}/\dot V_{O_2,\mathrm{rest}}}$) and for long-term load compensation;
+\item[$A_{\mathrm{pH}}$] metabolic acidosis drive, $K_{\mathrm{pH}}\max\bigl(0,\,100(7.40-\mathrm{pH_a})\bigr)$ with $K_{\mathrm{pH}} = \SI{0.25}{\cmH}$ per 0.01 pH unit and $\mathrm{pH_a} = 6.1 + \log_{10}\bigl([\mathrm{HCO_3^-}]/(0.03\,P_s)\bigr)$;
+\item[$A_{\mathrm{hyp}}$] hypoxic drive, $K_{\mathrm{hyp}}\max(0,\,S_{\mathrm{thr}} - \mathrm{SaO_2})$ with $K_{\mathrm{hyp}} = \SI{0.30}{\cmH}$ per \% and $S_{\mathrm{thr}} = 97\%$~\citep{duffin2000};
+\item[$c$] the hypoxia--CO\textsubscript{2} interaction described next.
+\end{description}
+
+\paragraph{Hypoxia--CO\textsubscript{2} interaction.} Lloyd, Jukes and Cunningham showed that hypoxia steepens the CO\textsubscript{2} response rather than simply adding to it, and that the hypoxic response disappears near the CO\textsubscript{2} threshold~\citep{lloyd1958}. The model multiplies the hypoxic drive by
+\begin{equation}
+c = \min\!\Bigl(4,\;\max\Bigl(0,\;\frac{P_s - (P_{\mathrm{set}} - 3)}{3}\Bigr)\Bigr),
+\label{eq:ctl-cunn}
+\end{equation}
+which is 1 at the setpoint, 0 at the apneic threshold three mmHg below it, and is capped at 4 because the published data do not extend to severe hypercapnia. \Cref{fig:ctl-amp} plots \cref{eq:ctl-amp,eq:ctl-cunn} for an awake normal adult.
+
+\section{Breathing frequency}
+\label{sec:ctl-rate}
+The neural oscillator runs at a basal rate $f_0$ (default 12 per minute), with breath-to-breath variation, modified by chemical drive~\citep{duffin2000}:
+\begin{equation}
+f_n = \mathrm{cap}\Bigl(f_0 + \Delta f_{\mathrm{RSB}} + m_N\bigl[k_f\,s_G\,(P_s - P_{\mathrm{set}}) + k_{f,\mathrm{hyp}}\max(0,S_{\mathrm{thr}}-\mathrm{SaO_2})\,c\bigr],\;f_{\mathrm{mech}}\Bigr)\cdot u_{\mathrm{ap}},
+\label{eq:ctl-rate}
+\end{equation}
+with CO\textsubscript{2} frequency gain $k_f = \SI{0.18}{\breath\per\minute\per\mmHg}$ above and below the setpoint, hypoxic frequency gain $k_{f,\mathrm{hyp}} = 0.4$ per minute per \%, and $m_N$ the narcosis multiplier. Three further terms complete the frequency:
+\begin{itemize}[leftmargin=*]
+\item \textbf{Mechanical ceiling.} A patient cannot breathe faster than the lung can empty. The model caps the rate at $f_{\mathrm{mech}} = 60/\bigl(\min(T_I,1) + 1.2\,R\,\Crs\bigr)$, at least 8 per minute. This allows about 37 breaths per minute in a normal adult but about 27 in COPD with $R\Crs = \SI{1}{\second}$ (\cref{fig:ctl-amp}, right).
+\item \textbf{Apneic threshold.} Below a PCO\textsubscript{2} about \SI{3}{\mmHg} under the setpoint the rhythm stops, as shown in sleeping humans by Skatrud and Dempsey~\citep{skatrud1983}. The factor $u_{\mathrm{ap}} = \min\bigl(1,\max\bigl(0,(P_s - P_{\mathrm{set}} + 3)/3\bigr)\bigr)$ tapers the rate to zero over a \SI{3}{\mmHg} window, so the threshold does not create an artificial on--off oscillation. Hypoxic or acidotic drive of at least \SI{0.5}{\cmH} overrides it.
+\item \textbf{CO\textsubscript{2} narcosis.} Above $P_{\mathrm{set}} + 20$ the chemical frequency increments are progressively lost: $m_N$ follows a target $1 - \max(0,P_s - P_{\mathrm{set}} - 20)/25$ with time constants of \SI{30}{\second} at onset and \SI{300}{\second} at recovery. The basal oscillator is not suppressed. This term is a model assumption based on the clinical observation of hypoventilation in severe hypercapnia.
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.3cm,grid=major,grid style={gray!20},legend style={font=\tiny,draw=none,fill=none},xlabel={Sensed PCO\textsubscript{2} $P_s$ (mmHg)},xmin=34,xmax=60]
+\nextgroupplot[ylabel={Effort amplitude $A$ (\si{\cmH})},ymin=0,ymax=32,legend pos=north west]
+\addplot[bkblue,thick,domain=34:60,samples=80]{max(0,5+0.25*(x-40))};\addlegendentry{SaO\textsubscript{2} 97\%}
+\addplot[bkorange,thick,domain=34:60,samples=80]{max(0,5+0.25*(x-40))+0.30*7*min(4,max(0,(x-37)/3))};\addlegendentry{SaO\textsubscript{2} 90\%}
+\addplot[red!70!black,thick,domain=34:60,samples=80]{max(0,5+0.25*(x-40))+0.30*12*min(4,max(0,(x-37)/3))};\addlegendentry{SaO\textsubscript{2} 85\%}
+\draw[dashed,gray] (axis cs:37,0) -- (axis cs:37,32);
+\node[font=\scriptsize,gray,rotate=90,anchor=south] at (axis cs:37,9) {apneic threshold};
+\nextgroupplot[ylabel={Neural frequency $f_n$ (/min)},ymin=0,ymax=40,legend pos=south east]
+\addplot[bkblue,thick,domain=34:60,samples=120]{(12+0.18*(x-40))*min(1,max(0,(x-37)/3))};\addlegendentry{CO\textsubscript{2} only, \cref{eq:ctl-rate}}
+\addplot[gray,dashed,domain=34:60]{37.5};\addlegendentry{$f_{\mathrm{mech}}$, $R\Crs=\SI{0.5}{\second}$}
+\addplot[gray,dotted,thick,domain=34:60]{27.3};\addlegendentry{$f_{\mathrm{mech}}$, $R\Crs=\SI{1}{\second}$}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Steady-state controller outputs for an awake adult with the default parameters ($A_0 = 5$, $G = 0.25$, $P_{\mathrm{set}} = 40$, $f_0 = 12$). Left: \cref{eq:ctl-amp,eq:ctl-cunn} at three saturations; hypoxia steepens the CO\textsubscript{2} response, and its effect vanishes at the apneic threshold. Right: \cref{eq:ctl-rate} without hypoxia, and the mechanical ceilings for two values of $R\Crs$ with $T_I = \SI{1}{\second}$. The weak CO\textsubscript{2} frequency gain means most of the response to CO\textsubscript{2} is in depth.}
+\label{fig:ctl-amp}
+\end{figure}
+
+\section{Load, rapid shallow breathing and the CO\textsubscript{2} response}
+\label{sec:ctl-load}
+Patients whose muscles work near capacity breathe rapidly and shallowly, and their ventilatory response to CO\textsubscript{2} is reduced~\citep{tobin1983,yang1991}. The model expresses both with the load fraction $L$, the requested effort divided by the capacity at FRC, smoothed with a \SI{60}{\second} time constant. With the smooth step $\phi(x) = x^2(3-2x)$ and $x = \mathrm{clip}\bigl((L - 0.25)/0.60,\,0,\,1\bigr)$,
+\begin{equation}
+m_H = 1 - 0.6\,\phi(x),\qquad \Delta f_{\mathrm{RSB}} = 12\,\phi(x)\ \text{per minute}.
+\label{eq:ctl-load}
+\end{equation}
+At a load below a quarter of capacity nothing changes; at 85\% of capacity the CO\textsubscript{2} gain is 40\% of normal and the rate is 12 breaths per minute faster. Neural inspiratory time is shortened in the same patients by a phenotype-specific susceptibility $s_{rs}$: $T_I^{n} = T_{I,0}\,f_{\mathrm{load}}\,\bigl[1 - s_{rs}\bigl(1 - \max(0.72,\,1 - 0.012\,(P_s - P_{\mathrm{set}}))\bigr)\bigr]$, limited to 0.15--0.45 of the breath period. The result is the falling tidal volume and rising rate that mark impending ventilatory failure.
+
+\section{Other inputs}
+\label{sec:ctl-other}
+\paragraph{Hyperoxia.} Sudden hyperoxia silences the resting carotid body drive and lowers ventilation transiently (the Dejours effect)~\citep{dejours1962}. The model reduces effort by up to 10\% after a rise in inspired oxygen and lets it recover over minutes.
+
+\paragraph{Renal bicarbonate.} Bicarbonate changes over hours to days (\cref{sec:num-exact}). When arterial pH is above 7.40 or below 7.35, bicarbonate moves toward $0.6\cdot\mathrm{PaCO_2}$ with the renal time constant; between them it is unchanged. Because $P_{\mathrm{set}}$ is proportional to bicarbonate, chronic retention raises the setpoint, and an acute fall in PaCO\textsubscript{2} on ventilation leaves a post-hypercapnic metabolic alkalosis that persists until the kidney catches up. The renal time constant has four settings: off (static bicarbonate), physiological (\SI{48}{\hour}~\citep{brackett1969}), accelerated (\SI{4}{\hour}) and demonstration (\SI{10}{\minute}). The two faster settings compress renal compensation into a short simulation and are not physiological.
+
+\section{Gain calibration by phenotype}
+\label{sec:ctl-gain}
+The slope of the hypercapnic ventilatory response measured by rebreathing is 1.5--3.5~\si{\liter\per\minute\per\mmHg} in healthy adults~\citep{read1967,duffin2011}. Chronic hypercapnia blunts it~\citep{flenley1967,gorini1996}, and in obesity hypoventilation it is 70--80\% below that of matched controls~\citep{lopata1982,piper2011}. Blunting of the slope differs from the rightward shift of the set point caused by renal bicarbonate retention (\cref{sec:ctl-other}): the shift moves the apneic threshold, while blunting lowers the response at every PaCO\textsubscript{2}.
+
+Each phenotype sets two multipliers: $d_g$ on the effort gain and $f_g$ on the frequency gain,
+\begin{equation}
+K_{\mathrm{CO_2}}=0.25\,d_g~\si{\cmH\per\mmHg},\qquad K_f=0.18\,f_g~\si{\per\minute\per\mmHg}.
+\label{eq:ctl-gain}
+\end{equation}
+In the obstructive phenotypes, $d_g$ stays at the normal value of 4. The effort that reaches the muscles is already limited by hyperinflation and load blunting (\cref{sec:ctl-load}), so the frequency gain carries the blunting. This keeps the strong effort and neural drive measured in stable COPD while reproducing a weak rate response. The central hypoventilation phenotypes blunt both gains, because the defect is in chemosensitivity itself. Neuromuscular phenotypes keep normal chemosensitivity, because their hypoventilation is mechanical. Myasthenic crisis is an exception at $d_g=f_g=0.6$; the reduced gains reproduce the published blood gases. \Cref{tab:ctl-gain} lists the values.
+
+\begin{table}[htbp]\centering\small
+\caption{Chemoreflex gain multipliers by phenotype and the resulting gains from \cref{eq:ctl-gain}.}
+\label{tab:ctl-gain}
+\begin{tabular}{@{}lcccc@{}}\toprule
+Phenotype & $d_g$ & $K_{\mathrm{CO_2}}$ (\si{\cmH\per\mmHg}) & $f_g$ & $K_f$ (\si{\per\minute\per\mmHg})\\\midrule
+Normal & 4.0 & 1.00 & 2.5 & 0.45\\
+COPD emphysema, stable & 4.0 & 1.00 & 0.70 & 0.126\\
+Chronic bronchitis; bronchiectasis; CF; EFL; COPD--OSA & 4.0 & 1.00 & 0.60 & 0.108\\
+AECOPD & 4.0 & 1.00 & 0.65 & 0.117\\
+Bronchiolitis obliterans syndrome & 4.0 & 1.00 & 0.77 & 0.139\\
+Tracheal stenosis & 4.0 & 1.00 & 6.0 & 1.08\\
+Tracheobronchomalacia, EDAC & 2.0 & 0.50 & 6.0 & 1.08\\
+Myasthenic crisis & 0.6 & 0.15 & 0.6 & 0.108\\
+Obesity hypoventilation & 0.28 & 0.07 & 0.22 & 0.040\\
+Obesity hypoventilation with obstruction & 0.22 & 0.055 & 0.18 & 0.032\\
+Cheyne--Stokes (heart failure, stroke) & 2.2 & 0.55 & 2.2 & 0.40\\
+Primary central sleep apnea & 2.0 & 0.50 & 2.0 & 0.36\\
+Opioid-induced central apnea & 0.30 & 0.075 & 0.30 & 0.054\\
+Congenital central hypoventilation & 0.18 & 0.045 & 0.18 & 0.032\\
+Acquired central hypoventilation & 0.15 & 0.038 & 0.15 & 0.027\\\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Alternative controller models}
+\label{sec:ctl-alt}
+\begin{description}[leftmargin=1em]
+  \item[Grodins.] The first complete model of CO\textsubscript{2} and O\textsubscript{2} transport and control had separate lung, brain and tissue compartments, circulatory transport, full dissociation curves, and central and peripheral chemoreceptors~\citep{grodins1967}. It predicts responses to inspired CO\textsubscript{2}, hypoxia and exercise well. It requires about twenty coupled equations and circulatory states that cannot be measured at the bedside. The lung and tissue stores of \cref{ch:ch10} and the delayed chemoreflexes of \cref{sec:ctl-structure} keep its main dynamic behavior with parameters that can be identified.
+  \item[Loop gain.] \citet{khoo1982} linearized the chemoreflex loop and predicted periodic breathing when the product of controller gain, plant gain and delay exceeds one. The analysis is valuable for stability but cannot represent the apneic threshold, drive saturation or the hypoxia--CO\textsubscript{2} interaction. In VentiVerse periodic breathing emerges from the nonlinear loop itself; loop gain is not computed.
+  \item[Cardiorespiratory models.] \citet{ursino2000} added baroreflex control of heart rate, vascular resistance and contractility to the chemoreflexes. That reproduces heart rate and blood pressure swings in apnea and heart failure. VentiVerse has only the simpler circulation of \cref{sec:gx-circ}.
+\end{description}
+
+\section{The rhythm generator and sedation}
+\label{sec:ctl-prebotc}
+\paragraph{Pre-B\"otzinger complex rate.} Inspiratory rhythm arises in the pre-B\"otzinger complex, a bilateral group of pacemaker interneurons in the ventrolateral medulla~\citep{smith1991,feldman2013}. The basal neural rate $f_0$ in \cref{sec:ctl-rate} represents its intrinsic frequency before chemical and behavioral input. The default adult value is 12/min, inside the range of 8--15/min estimated for normocapnic adults. The rate is adjustable from 2 to 60/min to cover neonatal and pathological rhythms.
+
+\paragraph{Sedation and paralysis.} A sedation switch represents deep sedation with neuromuscular blockade:
+\begin{equation}
+f_N=0,\qquad P_{\mathrm{mus}}=0,\qquad A_{\mathrm{reflex}}=0,\qquad \dot V_{O_2,\mathrm{eff}}=0.85\,s_{\mathrm{met}}\,\dot V_{O_2},
+\label{eq:ctl-sed}
+\end{equation}
+where $f_N$ is the neural rate, $A_{\mathrm{reflex}}$ is the amplitude of the inflation reflex that drives reverse triggering (\cref{ch:async}), and $s_{\mathrm{met}}$ is the metabolic activity scale. With no neural period, every breath is a timed backup breath. Pressure control or S/T then becomes controlled mandatory ventilation. The \SI{15}{\percent} reduction in oxygen consumption is in the range reported for sedated critically ill patients~\citep{manthous1995}, and $\dot V_{\mathrm{CO_2}}$ falls with it because the respiratory quotient is fixed. Graded sedation without paralysis is not modeled. Opioid depression of drive is represented instead by the narcosis and opioid phenotypes.
+
+\section{Parameters}
+\begin{table}[ht]
+\centering
+\caption{Control-of-breathing parameters. Class as in \cref{tab:mech-params}.}
+\label{tab:ctl-params}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule
+$A_0$ & Wakefulness drive & \SI{5}{\cmH} & F \\
+$G$ & Neural CO\textsubscript{2} gain & \SI{0.25}{\cmH\per\mmHg} & R/F \\
+$P_{\mathrm{set}}$ & CO\textsubscript{2} setpoint at bicarbonate 24 & \SI{40}{\mmHg} & R \\
+$f_0$, $k_f$ & Basal rate, CO\textsubscript{2} frequency gain & 12/min, 0.18/min per mmHg & R/F \\
+$S_{\mathrm{thr}}$, $K_{\mathrm{hyp}}$, $k_{f,\mathrm{hyp}}$ & Hypoxic threshold and gains & 97\%, \SI{0.30}{\cmH}/\%, 0.4/min/\% & R/F~\citep{duffin2000} \\
+$K_{\mathrm{pH}}$ & Acidosis gain & \SI{0.25}{\cmH} per 0.01 pH & F \\
+$f_p$; $T_p$, $\tau_p$; $T_c$, $\tau_c$ & Peripheral share; delays and lags & 0.25; 6, 8 s; 10, 120 s & R~\citep{smith2006} \\
+-- & Apneic threshold below setpoint & \SI{3}{\mmHg} & R~\citep{skatrud1983} \\
+-- & Narcosis onset above setpoint & \SI{20}{\mmHg} & A \\
+$L_0$, $L_1$ & Load range for blunting and rapid shallow breathing & 0.25, 0.85 & A \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{summarybox}
+The controller turns a delayed, filtered PaCO\textsubscript{2}, the saturation and the pH into an effort amplitude and a rhythm frequency at each breath. Most of the CO\textsubscript{2} response is in depth; hypoxia multiplies rather than adds to it; and the rhythm stops three mmHg below the setpoint. A heavy load blunts the CO\textsubscript{2} response and adds rapid shallow breathing, and the lung's time constant sets a ceiling on rate.
+\end{summarybox}

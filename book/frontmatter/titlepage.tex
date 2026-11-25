@@ -1,0 +1,10 @@
+\begin{titlepage}
+\newgeometry{margin=0pt}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[black] (current page.south west) rectangle (current page.north east);
+  \node[anchor=center,inner sep=0pt] at (current page.center)
+    {\includegraphics[height=\paperheight,width=\paperwidth,keepaspectratio]{figures/cover.png}};
+\end{tikzpicture}
+\restoregeometry
+\end{titlepage}

@@ -1,0 +1,1542 @@
+\begin{thebibliography}{245}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Andrews et~al.(2018)Andrews, Meng, Kulke, Rudnicki, Wolff, Bozik,
+  Malik, and Shefner]{andrews2018}
+Jinsy~A. Andrews, Lisa Meng, Sarah~F. Kulke, Stacy~A. Rudnicki, Andrew~A.
+  Wolff, Michael~E. Bozik, Fady~I. Malik, and Jeremy~M. Shefner.
+\newblock Association between decline in slow vital capacity and respiratory
+  insufficiency, use of assisted ventilation, tracheostomy, or death in
+  patients with amyotrophic lateral sclerosis.
+\newblock \emph{JAMA Neurology}, 75\penalty0 (1):\penalty0 58--64, 2018.
+\newblock \doi{10.1001/jamaneurol.2017.3339}.
+
+\bibitem[Vestbo et~al.(2011)Vestbo, Edwards, Scanlon, et~al.]{vestbo2011}
+J{\o}rgen Vestbo, Lisa~D. Edwards, Paul~D. Scanlon, et~al.
+\newblock Changes in forced expiratory volume in 1 second over time in {COPD}.
+\newblock \emph{New England Journal of Medicine}, 365\penalty0 (13):\penalty0
+  1184--1192, 2011.
+
+\bibitem[Bates(2009)]{bates2009}
+Jason H.~T. Bates.
+\newblock \emph{Lung Mechanics: An Inverse Modeling Approach}.
+\newblock Cambridge University Press, Cambridge, 2009.
+
+\bibitem[Grodins et~al.(1967)Grodins, Buell, and Bart]{grodins1967}
+Fred~S. Grodins, John Buell, and Alfred~J. Bart.
+\newblock Mathematical analysis and digital simulation of the respiratory
+  control system.
+\newblock \emph{Journal of Applied Physiology}, 22\penalty0 (2):\penalty0
+  260--276, 1967.
+
+\bibitem[Khoo et~al.(1982)Khoo, Kronauer, Strohl, and Slutsky]{khoo1982}
+Michael C.~K. Khoo, Richard~E. Kronauer, Kingman~P. Strohl, and Arthur~S.
+  Slutsky.
+\newblock Factors inducing periodic breathing in humans: a general model.
+\newblock \emph{Journal of Applied Physiology}, 53\penalty0 (3):\penalty0
+  644--659, 1982.
+
+\bibitem[Otis et~al.(1956)Otis, McKerrow, Bartlett, Mead, McIlroy, Selverstone,
+  and Radford]{otis1956}
+Arthur~B. Otis, C.~B. McKerrow, R.~A. Bartlett, Jere Mead, M.~B. McIlroy, N.~J.
+  Selverstone, and E.~P. Radford.
+\newblock Mechanical factors in distribution of pulmonary ventilation.
+\newblock \emph{Journal of Applied Physiology}, 8\penalty0 (4):\penalty0
+  427--443, 1956.
+
+\bibitem[Butcher(2016)]{butcher2016}
+John~C. Butcher.
+\newblock \emph{Numerical Methods for Ordinary Differential Equations}.
+\newblock Wiley, Chichester, 3rd edition, 2016.
+
+\bibitem[Hairer et~al.(1993)Hairer, N{\o}rsett, and Wanner]{hairer1993}
+Ernst Hairer, Syvert~P. N{\o}rsett, and Gerhard Wanner.
+\newblock \emph{Solving Ordinary Differential Equations {I}: Nonstiff
+  Problems}.
+\newblock Springer, Berlin, 2nd edition, 1993.
+
+\bibitem[Franklin et~al.(1998)Franklin, Powell, and Workman]{franklin1998}
+Gene~F. Franklin, J.~David Powell, and Michael~L. Workman.
+\newblock \emph{Digital Control of Dynamic Systems}.
+\newblock Addison-Wesley, Menlo Park, CA, 3rd edition, 1998.
+
+\bibitem[West(2012)]{west2012}
+John~B. West.
+\newblock \emph{Respiratory Physiology: The Essentials}.
+\newblock Lippincott Williams \& Wilkins, Philadelphia, 9th edition, 2012.
+
+\bibitem[Shampine and Reichelt(1997)]{shampine1997}
+Lawrence~F. Shampine and Mark~W. Reichelt.
+\newblock The {MATLAB} {ODE} suite.
+\newblock \emph{SIAM Journal on Scientific Computing}, 18\penalty0
+  (1):\penalty0 1--22, 1997.
+
+\bibitem[{The MathWorks, Inc.}(2024)]{mathworks_solvers}
+{The MathWorks, Inc.}
+\newblock \emph{Simulink User's Guide: Choose a Solver}.
+\newblock The MathWorks, Natick, MA, 2024.
+
+\bibitem[Dormand and Prince(1980)]{dormand1980}
+John~R. Dormand and Peter~J. Prince.
+\newblock A family of embedded {Runge--Kutta} formulae.
+\newblock \emph{Journal of Computational and Applied Mathematics}, 6\penalty0
+  (1):\penalty0 19--26, 1980.
+
+\bibitem[Hairer and Wanner(1996)]{hairer1996}
+Ernst Hairer and Gerhard Wanner.
+\newblock \emph{Solving Ordinary Differential Equations {II}: Stiff and
+  Differential-Algebraic Problems}.
+\newblock Springer, Berlin, 2nd edition, 1996.
+
+\bibitem[Petzold(1983)]{petzold1983}
+Linda Petzold.
+\newblock Automatic selection of methods for solving stiff and nonstiff systems
+  of ordinary differential equations.
+\newblock \emph{SIAM Journal on Scientific and Statistical Computing},
+  4\penalty0 (1):\penalty0 136--148, 1983.
+
+\bibitem[Virtanen et~al.(2020)Virtanen, Gommers, Oliphant,
+  et~al.]{virtanen2020}
+Pauli Virtanen, Ralf Gommers, Travis~E. Oliphant, et~al.
+\newblock {SciPy} 1.0: fundamental algorithms for scientific computing in
+  {Python}.
+\newblock \emph{Nature Methods}, 17:\penalty0 261--272, 2020.
+
+\bibitem[Oberkampf and Roy(2010)]{oberkampf2010}
+William~L. Oberkampf and Christopher~J. Roy.
+\newblock \emph{Verification and Validation in Scientific Computing}.
+\newblock Cambridge University Press, Cambridge, 2010.
+
+\bibitem[{American Society of Mechanical Engineers}(2018)]{asme_vv40}
+{American Society of Mechanical Engineers}.
+\newblock \emph{{ASME V\&V 40-2018}: Assessing Credibility of Computational
+  Modeling through Verification and Validation: Application to Medical
+  Devices}.
+\newblock ASME, New York, 2018.
+
+\bibitem[Milic-Emili et~al.(1966)Milic-Emili, Henderson, Dolovich, Trop, and
+  Kaneko]{milicemili1966}
+J.~Milic-Emili, J.~A. Henderson, M.~B. Dolovich, D.~Trop, and K.~Kaneko.
+\newblock Regional distribution of inspired gas in the lung.
+\newblock \emph{Journal of Applied Physiology}, 21\penalty0 (3):\penalty0
+  749--759, 1966.
+
+\bibitem[Horsfield and Cumming(1968)]{horsfield1968}
+K.~Horsfield and G.~Cumming.
+\newblock Morphology of the bronchial tree in man.
+\newblock \emph{Journal of Applied Physiology}, 24\penalty0 (3):\penalty0
+  373--383, 1968.
+
+\bibitem[Agostoni and Mead(1964)]{agostoni1964}
+E.~Agostoni and J.~Mead.
+\newblock Statics of the respiratory system.
+\newblock In W.~O. Fenn and H.~Rahn, editors, \emph{Handbook of Physiology,
+  Section 3: Respiration}, volume~I, pages 387--409. American Physiological
+  Society, Washington, DC, 1964.
+
+\bibitem[Pepe and Marini(1982)]{pepe1982}
+P.~E. Pepe and J.~J. Marini.
+\newblock Occult positive end-expiratory pressure in mechanically ventilated
+  patients with airflow obstruction: the auto-{PEEP} effect.
+\newblock \emph{American Review of Respiratory Disease}, 126\penalty0
+  (1):\penalty0 166--170, 1982.
+
+\bibitem[Permutt and Riley(1963)]{permutt1963}
+S.~Permutt and R.~L. Riley.
+\newblock Hemodynamics of collapsible vessels with tone: the vascular
+  waterfall.
+\newblock \emph{Journal of Applied Physiology}, 18:\penalty0 924--932, 1963.
+
+\bibitem[Mead et~al.(1967)Mead, Turner, Macklem, and Little]{mead1967}
+J.~Mead, J.~M. Turner, P.~T. Macklem, and J.~B. Little.
+\newblock Significance of the relationship between lung recoil and maximum
+  expiratory flow.
+\newblock \emph{Journal of Applied Physiology}, 22\penalty0 (1):\penalty0
+  95--108, 1967.
+
+\bibitem[Tobin and Lodato(1989)]{tobin1989}
+M.~J. Tobin and R.~F. Lodato.
+\newblock {PEEP}, auto-{PEEP}, and waterfalls.
+\newblock \emph{Chest}, 96\penalty0 (3):\penalty0 449--451, 1989.
+
+\bibitem[Gold and Schwartz(1996)]{gold1996}
+A.~R. Gold and A.~R. Schwartz.
+\newblock The pharyngeal critical pressure: the whys and hows of using nasal
+  continuous positive airway pressure diagnostically.
+\newblock \emph{Chest}, 110\penalty0 (4):\penalty0 1077--1088, 1996.
+
+\bibitem[Rohrer(1915)]{rohrer1915}
+F.~Rohrer.
+\newblock Der {Str\"omungswiderstand} in den menschlichen {Atemwegen}.
+\newblock \emph{Pfl\"ugers Archiv}, 162:\penalty0 225--299, 1915.
+
+\bibitem[Young and Tsai(1973)]{young1973}
+D.~F. Young and F.~Y. Tsai.
+\newblock Flow characteristics in models of arterial stenoses. {I}. {Steady}
+  flow.
+\newblock \emph{Journal of Biomechanics}, 6\penalty0 (4):\penalty0 395--410,
+  1973.
+
+\bibitem[Murgu and Colt(2006)]{murgu2006}
+S.~D. Murgu and H.~G. Colt.
+\newblock Tracheobronchomalacia and excessive dynamic airway collapse.
+\newblock \emph{Respirology}, 11\penalty0 (4):\penalty0 388--406, 2006.
+
+\bibitem[A et~al.(2004)A, D, HD, and AC]{ernst2004}
+Ernst A, Feller-Kopman D, Becker HD, and Mehta AC.
+\newblock Central airway obstruction, 2004.
+\newblock Am J Respir Crit Care Med. 2004;169(12):1278--1297.
+
+\bibitem[Baroni et~al.(2005)Baroni, Feller-Kopman, Nishino, et~al.]{baroni2005}
+R.~H. Baroni, D.~Feller-Kopman, M.~Nishino, et~al.
+\newblock Tracheobronchomalacia: comparison between end-expiratory and dynamic
+  expiratory {CT} for evaluation of central airway collapse.
+\newblock \emph{Radiology}, 235\penalty0 (2):\penalty0 635--641, 2005.
+
+\bibitem[Boiselle et~al.(2009)Boiselle, O'Donnell, Bankier,
+  et~al.]{boiselle2009}
+P.~M. Boiselle, C.~R. O'Donnell, A.~A. Bankier, et~al.
+\newblock Tracheal collapsibility in healthy volunteers during forced
+  expiration: assessment with multidetector {CT}.
+\newblock \emph{Radiology}, 252\penalty0 (1):\penalty0 255--262, 2009.
+
+\bibitem[Buitrago et~al.(2017)Buitrago, Wilson, Parikh, Majid, and
+  Gangadharan]{buitrago2017}
+D.~H. Buitrago, J.~L. Wilson, M.~Parikh, A.~Majid, and S.~P. Gangadharan.
+\newblock Current concepts in severe adult tracheobronchomalacia: evaluation
+  and treatment.
+\newblock \emph{Journal of Thoracic Disease}, 9\penalty0 (1):\penalty0
+  E57--E66, 2017.
+
+\bibitem[PC et~al.(1969)PC, NR, and D]{robertson1969}
+Robertson PC, Anthonisen NR, and Ross D.
+\newblock Effect of inspiratory flow rate on regional distribution of inspired
+  gas, 1969.
+\newblock J Appl Physiol. 1969;26(4):438--443.
+
+\bibitem[T et~al.(2013)T, A, N, T, and Y]{yoshida2013}
+Yoshida T, Uchiyama A, Matsuura N, Mashimo T, and Fujino Y.
+\newblock Spontaneous effort causes occult pendelluft during mechanical
+  ventilation, 2013.
+\newblock Am J Respir Crit Care Med. 2013;188(12):1420--1427.
+
+\bibitem[L and A(2005{\natexlab{a}})]{gattinoni2005a}
+Gattinoni L and Pesenti A.
+\newblock The concept of "baby lung", 2005{\natexlab{a}}.
+\newblock Intensive Care Med. 2005;31(6):776--784.
+
+\bibitem[J et~al.(2006)J, RM, L, and A]{villar2006}
+Villar J, Kacmarek RM, Pérez-Méndez L, and Aguirre-Jaime A.
+\newblock A high positive end-expiratory pressure, low tidal volume ventilatory
+  strategy improves outcome in persistent acute respiratory distress syndrome:
+  a randomized, controlled trial, 2006.
+\newblock Crit Care Med. 2006;34(5):1311--1318.
+
+\bibitem[TJ et~al.(2002)TJ, JA, RH, and et~al]{nuckton2002}
+Nuckton TJ, Alonso JA, Kallet RH, and et~al.
+\newblock Pulmonary dead-space fraction as a risk factor for death in the acute
+  respiratory distress syndrome, 2002.
+\newblock N Engl J Med. 2002;346(17):1281--1286.
+
+\bibitem[GR et~al.(2006)GR, CR, and SH]{washko2006}
+Washko GR, O'Donnell CR, and Loring SH.
+\newblock Volume-related and volume-independent effects of posture on
+  esophageal and transpulmonary pressures in healthy subjects, 2006.
+\newblock J Appl Physiol. 2006;100(3):753--758.
+
+\bibitem[P et~al.(1998)P, M, I, and et~al]{pelosi1998a}
+Pelosi P, Croci M, Ravagnan I, and et~al.
+\newblock The effects of body mass on lung volumes, respiratory mechanics, and
+  gas exchange during general anesthesia, 1998.
+\newblock Anesth Analg. 1998;87(3):654--660.
+
+\bibitem[R et~al.(2006)R, AF, JD, and E]{brown2006}
+Brown R, DiMarco AF, Hoit JD, and Garshick E.
+\newblock Respiratory dysfunction and management in spinal cord injury, 2006.
+\newblock Respir Care. 2006;51(8):853--870.
+
+\bibitem[AB et~al.(1956)AB, AW, DH, and Jr]{dubois1956}
+Dubois AB, Brody AW, Lewis DH, and Burgess~BF Jr.
+\newblock Oscillation mechanics of lungs and chest in man, 1956.
+\newblock J Appl Physiol. 1956;8(6):587--594.
+
+\bibitem[RL et~al.(2004)RL, P, A, and et~al]{dellaca2004}
+Dellacà RL, Santus P, Aliverti A, and et~al.
+\newblock Detection of expiratory flow limitation in copd using the forced
+  oscillation technique, 2004.
+\newblock Eur Respir J. 2004;23(2):232--240.
+
+\bibitem[JHT et~al.(1985)JHT, A, and J]{bates1985}
+Bates JHT, Rossi A, and Milic-Emili J.
+\newblock Analysis of the behavior of the respiratory system with constant
+  inspiratory flow, 1985.
+\newblock J Appl Physiol. 1985;58(6):1840--1848.
+
+\bibitem[J(1969)]{hildebrandt1969}
+Hildebrandt J.
+\newblock Pressure-volume data of cat lung interpreted by a plastoelastic,
+  linear viscoelastic model, 1969.
+\newblock J Appl Physiol. 1969;28(3):365--372.
+
+\bibitem[JJ and D(1989)]{fredberg1989}
+Fredberg JJ and Stamenovic D.
+\newblock On the imperfect elasticity of lung tissue, 1989.
+\newblock J Appl Physiol. 1989;67(6):2408--2419.
+
+\bibitem[B et~al.(1994)B, A-L, Z, F, and HE]{suki1994}
+Suki B, Barabási A-L, Hantos Z, Peták F, and Stanley HE.
+\newblock Avalanches and power-law behaviour in lung inflation, 1994.
+\newblock Nature. 1994;368(6472):615--618.
+
+\bibitem[TJ et~al.(1970)TJ, RC, and MF]{pedley1970}
+Pedley TJ, Schroter RC, and Sudlow MF.
+\newblock The prediction of pressure drop and variation of resistance within
+  the human bronchial airways, 1970.
+\newblock Respir Physiol. 1970;9(3):387--405.
+
+\bibitem[JHT(2009)]{bates2009a}
+Bates JHT.
+\newblock Lung mechanics: An inverse modeling approach, 2009.
+\newblock Cambridge University Press; 2009.
+
+\bibitem[Roussos and Macklem(1982)]{roussos1982}
+C.~Roussos and P.~T. Macklem.
+\newblock The respiratory muscles.
+\newblock \emph{New England Journal of Medicine}, 307\penalty0 (13):\penalty0
+  786--797, 1982.
+
+\bibitem[Hill(1938)]{hill1938}
+A.~V. Hill.
+\newblock The heat of shortening and the dynamic constants of muscle.
+\newblock \emph{Proceedings of the Royal Society of London B}, 126\penalty0
+  (843):\penalty0 136--195, 1938.
+
+\bibitem[Braun et~al.(1982)Braun, Arora, and Rochester]{braun1982}
+N.~M.~T. Braun, N.~S. Arora, and D.~F. Rochester.
+\newblock Force-length relationship of the normal human diaphragm.
+\newblock \emph{Journal of Applied Physiology}, 53\penalty0 (2):\penalty0
+  405--412, 1982.
+
+\bibitem[Evans and Whitelaw(2009)]{evans2009}
+J.~A. Evans and W.~A. Whitelaw.
+\newblock The assessment of maximal respiratory mouth pressures in adults.
+\newblock \emph{Respiratory Care}, 54\penalty0 (10):\penalty0 1348--1359, 2009.
+
+\bibitem[Hankinson et~al.(1999)Hankinson, Odencrantz, and Fedan]{hankinson1999}
+J.~L. Hankinson, J.~R. Odencrantz, and K.~B. Fedan.
+\newblock Spirometric reference values from a sample of the general {U.S.}
+  population.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  159\penalty0 (1):\penalty0 179--187, 1999.
+
+\bibitem[Bellemare and Grassino(1982)]{bellemare1982}
+F.~Bellemare and A.~Grassino.
+\newblock Effect of pressure and timing of contraction on human diaphragm
+  fatigue.
+\newblock \emph{Journal of Applied Physiology}, 53\penalty0 (5):\penalty0
+  1190--1195, 1982.
+
+\bibitem[Otis(1954)]{otis1954}
+A.~B. Otis.
+\newblock The work of breathing.
+\newblock \emph{Physiological Reviews}, 34\penalty0 (3):\penalty0 449--458,
+  1954.
+
+\bibitem[Campbell(1958)]{campbell1958}
+E.~J.~M. Campbell.
+\newblock \emph{The Respiratory Muscles and the Mechanics of Breathing}.
+\newblock Lloyd-Luke, London, 1958.
+
+\bibitem[M et~al.(2006)M, C, A, and et~al]{wysocki2006}
+Wysocki M, Cracco C, Teixeira A, and et~al.
+\newblock Reduced breathing variability as a predictor of unsuccessful patient
+  separation from mechanical ventilation, 2006.
+\newblock Crit Care Med. 2006;34(8):2076--2083.
+
+\bibitem[T et~al.(2002)T, A, and MJ]{brack2002}
+Brack T, Jubran A, and Tobin MJ.
+\newblock Dyspnoea and decreased variability of breathing in patients with
+  restrictive lung disease, 2002.
+\newblock Am J Respir Crit Care Med. 2002;165(9):1260--1264.
+
+\bibitem[J et~al.(2000)J, AT, W, and EH]{orem2000}
+Orem J, Lovering AT, Dunin-Barkowski W, and Vidruk EH.
+\newblock Tonic activity in the respiratory system in wakefulness, nrem and rem
+  sleep, 2000.
+\newblock Sleep. 2000;23(8):1065--1073.
+
+\bibitem[GEP and ME(1958)]{box1958}
+Box GEP and Muller ME.
+\newblock A note on the generation of random normal deviates, 1958.
+\newblock Ann Math Stat. 1958;29(2):610--611. (original Box-Muller transform
+  for generating Gaussian random variates from uniform inputs; primary
+  reference for gaussianRandom() implementation in §13.6.2).
+
+\bibitem[JB et~al.(1978)JB, JA, and DG]{skatrud1978}
+Skatrud JB, Dempsey JA, and Kaiser DG.
+\newblock Ventilatory response to medroxyprogesterone acetate in normal
+  subjects: time course and mechanism, 1978.
+\newblock J Appl Physiol. 1978;44(6):939--944.
+
+\bibitem[R(1985)]{ley1985}
+Ley R.
+\newblock Blood, breath, and fears: a hyperventilation theory of panic attacks
+  and agoraphobia, 1985.
+\newblock Clin Psychol Rev. 1985;5(4):271--285.
+
+\bibitem[Duffin et~al.(2000)Duffin, Mohan, Vasiliou, Stephenson, and
+  Mahamed]{duffin2000}
+J.~Duffin, R.~M. Mohan, P.~Vasiliou, R.~Stephenson, and S.~Mahamed.
+\newblock A model of the chemoreflex control of breathing in humans: model
+  parameters measurement.
+\newblock \emph{Respiration Physiology}, 120\penalty0 (1):\penalty0 13--26,
+  2000.
+
+\bibitem[Smith et~al.(2006)Smith, Rodman, Chenuel, Henderson, and
+  Dempsey]{smith2006}
+C.~A. Smith, J.~R. Rodman, B.~J.~A. Chenuel, K.~S. Henderson, and J.~A.
+  Dempsey.
+\newblock Response time and sensitivity of the ventilatory response to {CO$_2$}
+  in unanesthetized intact dogs: central vs. peripheral chemoreceptors.
+\newblock \emph{Journal of Applied Physiology}, 100\penalty0 (1):\penalty0
+  13--19, 2006.
+
+\bibitem[Lloyd et~al.(1958)Lloyd, Jukes, and Cunningham]{lloyd1958}
+B.~B. Lloyd, M.~G.~M. Jukes, and D.~J.~C. Cunningham.
+\newblock The relation between alveolar oxygen pressure and the respiratory
+  response to carbon dioxide in man.
+\newblock \emph{Quarterly Journal of Experimental Physiology}, 43\penalty0
+  (2):\penalty0 214--227, 1958.
+
+\bibitem[Skatrud and Dempsey(1983)]{skatrud1983}
+J.~B. Skatrud and J.~A. Dempsey.
+\newblock Interaction of sleep state and chemical stimuli in sustaining
+  rhythmic ventilation.
+\newblock \emph{Journal of Applied Physiology}, 55\penalty0 (3):\penalty0
+  813--822, 1983.
+
+\bibitem[Tobin et~al.(1983)Tobin, Chadha, Jenouri, Birch, Gazeroglu, and
+  Sackner]{tobin1983}
+M.~J. Tobin, T.~S. Chadha, G.~Jenouri, S.~J. Birch, H.~B. Gazeroglu, and M.~A.
+  Sackner.
+\newblock Breathing patterns. 2. {Diseased} subjects.
+\newblock \emph{Chest}, 84\penalty0 (3):\penalty0 286--294, 1983.
+
+\bibitem[Yang and Tobin(1991)]{yang1991}
+K.~L. Yang and M.~J. Tobin.
+\newblock A prospective study of indexes predicting the outcome of trials of
+  weaning from mechanical ventilation.
+\newblock \emph{New England Journal of Medicine}, 324\penalty0 (21):\penalty0
+  1445--1450, 1991.
+
+\bibitem[Dejours(1962)]{dejours1962}
+P.~Dejours.
+\newblock Chemoreflexes in breathing.
+\newblock \emph{Physiological Reviews}, 42:\penalty0 335--358, 1962.
+
+\bibitem[NC et~al.(1969)NC, CF, O, and JT]{brackett1969}
+Brackett NC, Wingo CF, Muren O, and Solano JT.
+\newblock Acid-base response to chronic hypercapnia in man.
+\newblock \emph{N Engl J Med}, 280:\penalty0 124--130, 1969.
+
+\bibitem[DJC(1967)]{read1967}
+Read DJC.
+\newblock A clinical method for assessing the ventilatory response to carbon
+  dioxide, 1967.
+\newblock Australas Ann Med. 1967;16(1):20--32.
+
+\bibitem[J(2011)]{duffin2011}
+Duffin J.
+\newblock Measuring the respiratory chemoreflexes in humans, 2011.
+\newblock Respir Physiol Neurobiol. 2011;177(2):71--79.
+
+\bibitem[DC and JS(1967)]{flenley1967}
+Flenley DC and Millar JS.
+\newblock Ventilatory response to oxygen and carbon dioxide in chronic
+  bronchitis, 1967.
+\newblock Clin Sci. 1967;33(2):319--327.
+
+\bibitem[M et~al.(1996)M, G, A, and et~al]{gorini1996}
+Gorini M, Misuri G, Corrado A, and et~al.
+\newblock Breathing pattern and carbon dioxide retention in severe chronic
+  obstructive pulmonary disease, 1996.
+\newblock Thorax. 1996;51(7):677--683.
+
+\bibitem[M and E(1982)]{lopata1982}
+Lopata M and Onal E.
+\newblock Mass loading, sleep apnea, and the pathogenesis of obesity
+  hypoventilation, 1982.
+\newblock Am Rev Respir Dis. 1982;126(4):640--645.
+
+\bibitem[AJ and RR(2011)]{piper2011}
+Piper AJ and Grunstein RR.
+\newblock Obesity hypoventilation syndrome: mechanisms and management, 2011.
+\newblock Am J Respir Crit Care Med. 2011;183(3):292--298.
+
+\bibitem[M and E(2000)]{ursino2000}
+Ursino M and Magosso E.
+\newblock Acute cardiovascular response to isocapnic hypoxia, 2000.
+\newblock I. A mathematical model. Am J Physiol Heart Circ Physiol.
+  2000;279(1):H149--H165.
+
+\bibitem[JC et~al.(1991)JC, HH, K, DW, and JL]{smith1991}
+Smith JC, Ellenberger HH, Ballanyi K, Richter DW, and Feldman JL.
+\newblock Pre-bötzinger complex: a brainstem region that may generate
+  respiratory rhythm in mammals, 1991.
+\newblock Science. 1991;254(5032):726--729.
+
+\bibitem[JL et~al.(2013)JL, CA, and PA]{feldman2013}
+Feldman JL, Del~Negro CA, and Gray PA.
+\newblock Understanding the rhythm of breathing: so near, yet so far, 2013.
+\newblock Annu Rev Physiol. 2013;75:423--452.
+
+\bibitem[CA et~al.(1995)CA, JB, D, and et~al]{manthous1995}
+Manthous CA, Hall JB, Olson D, and et~al.
+\newblock Effect of cooling on oxygen consumption in febrile critically ill
+  patients, 1995.
+\newblock Am J Respir Crit Care Med. 1995;151(1):10--14.
+
+\bibitem[Riley and Cournand(1949)]{riley1949}
+R.~L. Riley and A.~Cournand.
+\newblock `ideal' alveolar air and the analysis of ventilation-perfusion
+  relationships in the lungs.
+\newblock \emph{Journal of Applied Physiology}, 1\penalty0 (12):\penalty0
+  825--847, 1949.
+
+\bibitem[Roughton and Forster(1957)]{roughton1957}
+F.~J.~W. Roughton and R.~E. Forster.
+\newblock Relative importance of diffusion and chemical reaction rates in
+  determining rate of exchange of gases in the human lung.
+\newblock \emph{Journal of Applied Physiology}, 11\penalty0 (2):\penalty0
+  290--302, 1957.
+
+\bibitem[Severinghaus(1979)]{severinghaus1979}
+J.~W. Severinghaus.
+\newblock Simple, accurate equations for human blood {O$_2$} dissociation
+  computations.
+\newblock \emph{Journal of Applied Physiology}, 46\penalty0 (3):\penalty0
+  599--602, 1979.
+
+\bibitem[Ellis(1989)]{ellis1989}
+R.~K. Ellis.
+\newblock Determination of {PO$_2$} from saturation.
+\newblock \emph{Journal of Applied Physiology}, 67\penalty0 (2):\penalty0 902,
+  1989.
+
+\bibitem[Dash et~al.(2016)Dash, Korman, and Bassingthwaighte]{dash2016}
+R.~K. Dash, B.~Korman, and J.~B. Bassingthwaighte.
+\newblock Simple accurate mathematical models of blood {HbO$_2$} and {HbCO$_2$}
+  dissociation curves at varied physiological conditions.
+\newblock \emph{European Journal of Applied Physiology}, 116\penalty0
+  (1):\penalty0 97--113, 2016.
+
+\bibitem[Lenfant et~al.(1968)Lenfant, Torrance, English, Finch, Reynafarje,
+  Ramos, and Faura]{lenfant1968}
+C.~Lenfant, J.~Torrance, E.~English, C.~A. Finch, C.~Reynafarje, J.~Ramos, and
+  J.~Faura.
+\newblock Effect of altitude on oxygen binding by hemoglobin and on organic
+  phosphate levels.
+\newblock \emph{Journal of Clinical Investigation}, 47\penalty0 (12):\penalty0
+  2652--2656, 1968.
+
+\bibitem[Marshall and Marshall(1980)]{marshall1980}
+B.~E. Marshall and C.~Marshall.
+\newblock Continuity of response to hypoxic pulmonary vasoconstriction.
+\newblock \emph{Journal of Applied Physiology}, 49\penalty0 (2):\penalty0
+  189--196, 1980.
+
+\bibitem[J et~al.(2012)J, A, N, et~al.]{lukacsovits2012}
+Lukácsovits J, Carlucci A, Hill N, et~al.
+\newblock Physiological changes during low- and high-intensity noninvasive
+  ventilation.
+\newblock \emph{Eur Respir J}, 39:\penalty0 869--875, 2012.
+
+\bibitem[Douglas et~al.(1988)Douglas, Jones, and Reed]{douglas1988}
+A.~R. Douglas, N.~L. Jones, and J.~W. Reed.
+\newblock Calculation of whole blood {CO$_2$} content.
+\newblock \emph{Journal of Applied Physiology}, 65\penalty0 (1):\penalty0
+  473--477, 1988.
+
+\bibitem[BA et~al.(1988)BA, JW, and MD]{phillips1988}
+Phillips BA, McConnell JW, and Smith MD.
+\newblock The effects of hypoxemia on cardiac output: a dose-response curve,
+  1988.
+\newblock Chest. 1988;93(3):471--475.
+
+\bibitem[RB et~al.(1998)RB, MK, J, and et~al]{weiskopf1998}
+Weiskopf RB, Viele MK, Feiner J, and et~al.
+\newblock Human cardiovascular and metabolic response to acute, severe
+  isovolemic anemia, 1998.
+\newblock JAMA. 1998;279(3):217--221.
+
+\bibitem[MJ and PB(2021)]{joyner2021}
+Joyner MJ and Dominelli PB.
+\newblock Central cardiovascular system limits to aerobic capacity, 2021.
+\newblock Exp Physiol. 2021;106(12):2299--2303.
+
+\bibitem[B et~al.(2018)B, YM, van~der Wouden~JC, van Straaten~HM, and
+  de~Man~AME]{smit2018}
+Smit B, Smulders YM, van~der Wouden~JC, Oudemans van Straaten~HM, and Spoelstra
+  de~Man~AME.
+\newblock Hemodynamic effects of acute hyperoxia: systematic review and
+  meta-analysis, 2018.
+\newblock Crit Care. 2018;22:45.
+
+\bibitem[PT and SM(1987)]{schumacker1987}
+Schumacker PT and Cain SM.
+\newblock The concept of a critical oxygen delivery, 1987.
+\newblock Intensive Care Med. 1987;13(4):223--229.
+
+\bibitem[C and C(2015)]{siebenmann2015}
+Siebenmann C and Lundby C.
+\newblock Regulation of cardiac output in hypoxia, 2015.
+\newblock Scand J Med Sci Sports. 2015;25(Suppl 4):53--59.
+
+\bibitem[R(2010)]{naeije2010}
+Naeije R.
+\newblock Physiological adaptation of the cardiovascular system to high
+  altitude, 2010.
+\newblock Prog Cardiovasc Dis. 2010;52(6):456--466.
+
+\bibitem[JT et~al.(2012)JT, LA, PI, and JPT]{sylvester2012}
+Sylvester JT, Shimoda LA, Aaronson PI, and Ward JPT.
+\newblock Hypoxic pulmonary vasoconstriction, 2012.
+\newblock Physiol Rev. 2012;92(1):367--520.
+
+\bibitem[C and BE(1983)]{marshall1983}
+Marshall C and Marshall BE.
+\newblock Site and sensitivity for stimulation of hypoxic pulmonary
+  vasoconstriction, 1983.
+\newblock J Appl Physiol. 1983;55(3):711--716.
+
+\bibitem[SR and MK(2023)]{hopkins2023}
+Hopkins SR and Stickland MK.
+\newblock The pulmonary vasculature, 2023.
+\newblock Semin Respir Crit Care Med. 2023;44(5):538--554.
+
+\bibitem[JB et~al.(1964)JB, CT, and A]{west1964}
+West JB, Dollery CT, and Naimark A.
+\newblock Distribution of blood flow in isolated lung: relation to vascular and
+  alveolar pressures, 1964.
+\newblock J Appl Physiol. 1964;19(4):713--724.
+
+\bibitem[JB(2021)]{west2021}
+West JB.
+\newblock Respiratory physiology: The essentials. 10th ed, 2021.
+\newblock Baltimore: Wolters Kluwer; 2021.
+
+\bibitem[H and WO(1955)]{rahn1955}
+Rahn H and Fenn WO.
+\newblock A graphical analysis of the respiratory gas exchange: The
+  o\textsubscript{2}-co\textsubscript{2} diagram, 1955.
+\newblock Washington DC: American Physiological Society; 1955.
+
+\bibitem[AB(2020)]{lumb2020}
+Lumb AB.
+\newblock Nunn and lumb's applied respiratory physiology. 9th ed, 2020.
+\newblock Oxford: Elsevier; 2020.
+
+\bibitem[RG and M(1980)]{narins1980}
+Narins RG and Emmett M.
+\newblock Simple and mixed acid-base disorders: a practical approach, 1980.
+\newblock Medicine. 1980;59(3):161--187.
+
+\bibitem[O(1963)]{siggaardandersen1963}
+Siggaard-Andersen O.
+\newblock The acid-base status of the blood, 1963.
+\newblock Scand J Clin Lab Invest. 1963;15(Suppl 70):1--134.
+
+\bibitem[PD et~al.(1974)PD, HA, and JB]{wagner1974}
+Wagner PD, Saltzman HA, and West JB.
+\newblock Measurement of continuous distributions of ventilation-perfusion
+  ratios: theory, 1974.
+\newblock J Appl Physiol. 1974;36(5):588--599.
+
+\bibitem[AV(1910)]{hill1910}
+Hill AV.
+\newblock The possible effects of the aggregation of the molecules of
+  haemoglobin on its dissociation curves, 1910.
+\newblock J Physiol. 1910;40:iv--vii.
+
+\bibitem[Farhi and Rahn(1955)]{farhi1955}
+L.~E. Farhi and H.~Rahn.
+\newblock Gas stores of the body and the unsteady state.
+\newblock \emph{Journal of Applied Physiology}, 7\penalty0 (5):\penalty0
+  472--484, 1955.
+
+\bibitem[Quanjer et~al.(1993)Quanjer, Tammeling, Cotes, Pedersen, Peslin, and
+  Yernault]{quanjer1993}
+Ph.~H. Quanjer, G.~J. Tammeling, J.~E. Cotes, O.~F. Pedersen, R.~Peslin, and
+  J.-C. Yernault.
+\newblock Lung volumes and forced ventilatory flows.
+\newblock \emph{European Respiratory Journal}, 6\penalty0 (Suppl 16):\penalty0
+  5--40, 1993.
+
+\bibitem[Eger and Severinghaus(1961)]{eger1961}
+E.~I. Eger and J.~W. Severinghaus.
+\newblock The rate of rise of {PaCO$_2$} in the apneic anesthetized patient.
+\newblock \emph{Anesthesiology}, 22:\penalty0 419--425, 1961.
+
+\bibitem[Stock et~al.(1988)Stock, Downs, McDonald, Silver, McSweeney, and
+  Fairley]{stock1988}
+M.~C. Stock, J.~B. Downs, J.~S. McDonald, M.~J. Silver, T.~D. McSweeney, and
+  D.~S. Fairley.
+\newblock The carbon dioxide rate of rise in awake apneic humans.
+\newblock \emph{Journal of Clinical Anesthesia}, 1\penalty0 (2):\penalty0
+  96--103, 1988.
+
+\bibitem[Fletcher et~al.(1981)Fletcher, Jonson, Cumming, and
+  Brew]{fletcher1981}
+R.~Fletcher, B.~Jonson, G.~Cumming, and J.~Brew.
+\newblock The concept of deadspace with special reference to the single breath
+  test for carbon dioxide.
+\newblock \emph{British Journal of Anaesthesia}, 53\penalty0 (1):\penalty0
+  77--88, 1981.
+
+\bibitem[Fodil et~al.(2011)Fodil, Lellouche, Mancebo, Sbirlea-Apiou, Isabey,
+  Brochard, and Louis]{fodil2011}
+R.~Fodil, F.~Lellouche, J.~Mancebo, G.~Sbirlea-Apiou, D.~Isabey, L.~Brochard,
+  and B.~Louis.
+\newblock Comparison of patient-ventilator interfaces based on their
+  computerized effective dead space.
+\newblock \emph{Intensive Care Medicine}, 37\penalty0 (2):\penalty0 257--262,
+  2011.
+
+\bibitem[Saatci et~al.(2004)Saatci, Miller, Stell, Lee, and Moxham]{saatci2004}
+E.~Saatci, D.~M. Miller, I.~M. Stell, K.~C. Lee, and J.~Moxham.
+\newblock Dynamic dead space in face masks used with noninvasive ventilators: a
+  lung model study.
+\newblock \emph{European Respiratory Journal}, 23\penalty0 (1):\penalty0
+  129--135, 2004.
+
+\bibitem[Ferguson and Gilmartin(1995)]{ferguson1995}
+G.~T. Ferguson and M.~Gilmartin.
+\newblock {CO$_2$} rebreathing during {BiPAP} ventilatory assistance.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  151\penalty0 (4):\penalty0 1126--1135, 1995.
+
+\bibitem[Bohr(1891)]{bohr1891}
+C.~Bohr.
+\newblock {\"U}ber die {Lungenathmung}.
+\newblock \emph{Skandinavisches Archiv f{\"u}r Physiologie}, 2:\penalty0
+  236--268, 1891.
+
+\bibitem[Enghoff(1938)]{enghoff1938}
+H.~Enghoff.
+\newblock Volumen inefficax.
+\newblock \emph{Upsala L{\"a}karef{\"o}renings F{\"o}rhandlingar}, 44:\penalty0
+  191--218, 1938.
+
+\bibitem[Douglas et~al.(1982)Douglas, White, Weil, Pickett, and
+  Zwillich]{douglas1982}
+N.~J. Douglas, D.~P. White, J.~V. Weil, C.~K. Pickett, and C.~W. Zwillich.
+\newblock Hypercapnic ventilatory response in sleeping adults.
+\newblock \emph{American Review of Respiratory Disease}, 126\penalty0
+  (5):\penalty0 758--762, 1982.
+
+\bibitem[White(2005)]{white2005}
+D.~P. White.
+\newblock Pathogenesis of obstructive and central sleep apnea.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  172\penalty0 (11):\penalty0 1363--1370, 2005.
+
+\bibitem[Berry et~al.(2012)Berry, Budhiraja, Gottlieb, et~al.]{berry2012}
+R.~B. Berry, R.~Budhiraja, D.~J. Gottlieb, et~al.
+\newblock Rules for scoring respiratory events in sleep: update of the 2007
+  {AASM} manual for the scoring of sleep and associated events.
+\newblock \emph{Journal of Clinical Sleep Medicine}, 8\penalty0 (5):\penalty0
+  597--619, 2012.
+
+\bibitem[Ohayon et~al.(2004)Ohayon, Carskadon, Guilleminault, and
+  Vitiello]{ohayon2004}
+M.~M. Ohayon, M.~A. Carskadon, C.~Guilleminault, and M.~V. Vitiello.
+\newblock Meta-analysis of quantitative sleep parameters from childhood to old
+  age in healthy individuals.
+\newblock \emph{Sleep}, 27\penalty0 (7):\penalty0 1255--1273, 2004.
+
+\bibitem[Kemp et~al.(2000)Kemp, Zwinderman, Tuk, Kamphuisen, and
+  Obery{\'e}]{kemp2000}
+B.~Kemp, A.~H. Zwinderman, B.~Tuk, H.~A.~C. Kamphuisen, and J.~J.~L.
+  Obery{\'e}.
+\newblock Analysis of a sleep-dependent neuronal feedback loop: the slow-wave
+  microcontinuity of the {EEG}.
+\newblock \emph{IEEE Transactions on Biomedical Engineering}, 47\penalty0
+  (9):\penalty0 1185--1194, 2000.
+
+\bibitem[Berthon-Jones and Sullivan(1984)]{berthonjones1984}
+M.~Berthon-Jones and C.~E. Sullivan.
+\newblock Ventilation and arousal responses to hypercapnia in normal sleeping
+  humans.
+\newblock \emph{Journal of Applied Physiology}, 57\penalty0 (1):\penalty0
+  59--67, 1984.
+
+\bibitem[Horner(1996)]{horner1996}
+R.~L. Horner.
+\newblock Motor control of the pharyngeal musculature and implications for the
+  pathogenesis of obstructive sleep apnea.
+\newblock \emph{Sleep}, 19\penalty0 (10):\penalty0 827--853, 1996.
+
+\bibitem[Smith et~al.(1988)Smith, Calverley, and Edwards]{smith1988}
+P.~E.~M. Smith, P.~M.~A. Calverley, and R.~H.~T. Edwards.
+\newblock Hypoxemia during sleep in {Duchenne} muscular dystrophy.
+\newblock \emph{American Review of Respiratory Disease}, 137\penalty0
+  (4):\penalty0 884--888, 1988.
+
+\bibitem[Gleadhill et~al.(1991)Gleadhill, Schwartz, Schubert, Wise, Permutt,
+  and Smith]{gleadhill1991}
+I.~C. Gleadhill, A.~R. Schwartz, N.~Schubert, R.~A. Wise, S.~Permutt, and P.~L.
+  Smith.
+\newblock Upper airway collapsibility in snorers and in patients with
+  obstructive hypopnea and apnea.
+\newblock \emph{American Review of Respiratory Disease}, 143\penalty0
+  (6):\penalty0 1300--1303, 1991.
+
+\bibitem[ES et~al.(2017)ES, PJ, TIL, and A]{skarpsno2017}
+Skarpsno ES, Mork PJ, Nilsen TIL, and Holtermann A.
+\newblock Sleep positions and nocturnal body movements based on free-living
+  accelerometer recordings: association with demographics, lifestyle, and
+  insomnia symptoms, 2017.
+\newblock Nat Sci Sleep. 2017;9:267--275.
+
+\bibitem[C et~al.(1995)C, HB, SE, and JL]{papastamelos1995}
+Papastamelos C, Panitch HB, England SE, and Allen JL.
+\newblock Developmental changes in chest wall compliance in infancy and early
+  childhood, 1995.
+\newblock J Appl Physiol. 1995;78(1):179--184.
+
+\bibitem[GM and MA(1987)]{davis1987}
+Davis GM and Bureau MA.
+\newblock Pulmonary and chest wall mechanics in the control of respiration in
+  the newborn, 1987.
+\newblock Clin Perinatol. 1987;14(3):551--579.
+
+\bibitem[N and AC(1979)]{muller1979}
+Muller N and Bryan AC.
+\newblock Chest wall mechanics and respiratory muscles in infants, 1979.
+\newblock Pediatr Clin North Am. 1979;26(3):503--516.
+
+\bibitem[Schofield(1985)]{schofield1985}
+W.~N. Schofield.
+\newblock Predicting basal metabolic rate, new standards and review of previous
+  work.
+\newblock \emph{Human Nutrition: Clinical Nutrition}, 39\penalty0 (Suppl
+  1):\penalty0 5--41, 1985.
+
+\bibitem[JS et~al.(2005)JS, RG, CD, and et~al]{harrell2005}
+Harrell JS, McMurray RG, Baggett CD, and et~al.
+\newblock Energy costs of physical activities in children and adolescents,
+  2005.
+\newblock Med Sci Sports Exerc. 2005;37(2):329--336.
+
+\bibitem[Harris and Benedict(1918)]{harris1918}
+J.~A. Harris and F.~G. Benedict.
+\newblock A biometric study of human basal metabolism.
+\newblock \emph{Proceedings of the National Academy of Sciences of the United
+  States of America}, 4\penalty0 (12):\penalty0 370--373, 1918.
+
+\bibitem[Weir(1949)]{weir1949}
+J.~B. de~V. Weir.
+\newblock New methods for calculating metabolic rate with special reference to
+  protein metabolism.
+\newblock \emph{Journal of Physiology}, 109\penalty0 (1--2):\penalty0 1--9,
+  1949.
+
+\bibitem[WS(1948)]{fowler1948}
+Fowler WS.
+\newblock Lung function studies: the respiratory dead space, 1948.
+\newblock Am J Physiol. 1948;154(3):405--416.
+
+\bibitem[RG et~al.(2009{\natexlab{a}})RG, CE, EJ, and et~al]{miller2009}
+Miller RG, Jackson CE, Kasarskis EJ, and et~al.
+\newblock Practice parameter update: the care of the patient with amyotrophic
+  lateral sclerosis --- drug, nutritional, and respiratory therapies (an
+  evidence-based review), 2009{\natexlab{a}}.
+\newblock Neurology. 2009;73(15):1218--1226.
+
+\bibitem[JD et~al.(2004)JD, D, J, and et~al]{finder2004}
+Finder JD, Birnkrant D, Carl J, and et~al.
+\newblock Respiratory care of the patient with duchenne muscular dystrophy: Ats
+  consensus statement, 2004.
+\newblock Am J Respir Crit Care Med. 2004;170(4):456--465.
+
+\bibitem[T et~al.(2003)T, S, F, and on~Plasma Exchange~in
+  Guillain-Barré~Syndrome]{sharshar2003}
+Sharshar T, Chevret S, Bourdain F, and Raphaël JC; French Cooperative~Group
+  on~Plasma Exchange~in Guillain-Barré~Syndrome.
+\newblock Early predictors of mechanical ventilation in guillain-barré
+  syndrome, 2003.
+\newblock Crit Care Med. 2003;31(1):278--283.
+
+\bibitem[PD et~al.(1977)PD, DR, R, JL, and JB]{wagner1977}
+Wagner PD, Dantzker DR, Dueck R, Clausen JL, and West JB.
+\newblock Ventilation-perfusion inequality in chronic obstructive pulmonary
+  disease, 1977.
+\newblock J Clin Invest. 1977;59(2):203--216.
+
+\bibitem[A et~al.(1995)A, G, G, and G]{rossi1995}
+Rossi A, Polese G, Brandi G, and Conti G.
+\newblock Intrinsic positive end-expiratory pressure (peepi), 1995.
+\newblock Intensive Care Med. 1995;21(6):522--536.
+
+\bibitem[HC et~al.(1995)HC, DM, DJ, JC, and CD]{grillo1995}
+Grillo HC, Donahue DM, Mathisen DJ, Wain JC, and Wright CD.
+\newblock Postintubation tracheal stenosis: treatment and results, 1995.
+\newblock J Thorac Cardiovasc Surg. 1995;109(3):486--493.
+
+\bibitem[Nava and Rubini(1999)]{nava1999}
+S.~Nava and F.~Rubini.
+\newblock Lung and chest wall mechanics in ventilated patients with end stage
+  idiopathic pulmonary fibrosis.
+\newblock \emph{Thorax}, 54\penalty0 (5):\penalty0 390--395, 1999.
+
+\bibitem[B et~al.(2003)B, W, and M]{buyse2003}
+Buyse B, Meersseman W, and Demedts M.
+\newblock Treatment of chronic respiratory failure in kyphoscoliosis: oxygen or
+  ventilation?, 2003.
+\newblock Eur Respir J. 2003;22(3):525--528.
+
+\bibitem[VM et~al.(2012)VM, GD, BT, and et~al]{ards2012}
+ARDS Definition Task Force;~Ranieri VM, Rubenfeld GD, Thompson BT, and et~al.
+\newblock Acute respiratory distress syndrome: the berlin definition, 2012.
+\newblock JAMA. 2012;307(23):2526--2533.
+
+\bibitem[L and A(2005{\natexlab{b}})]{gattinoni2005}
+Gattinoni L and Pesenti A.
+\newblock The concept of "baby lung", 2005{\natexlab{b}}.
+\newblock Intensive Care Med. 2005;31(6):776--784.
+
+\bibitem[A et~al.(2008)A, J-CM, B, and et~al]{mercat2008}
+Mercat A, Richard J-CM, Vielle B, and et~al.
+\newblock Positive end-expiratory pressure setting in adults with acute lung
+  injury and acute respiratory distress syndrome: a randomized controlled trial
+  (express study), 2008.
+\newblock JAMA. 2008;299(6):646--655.
+
+\bibitem[JF et~al.(2019)JF, B, I, and et~al]{masa2019}
+Masa JF, Mokhlesi B, Benítez I, and et~al.
+\newblock Long-term clinical effectiveness of continuous positive airway
+  pressure therapy versus non-invasive ventilation therapy in patients with
+  obesity hypoventilation syndrome: a multicentre, open-label, randomised
+  controlled trial, 2019.
+\newblock Lancet. 2019;393(10182):1721--1732.
+
+\bibitem[for Asthma(2023)]{global2023}
+Global~Initiative for Asthma.
+\newblock Global strategy for asthma management and prevention, 2023.
+\newblock Updated 2023. Available at: www.ginasthma.org.
+
+\bibitem[JS(2016)]{elborn2016}
+Elborn JS.
+\newblock Cystic fibrosis, 2016.
+\newblock Lancet. 2016;388(10059):2519--2531.
+
+\bibitem[E et~al.(2018)E, RS, F, and et~al]{mercuri2018}
+Mercuri E, Finkel RS, Muntoni F, and et~al.
+\newblock Diagnosis and management of spinal muscular atrophy: part 1:
+  recommendations for diagnosis, rehabilitation, orthopedic and nutritional
+  care, 2018.
+\newblock Neuromuscul Disord. 2018;28(2):103--115.
+
+\bibitem[SL et~al.(2014)SL, AS, HC, and et~al]{ralston2014}
+Ralston SL, Lieberthal AS, Meissner HC, and et~al.
+\newblock Clinical practice guideline: the diagnosis, management, and
+  prevention of bronchiolitis, 2014.
+\newblock Pediatrics. 2014;134(5):e1474--e1502.
+
+\bibitem[CL and DW(2008)]{bjornson2008}
+Bjornson CL and Johnson DW.
+\newblock Croup, 2008.
+\newblock Lancet. 2008;371(9609):329--339.
+
+\bibitem[DG et~al.(2022)DG, VP, G, and et~al]{sweet2022}
+Sweet DG, Carnielli VP, Greisen G, and et~al.
+\newblock European consensus guidelines on the management of respiratory
+  distress syndrome: 2022 update, 2022.
+\newblock Neonatology. 2023;120(1):3--23.
+
+\bibitem[AH and E(2001)]{jobe2001}
+Jobe AH and Bancalari E.
+\newblock Bronchopulmonary dysplasia, 2001.
+\newblock Am J Respir Crit Care Med. 2001;163(7):1723--1729.
+
+\bibitem[AH(2011)]{jobe2011}
+Jobe AH.
+\newblock The new bronchopulmonary dysplasia, 2011.
+\newblock Curr Opin Pediatr. 2011;23(2):167--172.
+
+\bibitem[RH(2010)]{steinhorn2010}
+Steinhorn RH.
+\newblock Neonatal pulmonary hypertension, 2010.
+\newblock Pediatr Crit Care Med. 2010;11(2 Suppl):S79--S84.
+
+\bibitem[JA et~al.(2009)JA, JA, AW, K, and E]{deprest2009}
+Deprest JA, Hyett JA, Flake AW, Nicolaides K, and Gratacos E.
+\newblock Current controversies in prenatal diagnosis 4: should fetal surgery
+  be done in all cases of severe diaphragmatic hernia?, 2009.
+\newblock Prenat Diagn. 2009;29(1):15--19.
+
+\bibitem[RJ et~al.(2011)RJ, K, Ö, J, and P]{martin2011}
+Martin RJ, Wang K, Köroğlu Ö, Di~Fiore J, and Kc~P.
+\newblock Intermittent hypoxic episodes in preterm infants: do they matter?,
+  2011.
+\newblock Neonatology. 2011;100(3):303--310.
+
+\bibitem[DE et~al.(2010)DE, EM, I, and et~al]{weesemayer2010}
+Weese-Mayer DE, Berry-Kravis EM, Ceccherini I, and et~al.
+\newblock An official ats clinical policy statement: congenital central
+  hypoventilation syndrome, 2010.
+\newblock Am J Respir Crit Care Med. 2010;181(6):626--644.
+
+\bibitem[H et~al.(2005)H, M, F, and et~al]{trang2005}
+Trang H, Dehan M, Beaufils F, and et~al.
+\newblock The french congenital central hypoventilation syndrome registry,
+  2005.
+\newblock Chest. 2005;127(1):72--79.
+
+\bibitem[(von Wieser~H)(1956)]{ondine1956}
+Ondine (von Wieser~H).
+\newblock Ondines fluch [ondine's curse], 1956.
+\newblock Drama. 1956.
+
+\bibitem[JA et~al.(2010)JA, P, and BJ]{dempsey2010}
+Dempsey JA, Veasna P, and Morgan BJ.
+\newblock Pathophysiology of sleep apnea, 2010.
+\newblock Physiol Rev. 2010;90(1):47--112.
+
+\bibitem[TD and JS(2003)]{bradley2003}
+Bradley TD and Floras JS.
+\newblock Sleep apnea and heart failure: part ii: central sleep apnea, 2003.
+\newblock Circulation. 2003;107(13):1822--1826.
+
+\bibitem[M et~al.(1969)M, JJ, JP, and F]{joubert1969}
+Joubert M, Eisenring JJ, Robb JP, and Andermann F.
+\newblock Familial agenesis of the cerebellar vermis, 1969.
+\newblock Neurology. 1969;19(9):813--825.
+
+\bibitem[PO et~al.(2001)PO, AM, F, and et~al]{julu2001}
+Julu PO, Kerr AM, Apartopoulos F, and et~al.
+\newblock Characterisation of breathing and associated central autonomic
+  dysfunction in the rett disorder, 2001.
+\newblock Arch Dis Child. 2001;85(1):29--37. (quantitative Rett breathing
+  dysrhythmia: irregular RR (CV $\sim$0.25--0.35), forced expiratory episodes,
+  breath-holding; brainstem autonomic dysfunction; basis for Rett
+  dg$\times$0.50 + cvRR=0.15--0.20 recommendation).
+
+\bibitem[HB and L(2004)]{sarnat2004}
+Sarnat HB and Flores-Sarnat L.
+\newblock Neuropathology of pediatric disorders of respiratory control, 2004.
+\newblock In: Khoo MCK, ed. Modeling and Simulation of Human Respiration. Boca
+  Raton: CRC Press; 2004.
+
+\bibitem[D(1951)]{leigh1951}
+Leigh D.
+\newblock Subacute necrotizing encephalomyelopathy in an infant, 1951.
+\newblock J Neurol Neurosurg Psychiatry. 1951;14(3):216--221.
+
+\bibitem[ES and IA(2016)]{gillett2016}
+Gillett ES and Perez IA.
+\newblock Disorders of sleep and ventilatory control in prader-willi syndrome,
+  2016.
+\newblock Diseases. 2016;4(3):23.
+
+\bibitem[KTS(2008)]{pattinson2008}
+Pattinson KTS.
+\newblock Opioids and the control of respiration, 2008.
+\newblock Br J Anaesth. 2008;100(6):747--758.
+
+\bibitem[CE et~al.(1997)CE, SA, Y, and et~al]{thomas1997}
+Thomas CE, Mayer SA, Gungor Y, and et~al.
+\newblock Myasthenic crisis: clinical features, mortality, complications, and
+  risk factors for prolonged intubation, 1997.
+\newblock Neurology. 1997;48(5):1253--1260.
+
+\bibitem[DE and KA(1993)]{odonnell1993}
+O'Donnell DE and Webb KA.
+\newblock Exertional breathlessness in patients with chronic airflow
+  limitation: the role of lung hyperinflation, 1993.
+\newblock Am Rev Respir Dis. 1993;148(5):1351--1357.
+
+\bibitem[Hogg et~al.(2004)Hogg, Chu, Utokaparch, et~al.]{hogg2004}
+J.~C. Hogg, F.~Chu, S.~Utokaparch, et~al.
+\newblock The nature of small-airway obstruction in chronic obstructive
+  pulmonary disease.
+\newblock \emph{New England Journal of Medicine}, 350\penalty0 (26):\penalty0
+  2645--2653, 2004.
+
+\bibitem[NG et~al.(1995)NG, P, A, and et~al]{koulouris1995}
+Koulouris NG, Valta P, Lavoie A, and et~al.
+\newblock A simple method to detect expiratory flow limitation during
+  spontaneous breathing, 1995.
+\newblock Eur Respir J. 1995;8(2):306--313.
+
+\bibitem[PK et~al.(2000)PK, JL, and MW]{plant2000}
+Plant PK, Owen JL, and Elliott MW.
+\newblock Early use of non-invasive ventilation for acute exacerbations of
+  chronic obstructive pulmonary disease on general respiratory wards: a
+  multicentre randomised controlled trial, 2000.
+\newblock Lancet. 2000;355(9219):1931--1935.
+
+\bibitem[A et~al.(2021)A, C, MS, and et~al]{torres2021}
+Torres A, Cillóniz C, Niederman MS, and et~al.
+\newblock Pneumonia, 2021.
+\newblock Nat Rev Dis Primers. 2021;7(1):25.
+
+\bibitem[EJ et~al.(2020)EJ, JS, J, and et~al]{couture2020}
+Couture EJ, Bussières JS, Somma J, and et~al.
+\newblock Perioperative lung recruitment maneuvers in adults undergoing general
+  anesthesia: a systematic review and meta-analysis, 2020.
+\newblock J Clin Anesth. 2020;66:109939.
+
+\bibitem[Naughton et~al.(1993)Naughton, Benard, Tam, Rutherford, and
+  Bradley]{naughton1993}
+M.~Naughton, D.~Benard, A.~Tam, R.~Rutherford, and T.~D. Bradley.
+\newblock Role of hyperventilation in the pathogenesis of central sleep apneas
+  in patients with congestive heart failure.
+\newblock \emph{American Review of Respiratory Disease}, 148\penalty0
+  (2):\penalty0 330--338, 1993.
+
+\bibitem[G et~al.(1993)G, M, SH, and M]{hertz1993}
+Hertz G, Cataletto M, Feinsilver SH, and Angulo M.
+\newblock Sleep and breathing patterns in patients with prader-willi syndrome
+  (pws): effects of age and gender, 1993.
+\newblock Sleep. 1993;16(4):366--371.
+
+\bibitem[L et~al.(2008)L, S, and RM]{guglani2008}
+Guglani L, Lakshminrusimha S, and Ryan RM.
+\newblock Transient tachypnea of the newborn, 2008.
+\newblock Pediatr Rev. 2008;29(11):e59--e65.
+
+\bibitem[BJ et~al.(2011)BJ, NI, PJ, and et~al]{stoll2011}
+Stoll BJ, Hansen NI, Sánchez PJ, and et~al.
+\newblock Early onset neonatal sepsis: the burden of group b streptococcal and
+  e, 2011.
+\newblock coli disease continues. Pediatrics. 2011;127(5):817--826.
+
+\bibitem[TE et~al.(1990)TE, JM, and BS]{wiswell1990}
+Wiswell TE, Tuggle JM, and Turner BS.
+\newblock Meconium aspiration syndrome: have we made a difference?, 1990.
+\newblock Pediatrics. 1990;85(5):715--721.
+
+\bibitem[BL et~al.(1999)BL, E, SC, and TX]{maria1999}
+Maria BL, Boltshauser E, Palmer SC, and Tran TX.
+\newblock Clinical features and revised diagnostic criteria in joubert
+  syndrome, 1999.
+\newblock J Child Neurol. 1999;14(9):583--590.
+
+\bibitem[Chatburn et~al.(2014)Chatburn, El-Khatib, and
+  Mireles-Cabodevila]{chatburn2014}
+R.~L. Chatburn, M.~El-Khatib, and E.~Mireles-Cabodevila.
+\newblock A taxonomy for mechanical ventilation: 10 fundamental maxims.
+\newblock \emph{Respiratory Care}, 59\penalty0 (11):\penalty0 1747--1763, 2014.
+
+\bibitem[Prinianakis et~al.(2004)Prinianakis, Delmastro, Carlucci, Ceriana, and
+  Nava]{prinianakis2004}
+G.~Prinianakis, M.~Delmastro, A.~Carlucci, P.~Ceriana, and S.~Nava.
+\newblock Effect of varying the pressurisation rate during noninvasive pressure
+  support ventilation.
+\newblock \emph{European Respiratory Journal}, 23\penalty0 (2):\penalty0
+  314--320, 2004.
+
+\bibitem[Thille et~al.(2006)Thille, Rodriguez, Cabello, Lellouche, and
+  Brochard]{thille2006}
+A.~W. Thille, P.~Rodriguez, B.~Cabello, F.~Lellouche, and L.~Brochard.
+\newblock Patient-ventilator asynchrony during assisted mechanical ventilation.
+\newblock \emph{Intensive Care Medicine}, 32\penalty0 (10):\penalty0
+  1515--1522, 2006.
+
+\bibitem[Murphy et~al.(2017)Murphy, Rehal, Arbane, et~al.]{murphy2017}
+P.~B. Murphy, S.~Rehal, G.~Arbane, et~al.
+\newblock Effect of home noninvasive ventilation with oxygen therapy vs oxygen
+  therapy alone on hospital readmission or death after an acute {COPD}
+  exacerbation: a randomized clinical trial.
+\newblock \emph{JAMA}, 317\penalty0 (21):\penalty0 2177--2186, 2017.
+
+\bibitem[Storre et~al.(2006)Storre, Seuthe, Fiechter, Milioglou, Dreher,
+  Sorichter, and Windisch]{storre2006}
+J.~H. Storre, B.~Seuthe, R.~Fiechter, S.~Milioglou, M.~Dreher, S.~Sorichter,
+  and W.~Windisch.
+\newblock Average volume-assured pressure support in obesity hypoventilation: a
+  randomized crossover trial.
+\newblock \emph{Chest}, 130\penalty0 (3):\penalty0 815--821, 2006.
+
+\bibitem[Kelly et~al.(2014)Kelly, Jaye, Pickersgill, Chatwin, Morrell, and
+  Simonds]{kelly2014}
+J.~L. Kelly, J.~Jaye, R.~E. Pickersgill, M.~Chatwin, M.~J. Morrell, and A.~K.
+  Simonds.
+\newblock Randomized trial of `intelligent' autotitrating ventilation versus
+  standard pressure support non-invasive ventilation: impact on adherence and
+  physiological outcomes.
+\newblock \emph{Respirology}, 19\penalty0 (4):\penalty0 596--603, 2014.
+
+\bibitem[Younes(1992)]{younes1992}
+M.~Younes.
+\newblock Proportional assist ventilation, a new approach to ventilatory
+  support: theory.
+\newblock \emph{American Review of Respiratory Disease}, 145\penalty0
+  (1):\penalty0 114--120, 1992.
+
+\bibitem[Sinderby et~al.(1999)Sinderby, Navalesi, Beck, Skrobik, Comtois,
+  Friberg, Gottfried, and Lindstr{\"o}m]{sinderby1999}
+C.~Sinderby, P.~Navalesi, J.~Beck, Y.~Skrobik, N.~Comtois, S.~Friberg, S.~B.
+  Gottfried, and L.~Lindstr{\"o}m.
+\newblock Neural control of mechanical ventilation in respiratory failure.
+\newblock \emph{Nature Medicine}, 5\penalty0 (12):\penalty0 1433--1436, 1999.
+
+\bibitem[Parke et~al.(2009)Parke, McGuinness, and Eccleston]{parke2009}
+R.~Parke, S.~McGuinness, and M.~Eccleston.
+\newblock Nasal high-flow therapy delivers low level positive airway pressure.
+\newblock \emph{British Journal of Anaesthesia}, 103\penalty0 (6):\penalty0
+  886--890, 2009.
+
+\bibitem[M{\"o}ller et~al.(2015)M{\"o}ller, Celik, Feng, et~al.]{moller2015}
+W.~M{\"o}ller, G.~Celik, S.~Feng, et~al.
+\newblock Nasal high flow clears anatomical dead space in upper airway models.
+\newblock \emph{Journal of Applied Physiology}, 118\penalty0 (12):\penalty0
+  1525--1532, 2015.
+
+\bibitem[L et~al.(2021)L, M, EC, and L]{sun2021}
+Sun L, Janus M, Goligher EC, and Brochard L.
+\newblock Comparison of actual performance in the flow and fio\textsubscript{2}
+  delivery of three high-flow nasal cannula devices, 2021.
+\newblock Can Respir J. 2021;2021:6618556. (bench evaluation of OH-70C, AIRVO
+  2, and bellavista 1000 under simulated spontaneous breathing at 30--60 L/min
+  set flow; flow bias, flow-change-rate sag, and FiO\textsubscript{2} accuracy
+  quantified across flow and FiO\textsubscript{2} ranges; primary source for
+  §14.8.4 device-specific flow bias, sag sensitivity, and FiO\textsubscript{2}
+  correction tables; OH-70C demonstrates marked positive bias (+4.4--5.7 L/min)
+  and high sag at >60 L/min; bellavista 1000 shows lowest sag; AIRVO 2 most
+  commonly deployed device with intermediate performance).
+
+\bibitem[Tobin et~al.(2001)Tobin, Jubran, and Laghi]{tobin2001}
+M.~J. Tobin, A.~Jubran, and F.~Laghi.
+\newblock Patient-ventilator interaction.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  163\penalty0 (5):\penalty0 1059--1063, 2001.
+
+\bibitem[E et~al.(2013)E, A, N, and et~al]{akoumianaki2013a}
+Akoumianaki E, Lyazidi A, Rey N, and et~al.
+\newblock Mechanical ventilation-induced reverse-triggered breaths, 2013.
+\newblock CHEST. 2013;143(4):927--938.
+
+\bibitem[M et~al.(2016)M, N, and L]{dres2016}
+Dres M, Rittayamai N, and Brochard L.
+\newblock Monitoring patient-ventilator asynchrony, 2016.
+\newblock Curr Opin Crit Care. 2016;22(3):246--253.
+
+\bibitem[C et~al.(1986)C, L, D, R, and A]{graves1986}
+Graves C, Glass L, Laporta D, Meloche R, and Grassino A.
+\newblock Respiratory phase locking during mechanical ventilation in
+  anesthetized human subjects, 1986.
+\newblock Am J Physiol Regul Integr Comp Physiol. 1986;250(5):R902--R909.
+
+\bibitem[P et~al.(2003)P, R, J, et~al.]{calverley2003}
+Calverley P, Pauwels R, Vestbo J, et~al.
+\newblock Combined salmeterol and fluticasone in the treatment of chronic
+  obstructive pulmonary disease: a randomised controlled trial.
+\newblock \emph{Lancet}, 361:\penalty0 449--456, 2003.
+
+\bibitem[SI et~al.(1996)SI, CW, M, PA, and M]{rennard1996}
+Rennard SI, Serby CW, Ghafouri M, Johnson PA, and Friedman M.
+\newblock Extended therapy with ipratropium is associated with improved lung
+  function in patients with copd, 1996.
+\newblock Chest. 1996;110(1):62--70.
+
+\bibitem[NJ and Z(1987)]{gross1987}
+Gross NJ and Bankwala Z.
+\newblock Effects of an anticholinergic bronchodilator on arterial blood gases
+  of hypoxic patients with chronic obstructive pulmonary disease, 1987.
+\newblock Am Rev Respir Dis. 1987;136(5):1091--1094.
+
+\bibitem[BH et~al.(2000)BH, JA, C, GW, and Jr]{rowe2000}
+Rowe BH, Bretzlaff JA, Bourdon C, Bota GW, and Camargo~CA Jr.
+\newblock Magnesium sulfate for treating exacerbations of acute asthma in the
+  emergency department, 2000.
+\newblock Cochrane Database Syst Rev. 2000;(2):CD001490.
+
+\bibitem[DE et~al.(1999)DE, ML, RH, et~al.]{niewoehner1999}
+Niewoehner DE, Erbland ML, Deupree RH, et~al.
+\newblock Effect of systemic glucocorticoids on exacerbations of chronic
+  obstructive pulmonary disease.
+\newblock \emph{N Engl J Med}, 340:\penalty0 1941--1947, 1999.
+
+\bibitem[CR et~al.(1978)CR, EK, and JG]{westley1978}
+Westley CR, Cotton EK, and Brooks JG.
+\newblock Nebulized racemic epinephrine by ippb for the treatment of croup,
+  1978.
+\newblock Am J Dis Child. 1978;132(5):484--487.
+
+\bibitem[of~Pediatrics Committee~on Fetus and Newborn(2008)]{engle2008}
+Engle WA; American~Academy of~Pediatrics Committee~on Fetus and Newborn.
+\newblock Surfactant-replacement therapy for respiratory distress in the
+  preterm and term neonate, 2008.
+\newblock Pediatrics. 2008;121(2):419--432.
+
+\bibitem[RH et~al.(2000)RH, TJ, MW, and et~al]{clark2000}
+Clark RH, Kueser TJ, Walker MW, and et~al.
+\newblock Low-dose nitric oxide therapy for persistent pulmonary hypertension
+  of the newborn, 2000.
+\newblock N Engl J Med. 2000;342(7):469--474.
+
+\bibitem[SH et~al.(2006)SH, WD, KL, and et~al]{donaldson2006}
+Donaldson SH, Bennett WD, Zeman KL, and et~al.
+\newblock Mucus clearance and lung function in cystic fibrosis with hypertonic
+  saline, 2006.
+\newblock N Engl J Med. 2006;354(3):241--250.
+
+\bibitem[AL(1963)]{sheffner1963}
+Sheffner AL.
+\newblock The reduction in vitro in viscosity of mucoprotein solutions by a new
+  mucolytic agent, n-acetyl-l-cysteine, 1963.
+\newblock Ann N Y Acad Sci. 1963;106:298--310.
+
+\bibitem[M et~al.(2005{\natexlab{a}})M, van M{\"o}lken~M, PNR,
+  et~al.]{decramer2005}
+Decramer M, Rutten van M{\"o}lken~M, Dekhuijzen PNR, et~al.
+\newblock Effects of n-acetylcysteine on outcomes in chronic obstructive
+  pulmonary disease (broncus): a randomised placebo-controlled trial.
+\newblock \emph{Lancet}, 365:\penalty0 1552--1560, 2005{\natexlab{a}}.
+
+\bibitem[HJ et~al.(1994)HJ, DS, DH, and et~al]{fuchs1994}
+Fuchs HJ, Borowitz DS, Christiansen DH, and et~al.
+\newblock Effect of aerosolized recombinant human dnase on exacerbations of
+  respiratory symptoms and on pulmonary function in patients with cystic
+  fibrosis, 1994.
+\newblock N Engl J Med. 1994;331(10):637--642.
+
+\bibitem[BW et~al.(1999)BW, MS, JM, and et~al]{ramsey1999}
+Ramsey BW, Pepe MS, Quan JM, and et~al.
+\newblock Intermittent administration of inhaled tobramycin in patients with
+  cystic fibrosis, 1999.
+\newblock N Engl J Med. 1999;340(1):23--30.
+
+\bibitem[A et~al.(2013)A, F, N, S, M, and C]{nicolini2013}
+Nicolini A, Cardini F, Landucci N, Lanata S, Ferrari-Bravo M, and Barlascini C.
+\newblock Effectiveness of treatment with high-frequency chest wall oscillation
+  in patients with bronchiectasis.
+\newblock \emph{BMC Pulm Med}, 13:\penalty0 21, 2013.
+
+\bibitem[JR(1993)]{bach1993}
+Bach JR.
+\newblock Mechanical insufflation-exsufflation: comparison of peak expiratory
+  flows with manually assisted and unassisted coughing techniques.
+\newblock \emph{Chest}, 104:\penalty0 1553--1562, 1993.
+
+\bibitem[C et~al.(2013{\natexlab{a}})C, J, J-C, and et~al]{guerin2013}
+Guérin C, Reignier J, Richard J-C, and et~al.
+\newblock Prone positioning in severe acute respiratory distress syndrome,
+  2013{\natexlab{a}}.
+\newblock N Engl J Med. 2013;368(23):2159--2168.
+
+\bibitem[L et~al.(1988)L, M, and A]{radwan1988}
+Radwan L, Strugalska M, and Koziorowski A.
+\newblock Changes in respiratory muscle function after neostigmine injection in
+  myasthenia gravis.
+\newblock \emph{Eur Respir J}, 1:\penalty0 119--121, 1988.
+
+\bibitem[Younes et~al.(1992)Younes, Puddy, Roberts, et~al.]{younes1992b}
+M.~Younes, A.~Puddy, D.~Roberts, et~al.
+\newblock Proportional assist ventilation: results of an initial clinical
+  trial.
+\newblock \emph{American Review of Respiratory Disease}, 145\penalty0
+  (1):\penalty0 121--129, 1992.
+
+\bibitem[Ranieri et~al.(1996)Ranieri, Giuliani, Mascia, et~al.]{ranieri1996}
+V.~M. Ranieri, R.~Giuliani, L.~Mascia, et~al.
+\newblock Patient-ventilator interaction during acute hypercapnia:
+  pressure-support vs. proportional-assist ventilation.
+\newblock \emph{Journal of Applied Physiology}, 81\penalty0 (1):\penalty0
+  426--436, 1996.
+
+\bibitem[Xirouchaki et~al.(2008)Xirouchaki, Kondili, Vaporidi,
+  et~al.]{xirouchaki2008}
+N.~Xirouchaki, E.~Kondili, K.~Vaporidi, et~al.
+\newblock Proportional assist ventilation with load-adjustable gain factors in
+  critically ill patients: comparison with pressure support.
+\newblock \emph{Intensive Care Medicine}, 34\penalty0 (11):\penalty0
+  2026--2034, 2008.
+
+\bibitem[Piquilloud et~al.(2011)Piquilloud, Vignaux, Bialais,
+  et~al.]{piquilloud2011}
+L.~Piquilloud, L.~Vignaux, E.~Bialais, et~al.
+\newblock Neurally adjusted ventilatory assist improves patient-ventilator
+  interaction.
+\newblock \emph{Intensive Care Medicine}, 37\penalty0 (2):\penalty0 263--271,
+  2011.
+
+\bibitem[Laubscher et~al.(1994)Laubscher, Heinrichs, Weiler, Hartmann, and
+  Brunner]{laubscher1994}
+T.~P. Laubscher, W.~Heinrichs, N.~Weiler, G.~Hartmann, and J.~X. Brunner.
+\newblock An adaptive lung ventilation controller.
+\newblock \emph{IEEE Transactions on Biomedical Engineering}, 41\penalty0
+  (1):\penalty0 51--59, 1994.
+
+\bibitem[Otis et~al.(1950)Otis, Fenn, and Rahn]{otis1950}
+A.~B. Otis, W.~O. Fenn, and H.~Rahn.
+\newblock Mechanics of breathing in man.
+\newblock \emph{Journal of Applied Physiology}, 2\penalty0 (11):\penalty0
+  592--607, 1950.
+
+\bibitem[Arnal et~al.(2008)Arnal, Wysocki, Nafati, et~al.]{arnal2008}
+J.-M. Arnal, M.~Wysocki, C.~Nafati, et~al.
+\newblock Automatic selection of breathing pattern using adaptive support
+  ventilation.
+\newblock \emph{Intensive Care Medicine}, 34\penalty0 (1):\penalty0 75--81,
+  2008.
+
+\bibitem[Stock et~al.(1987)Stock, Downs, and Frolicher]{stock1987}
+M.~C. Stock, J.~B. Downs, and D.~A. Frolicher.
+\newblock Airway pressure release ventilation.
+\newblock \emph{Critical Care Medicine}, 15\penalty0 (5):\penalty0 462--466,
+  1987.
+
+\bibitem[Habashi(2005)]{habashi2005}
+N.~M. Habashi.
+\newblock Other approaches to open-lung ventilation: airway pressure release
+  ventilation.
+\newblock \emph{Critical Care Medicine}, 33\penalty0 (3 Suppl):\penalty0
+  S228--S240, 2005.
+
+\bibitem[Putensen et~al.(2001)Putensen, Zech, Wrigge, et~al.]{putensen2001}
+C.~Putensen, S.~Zech, H.~Wrigge, et~al.
+\newblock Long-term effects of spontaneous breathing during ventilatory support
+  in patients with acute lung injury.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  164\penalty0 (1):\penalty0 43--49, 2001.
+
+\bibitem[Zhou et~al.(2017)Zhou, Jin, Lv, et~al.]{zhou2017}
+Y.~Zhou, X.~Jin, Y.~Lv, et~al.
+\newblock Early application of airway pressure release ventilation may reduce
+  the duration of mechanical ventilation in acute respiratory distress
+  syndrome.
+\newblock \emph{Intensive Care Medicine}, 43\penalty0 (11):\penalty0
+  1648--1659, 2017.
+
+\bibitem[Robinson et~al.(2000)Robinson, Freiberg, Regnis, and
+  Young]{robinson2000}
+T.~D. Robinson, D.~B. Freiberg, J.~A. Regnis, and I.~H. Young.
+\newblock The role of hypoventilation and ventilation-perfusion redistribution
+  in oxygen-induced hypercapnia during acute exacerbations of chronic
+  obstructive pulmonary disease.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  161\penalty0 (5):\penalty0 1524--1529, 2000.
+
+\bibitem[Yang et~al.(2024)Yang, Chen, Yu, et~al.]{yang2024}
+J.~Yang, L.~Chen, H.~Yu, et~al.
+\newblock Effects of high-flow nasal cannula oxygen therapy in bronchiectasis
+  and hypercapnia: a retrospective observational study.
+\newblock \emph{BMC Pulmonary Medicine}, 24\penalty0 (1):\penalty0 217, 2024.
+
+\bibitem[Appendini et~al.(1994)Appendini, Patessio, Zanaboni,
+  et~al.]{appendini1994}
+L.~Appendini, A.~Patessio, S.~Zanaboni, et~al.
+\newblock Physiologic effects of positive end-expiratory pressure and mask
+  pressure support during exacerbations of chronic obstructive pulmonary
+  disease.
+\newblock \emph{American Journal of Respiratory and Critical Care Medicine},
+  149:\penalty0 1069--1076, 1994.
+
+\bibitem[JB(1969)]{west1969}
+West JB.
+\newblock Ventilation-perfusion inequality and overall gas exchange in computer
+  models of the lung.
+\newblock \emph{Respir Physiol}, 7:\penalty0 88--110, 1969.
+
+\bibitem[RG et~al.(2009{\natexlab{b}})RG, CE, EJ, and et~al]{miller2009a}
+Miller RG, Jackson CE, Kasarskis EJ, and et~al.
+\newblock Practice parameter update: the care of the patient with amyotrophic
+  lateral sclerosis --- multidisciplinary care, symptom management, and
+  cognitive/behavioral impairment, 2009{\natexlab{b}}.
+\newblock Neurology. 2009;73(15):1218--1226.
+
+\bibitem[SC et~al.(2006)SC, M, TL, RE, PJ, and GJ]{bourke2006}
+Bourke SC, Tomlinson M, Williams TL, Bullock RE, Shaw PJ, and Gibson GJ.
+\newblock Effects of non-invasive ventilation on survival and quality of life
+  in patients with amyotrophic lateral sclerosis: a randomised controlled
+  trial, 2006.
+\newblock Lancet Neurol. 2006;5(2):140--147.
+
+\bibitem[TT et~al.(2019)TT, SB, T, and et~al]{nicholson2019}
+Nicholson TT, Smith SB, Siddiqui T, and et~al.
+\newblock Respiratory pattern and tidal volumes differ for pressure support and
+  volume-assured pressure support in amyotrophic lateral sclerosis, 2019.
+\newblock Ann Am Thorac Soc. 2019;16(10):1389--1396.
+
+\bibitem[AR et~al.(2005)AR, K, S, and et~al]{gujjar2005}
+Gujjar AR, Muralidhar K, Bhatt S, and et~al.
+\newblock Non-invasive ventilation in acute respiratory failure due to
+  myasthenic crisis: a case series, 2005.
+\newblock Emerg Med J. 2005;22(12):895.
+
+\bibitem[M et~al.(2005{\natexlab{b}})M, G, MS, and et~al]{confalonieri2005}
+Confalonieri M, Garuti G, Cattaruzza MS, and et~al.
+\newblock A chart of failure risk for noninvasive ventilation in patients with
+  copd exacerbation, 2005{\natexlab{b}}.
+\newblock Eur Respir J. 2005;25(2):348--355.
+
+\bibitem[DV and S(1987)]{tuxen1987}
+Tuxen DV and Lane S.
+\newblock The effects of ventilatory pattern on hyperinflation, airway
+  pressures, and circulation in mechanical ventilation of patients with severe
+  air-flow obstruction, 1987.
+\newblock Am Rev Respir Dis. 1987;136(4):872--879.
+
+\bibitem[JW et~al.(2004)JW, C, and RS]{leatherman2004}
+Leatherman JW, McArthur C, and Shapiro RS.
+\newblock Effect of prolongation of expiratory time on dynamic hyperinflation
+  in mechanically ventilated patients with severe asthma, 2004.
+\newblock Crit Care Med. 2004;32(7):1542--1545.
+
+\bibitem[Network(2000)]{ards2000}
+ARDS Network.
+\newblock Ventilation with lower tidal volumes as compared with traditional
+  tidal volumes for acute lung injury and the acute respiratory distress
+  syndrome, 2000.
+\newblock N Engl J Med. 2000;342(18):1301--1308.
+
+\bibitem[MBP et~al.(2015)MBP, MO, AS, and et~al]{amato2015}
+Amato MBP, Meade MO, Slutsky AS, and et~al.
+\newblock Driving pressure and survival in the acute respiratory distress
+  syndrome, 2015.
+\newblock N Engl J Med. 2015;372(8):747--755.
+
+\bibitem[C et~al.(2013{\natexlab{b}})C, J, JC, and et~al]{guerin2013a}
+Guérin C, Reignier J, Richard JC, and et~al.
+\newblock Prone positioning in severe acute respiratory distress syndrome,
+  2013{\natexlab{b}}.
+\newblock N Engl J Med. 2013;368(23):2159--2168.
+
+\bibitem[JJ and SA(1992)]{marini1992}
+Marini JJ and Ravenscraft SA.
+\newblock Mean airway pressure: physiological determinants and clinical
+  importance --- part 2: Clinical implications, 1992.
+\newblock Crit Care Med. 1992;20(11):1604--1616.
+
+\bibitem[F et~al.(1988)F, JL, L, and et~al]{lemaire1988}
+Lemaire F, Téboul JL, Cinotti L, and et~al.
+\newblock Acute left ventricular dysfunction during unsuccessful weaning from
+  mechanical ventilation, 1988.
+\newblock Anesthesiology. 1988;69(2):171--179.
+
+\bibitem[L et~al.(2010)L, JM, A, and et~al]{papazian2010}
+Papazian L, Forel JM, Gacouin A, and et~al.
+\newblock Neuromuscular blockers in early acute respiratory distress syndrome,
+  2010.
+\newblock N Engl J Med. 2010;363(12):1107--1116.
+
+\bibitem[E et~al.(2008)E, A, N, D, and D]{javouhey2008}
+Javouhey E, Barats A, Richard N, Stamm D, and Floret D.
+\newblock Non-invasive ventilation as primary ventilatory support for infants
+  with severe bronchiolitis, 2008.
+\newblock Intensive Care Med. 2008;34(9):1608--1614.
+
+\bibitem[A et~al.(2003)A, D, and I]{soroksky2003}
+Soroksky A, Stav D, and Shpirer I.
+\newblock A pilot prospective, randomised, placebo-controlled trial of bilevel
+  positive airway pressure in acute asthmatic attack, 2003.
+\newblock Chest. 2003;123(4):1018--1025.
+
+\end{thebibliography}

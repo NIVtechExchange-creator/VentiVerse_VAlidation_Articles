@@ -1,0 +1,20 @@
+\chapter{Neurally Adjusted Ventilatory Assist}
+\label{ch:nava}
+
+\begin{authornote}
+\emph{Not modeled in VentiVerse.} This chapter describes the mode and what the model would need to simulate it. Author commentary to be added.
+\end{authornote}
+
+\section{Principle}
+Neurally adjusted ventilatory assist (NAVA) uses the electrical activity of the diaphragm (EAdi), recorded by an array of electrodes on a nasogastric catheter, to trigger, size and cycle each breath~\citep{sinderby1999}. The pressure command is
+\begin{equation}
+P_{aw}(t)=\mathrm{PEEP}+N\,\bigl[\mathrm{EAdi}(t)-\mathrm{EAdi}_{\min}\bigr],
+\label{eq:nava-cmd}
+\end{equation}
+where $N$ is the NAVA level in \si{\cmH\per\micro\volt} and $\mathrm{EAdi}_{\min}$ the tonic activity at end-expiration. The breath is triggered when EAdi rises above a set threshold (typically \SI{0.5}{\micro\volt}) or by a pneumatic trigger, whichever comes first, and cycles off when EAdi falls to a set fraction of its peak (typically 70\%).
+
+\section{Behavior and evidence}
+Because triggering and cycling follow the neural signal, NAVA is not delayed by intrinsic PEEP or leak, and it reduces trigger delay, ineffective efforts and premature or delayed cycling compared with pressure support~\citep{piquilloud2011}. The relation between EAdi and pressure output depends on neuromechanical efficiency, which falls with fatigue and hyperinflation.
+
+\section{What modeling would require}
+The model's neural drive (\cref{ch:ch08}) is a pressure-equivalent effort, not an electrical signal. NAVA would need an EAdi output, which could be defined as neural drive divided by a neuromechanical efficiency that falls with lung volume and fatigue (\cref{ch:ch07}), the threshold trigger and the fractional-peak cycle. The existing neural pressure support mode (\cref{sec:modes-adapt}) is an idealized version of \cref{eq:nava-cmd} with a perfect signal and no electrode or efficiency error.

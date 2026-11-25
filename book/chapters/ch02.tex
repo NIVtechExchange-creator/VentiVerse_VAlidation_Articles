@@ -1,0 +1,109 @@
+\chapter{Model Overview}
+\label{ch:ch02}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Name the subsystems of the respiratory model and the signals that pass between them.
+  \item Explain why the model runs on several time scales, from milliseconds to days.
+  \item Distinguish what the model represents mechanistically from what it simplifies or leaves out.
+\end{itemize}
+\end{objectives}
+
+\section{A mechanistic model of breathing}
+\label{sec:overview-mechanistic}
+The model in this book is built from physiology rather than fitted as a black box. Each part describes a physical or physiological process with an equation whose parameters have a measurable meaning: airway resistance in \si{\cmH\per\liter\second}, compliance in \si{\milli\liter\per\cmH}, chemoreflex gain in \si{\cmH} of muscle pressure per \si{\mmHg} of carbon dioxide, metabolic CO\textsubscript{2} production in \si{\milli\liter\per\minute}. A patient is described by setting those parameters, and the model then predicts the breathing pattern, the blood gases and the response to a ventilator. The approach follows the tradition of whole-system models of respiratory control that began with Grodins and colleagues~\citep{grodins1967} and was extended to the stability of breathing by Khoo and colleagues~\citep{khoo1982}.
+
+Because the parameters are physical, the same equations serve every patient. A disease is represented by changing the parameters the disease changes, within ranges reported in published studies, and not by writing new equations for each disease. \Cref{ch:ch12} describes how those parameters are chosen, and \cref{ch:ch14} how the resulting simulations are tested against published patients.
+
+\section{Subsystems and signals}
+\label{sec:overview-blocks}
+\Cref{fig:overview-blocks} shows the model as a closed loop. The respiratory centers set a neural drive; the respiratory muscles convert it into a muscle pressure $\Pmus$; the ventilator, when present, adds an airway pressure $\Paw$; the mechanics of the lungs and chest wall turn the two pressures into airflow and volume; gas exchange converts ventilation into arterial blood gases; and the chemoreceptors sense the blood gases and feed them back to the respiratory centers. Sleep modifies several blocks at once, and the ventilator closes a second loop of its own through triggering, cycling and, in some modes, a volume target.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  blk/.style={draw=bkblue,fill=bkblue!6,rounded corners=2pt,minimum width=3.0cm,minimum height=1.0cm,align=center,font=\sffamily\small},
+  side/.style={draw=bkteal,fill=bkteal!6,rounded corners=2pt,minimum width=3.0cm,minimum height=0.9cm,align=center,font=\sffamily\small},
+  sig/.style={-{Latex[length=2mm]},thick,bkgray},
+  lab/.style={font=\scriptsize,text=black!70,align=center}]
+\node[blk] (ctrl) at (0,0) {Respiratory centers\\(drive, rate, timing)};
+\node[blk] (mus)  at (5.2,0) {Respiratory muscles\\(capacity, fatigue)};
+\node[blk] (mech) at (10.4,0) {Lung and chest-wall\\mechanics};
+\node[blk] (gas)  at (10.4,-3.2) {Gas exchange and\\circulation};
+\node[blk] (co2)  at (5.2,-3.2) {CO$_2$ and O$_2$ stores,\\acid--base};
+\node[blk] (chem) at (0,-3.2) {Chemoreceptors\\(peripheral, central)};
+\node[side] (vent) at (10.4,2.6) {Ventilator or\\therapy device};
+\node[side] (sleep) at (2.6,2.6) {Sleep stage\\and arousal};
+\draw[sig] (ctrl) -- node[above,lab]{neural\\drive} (mus);
+\draw[sig] (mus) -- node[above,lab]{$\Pmus(t)$} (mech);
+\draw[sig] ([xshift=-6mm]vent.south) -- node[left,lab]{$\Paw(t)$} ([xshift=-6mm]mech.north);
+\draw[sig] ([xshift=6mm]mech.north) -- node[right,lab]{flow,\\volume} ([xshift=6mm]vent.south);
+\draw[sig] (mech) -- node[right,lab]{$\dot V_A$, $V_D$} (gas);
+\draw[sig] (gas) -- node[below,lab]{O$_2$ uptake,\\CO$_2$ output} (co2);
+\draw[sig] (co2) -- node[below,lab]{PaCO$_2$, PaO$_2$,\\pH} (chem);
+\draw[sig] (chem) -- node[left,lab]{sensed\\PaCO$_2$,\\SaO$_2$} (ctrl);
+\draw[sig] (sleep.south) ++(-0.8,0) -- node[left,lab]{drive} ([xshift=1.8mm]ctrl.north);
+\draw[sig] (sleep.east) -| node[right,lab,pos=0.75]{muscle and\\upper-airway\\tone} (mus.north);
+\end{tikzpicture}
+\caption{The model as a closed loop. Blue blocks form the chemical control loop of breathing; teal blocks are the two external inputs that act on it, the ventilator or other therapy device and the sleep state.}
+\label{fig:overview-blocks}
+\end{figure}
+
+\Cref{tab:overview-blocks} lists each subsystem with the variables it passes on and the chapter that describes it.
+
+\begin{table}[ht]
+\centering
+\caption{Subsystems of the model.}
+\label{tab:overview-blocks}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l@{}}
+\toprule
+Subsystem & Main outputs & Chapter \\
+\midrule
+Respiratory mechanics & Flow, volume, intrinsic PEEP, alveolar pressure & \ref{ch:ch06} \\
+Respiratory muscles & Muscle pressure $\Pmus(t)$, effort, fatigue & \ref{ch:ch07} \\
+Control of breathing & Neural drive, rate, inspiratory time, apnea & \ref{ch:ch08} \\
+Gas exchange and circulation & PaO\textsubscript{2}, SaO\textsubscript{2}, cardiac output, shunt & \ref{ch:ch09} \\
+CO\textsubscript{2} stores and dead space & PaCO\textsubscript{2}, end-tidal CO\textsubscript{2}, dead-space fraction & \ref{ch:ch10} \\
+Sleep & Stage, arousals, upper-airway collapse & \ref{ch:ch11} \\
+Ventilator and therapy devices & Airway pressure, delivered flow, FiO\textsubscript{2}, leak & \ref{ch:ch13} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Time scales}
+\label{sec:overview-timescales}
+Breathing spans time scales that differ by eight orders of magnitude. Airflow changes within milliseconds as a ventilator pressurizes the airway; the chemoreceptors respond over seconds to minutes; the body's carbon dioxide stores fill and empty over tens of minutes; and the kidneys compensate a chronic change in PaCO\textsubscript{2} over days. A model that resolved every process at the shortest time scale would spend almost all of its computation on states that barely change within a breath. The model therefore uses two numerical regimes, described in \cref{ch:ch03}: within each breath, the mechanics are integrated in \SI{2}{\milli\second} steps, and between breaths the slow chemical states are advanced once per breath by exact solutions of their equations.
+
+\begin{table}[ht]
+\centering
+\caption{Time scales represented in the model, with the default value used in the simulator.}
+\label{tab:overview-timescales}
+\small
+\begin{tabularx}{\linewidth}{@{}X l l@{}}
+\toprule
+Process & Time scale & Update \\
+\midrule
+Airflow and lung volume & \SI{2}{\milli\second} step & Euler, within breath \\
+Expiratory time constant $\tau = RC$ & \SIrange{0.2}{3}{\second} & Within breath \\
+Peripheral chemoreflex & delay \SI{6}{\second}, time constant \SI{8}{\second} & Per breath \\
+Central chemoreflex & delay \SI{10}{\second}, time constant \SI{120}{\second} & Per breath \\
+Lung CO\textsubscript{2} store & \SI{30}{\second}, scaled by lung volume & Per breath, exact \\
+Tissue CO\textsubscript{2} store & \SI{20}{\minute} & Per breath, exact \\
+Sleep scoring and stage transitions & \SI{30}{\second} epochs, \SI{90}{\minute} cycles & Per epoch \\
+Renal bicarbonate compensation & about \SI{2}{\day} & Per breath, exact \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{What the model includes and what it leaves out}
+\label{sec:overview-scope}
+A mechanism is included only when published studies measure it, its parameters can be set from those measurements, it stays bounded under every setting the simulator allows, and it changes an output that can be compared with patient data. Mechanisms that fail these tests are discussed as limitations in the chapter where they would belong. Examples of mechanisms the model includes are two parallel lung compartments with volume-dependent compliance, dynamic airway compression with a choke point, a collapsible upper airway during sleep, a respiratory-muscle capacity that falls with weakness and hyperinflation, peripheral and central chemoreflexes with circulatory delay, a three-compartment ventilation--perfusion model with oxygen and carbon dioxide dissociation, a conserved carbon dioxide mass balance, renal bicarbonate compensation, and a stochastic sleep-stage model with arousals. Examples it leaves out are spatial airway trees, gas transport along the airways, pulsatile blood flow and individual chemoreceptor cell physiology.
+
+\begin{simnote}
+Every chapter in this part ends with the simulator settings that correspond to its equations, so that each figure can be reproduced in VentiVerse.
+\end{simnote}
+
+\begin{summarybox}
+The model is a closed loop of mechanistic subsystems whose parameters have physical units. Fast mechanics and slow chemistry are computed by different numerical methods suited to their time scales. Diseases are represented by changing parameters within published ranges, not by changing equations.
+\end{summarybox}

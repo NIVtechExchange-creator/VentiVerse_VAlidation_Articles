@@ -1,0 +1,271 @@
+\chapter{Respiratory Mechanics}
+\label{ch:ch06}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Derive the two-compartment parameters from a measured resistance and compliance.
+  \item Explain how time-constant inequality produces gas trapping and intrinsic PEEP.
+  \item Describe the model's representations of lung stiffening near total lung capacity, expiratory flow limitation, upper-airway collapse and fixed airway narrowing.
+\end{itemize}
+\end{objectives}
+
+\section{From one compartment to two}
+\label{sec:mech-two}
+The single-compartment equation of motion, $\Paw - \PEEP = \Rrs\,\Vdot + V/\Crs + P_m$, describes a lung whose every unit fills and empties together with one time constant $\tau = \Rrs\Crs$~\citep{bates2009}. Real lungs are not uniform. Gravity places dependent regions on a steeper part of their pressure--volume curve~\citep{milicemili1966}, the bronchial tree branches asymmetrically~\citep{horsfield1968}, and disease narrows some airways far more than others. Otis and colleagues showed that units in parallel with different time constants fill and empty out of phase, so that apparent compliance falls and apparent resistance changes with breathing frequency~\citep{otis1956}. The model represents this with two parallel compartments (\cref{eq:num-eom}), a fast one and a slow one, which are functional groups of units defined by their time constants rather than anatomical lobes.
+
+\subsection{Parameterization}
+The clinician measures, or the phenotype sets, a total resistance $R$ and a total compliance $\Crs$. Two further parameters describe the inequality: the slow-compartment fraction $f_s$, the share of $\Crs$ in the slow compartment, and the time-constant ratio $\kappa = \tau_2/\tau_1 \ge 1$. The compartments are then
+\begin{keyequation}
+\begin{equation}
+C_1 = (1-f_s)\,\Crs,\quad C_2 = f_s\,\Crs,\qquad
+\tau_1 = R\,\Crs\,\frac{f_s + \kappa(1-f_s)}{\kappa},\quad \tau_2 = \kappa\,\tau_1,\qquad R_i = \frac{\tau_i}{C_i}.
+\label{eq:mech-split}
+\end{equation}
+\end{keyequation}
+With these choices the two resistances in parallel always equal the measured $R$ and the two compliances add to $\Crs$, so the bedside values are preserved whatever the inequality. With $\kappa = 1$ the model reduces exactly to the single compartment. The default for a normal adult is $f_s = 0.35$, $\kappa = 1.5$, consistent with the roughly 65:35 distribution of inspired gas between dependent and non-dependent zones~\citep{milicemili1966} and with a modest spread of regional time constants. Obstructive phenotypes use $\kappa$ up to about 7.
+
+\subsection{Compliance of lung and chest wall}
+Total compliance is the series combination of the lung, $C_L$, and the chest wall, $C_{cw}$~\citep{agostoni1964}:
+\begin{equation}
+\frac{1}{\Crs} = \frac{1}{C_L} + \frac{1}{C_{cw}}.
+\label{eq:mech-series}
+\end{equation}
+The two are kept separate because diseases act on them separately: parenchymal disease and fibrosis lower $C_L$, while kyphoscoliosis, obesity and chest-wall stiffening in neuromuscular disease lower $C_{cw}$. The separation also gives the simulated esophageal pressure, which is the share of elastic pressure taken up by the chest wall, $P_{es} = P_{es,0} + (\PEEP + P_A)\,C_L/(C_L + C_{cw}) + P_m$, where $P_A$ is alveolar pressure above PEEP and $P_{es,0}$ is a posture-dependent offset (\SI{3.3}{\cmH} supine).
+
+\subsection{Gas trapping and intrinsic PEEP}
+Expiration ends when the next breath begins, not when the lung has emptied. If expiratory time is short compared with $\tau_2$, the slow compartment is still above its relaxed volume when inspiration starts. The trapped volumes are carried into the next breath, and after a pause that let the compartments equilibrate they would exert an intrinsic PEEP~\citep{pepe1982}
+\begin{equation}
+\mathrm{PEEP_i} = \frac{\mathrm{EELV}_1 + \mathrm{EELV}_2}{C_1 + C_2},
+\label{eq:mech-peepi}
+\end{equation}
+where $\mathrm{EELV}_i$ is the end-expiratory volume of compartment $i$ above its relaxed volume. \Cref{fig:mech-exp} shows passive expiration of the two compartments for a normal and an obstructive lung.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.4cm,
+  xmin=0,xmax=4,ymin=0,ymax=1.02,xlabel={Time from start of expiration (s)},grid=major,grid style={gray!20},
+  legend style={font=\scriptsize,draw=none,fill=none}]
+\nextgroupplot[title={\small Normal: $\kappa=1.5$, $\tau_1=\SI{0.44}{\second}$},ylabel={$V_i(t)/V_i(0)$}]
+\addplot[bkblue,thick,domain=0:4,samples=120]{exp(-x/0.44)};\addlegendentry{fast}
+\addplot[bkorange,thick,domain=0:4,samples=120]{exp(-x/0.66)};\addlegendentry{slow}
+\nextgroupplot[title={\small Obstructive: $\kappa=7$, $\tau_1=\SI{1.05}{\second}$}]
+\addplot[bkblue,thick,domain=0:4,samples=120]{exp(-x/1.05)};
+\addplot[bkorange,thick,domain=0:4,samples=120]{exp(-x/7.35)};
+\draw[dashed,gray] (axis cs:3.2,0) -- (axis cs:3.2,1);
+\node[font=\scriptsize,anchor=south east,gray] at (axis cs:3.2,0.55) {$T_E$ at 15/min};
+\end{groupplot}
+\end{tikzpicture}
+\caption{Passive emptying of the two compartments, $V_i(t) = V_i(0)\,e^{-t/\tau_i}$, with time constants from \cref{eq:mech-split}. Left: example normal adult ($R = \SI{5}{\cmH\per\liter\second}$, $\Crs = \SI{100}{\milli\liter\per\cmH}$, $f_s = 0.35$). Right: obstructive lung ($R = \SI{15}{\cmH\per\liter\second}$, $\Crs = \SI{100}{\milli\liter\per\cmH}$, $f_s = 0.35$). At 15 breaths/min with a \SI{0.8}{\second} inspiration, the slow obstructive compartment still holds 65\% of its volume when the next breath begins.}
+\label{fig:mech-exp}
+\end{figure}
+
+\section{Stiffening near total lung capacity}
+\label{sec:mech-pv}
+The pressure--volume curve of the respiratory system is nearly linear over the tidal range but flattens as volume approaches total lung capacity~\citep{agostoni1964}. Where the patient's inspiratory capacity $IC$ is known, the model multiplies the elastic recoil of both compartments by a stiffening factor that begins at 60\% of $IC$ above end-expiratory volume:
+\begin{equation}
+s(V) = \begin{cases} 1, & V \le 0.6\,IC,\\[2pt] 1 + 4\left(\dfrac{V - 0.6\,IC}{0.4\,IC}\right)^{2}, & V > 0.6\,IC,\end{cases}
+\label{eq:mech-stiff}
+\end{equation}
+so that compliance at $V = IC$ is one fifth of its tidal value. This term matters in dynamic hyperinflation, where tidal breathing moves onto the flat upper part of the curve and each extra milliliter of trapped gas costs more pressure (\cref{fig:mech-curves}, left).
+
+\section{Expiratory flow limitation}
+\label{sec:mech-efl}
+In COPD the intrathoracic airways can be compressed during expiration once the pressure around them exceeds the pressure inside. Beyond that point, expiratory flow no longer rises with driving pressure and is set by lung recoil and the properties of the compressed segment, as in a Starling resistor~\citep{permutt1963,mead1967}. Collapse is most likely late in expiration, when lung recoil, which holds the airways open, is lowest. The model expresses this with the fraction of the expired tidal volume already exhaled, $f_V = 1 - (V - \mathrm{EELV})/(V_{\mathrm{peak}} - \mathrm{EELV})$, which is 0 at the start of expiration and 1 at end-expiratory volume. During expiration, flow from each compartment is divided by a resistance multiplier, and the compliance seen by the tidal breath is reduced as collapsed units drop out:
+\begin{keyequation}
+\begin{equation}
+\dot V_{i,\mathrm{exp}} = \frac{\dot V_{i,\mathrm{raw}}}{1 + G_{\mathrm{eff}}\,f_V^2},
+\qquad
+C_{i,\mathrm{exp}} = C_i\Bigl[1 - \min\!\bigl(0.55,\,G_{\mathrm{eff}}/8\bigr)\,f_V^2\Bigr].
+\label{eq:mech-efl}
+\end{equation}
+\end{keyequation}
+External PEEP acts as a pneumatic stent~\citep{tobin1989}. The model expresses this with a logistic fall in the effective gain as PEEP approaches the stenting pressure $P_{\mathrm{stent}}$:
+\begin{equation}
+G_{\mathrm{eff}} = \frac{G_{\mathrm{EFL}}}{1 + \exp\!\bigl[(\PEEP - P_{\mathrm{stent}})/\sigma\bigr]},\qquad \sigma = \max(0.5,\;0.15\,P_{\mathrm{stent}}),
+\label{eq:mech-stent}
+\end{equation}
+where $G_{\mathrm{EFL}}$ is the severity of flow limitation and $P_{\mathrm{stent}}$ represents the critical closing pressure of the intrathoracic airways. \Cref{fig:mech-curves} (centre) plots the resistance multiplier at several levels of PEEP.
+
+\section{The upper airway}
+\label{sec:mech-ua}
+During sleep, the pharynx behaves as a collapsible tube characterized by its critical closing pressure $P_{\mathrm{crit}}$ and the resistance of the segment upstream of the collapse, $R_{us}$~\citep{gold1996}. When the airway is collapsible, inspiratory flow cannot exceed
+\begin{equation}
+\dot V_{\max} = \frac{\max\bigl(0,\;\Paw - P_{\mathrm{crit}}\bigr)}{R_{us}},
+\label{eq:mech-ua}
+\end{equation}
+and both compartments' flows are scaled down together when the equation of motion asks for more. A $P_{\mathrm{crit}}$ above the applied pressure closes the airway completely (obstructive apnea); a $P_{\mathrm{crit}}$ a few \si{\cmH} below it limits flow (hypopnea). CPAP works in this model exactly as it does physiologically, by raising $\Paw$ above $P_{\mathrm{crit}}$ (\cref{fig:mech-curves}, right). \Cref{ch:ch11} describes how $P_{\mathrm{crit}}$ changes with sleep stage, and \cref{ch:ch12} how it is fitted to published apnea--hypopnea indices.
+
+\section{Fixed narrowing: stenosis and tubes}
+\label{sec:mech-stenosis}
+A fixed narrowing such as tracheal stenosis adds a flow-dependent pressure drop with a viscous and an inertial part~\citep{rohrer1915,young1973},
+\begin{equation}
+\Delta P = k_1\,\dot V + k_2\,\dot V\,|\dot V|,
+\qquad
+k_1 = \frac{8\mu L}{\pi r^4},\quad
+k_2 = \frac{1.14\,\rho}{2A_s^2}\Bigl(1 - \frac{A_s}{A_0}\Bigr),
+\label{eq:mech-rohrer}
+\end{equation}
+where $\mu$ and $\rho$ are the viscosity and density of air, $L$ and $r$ are the length and radius of the narrow segment, $A_s$ its cross-section and $A_0$ that of the normal trachea. The model solves the resulting quadratic for the flow at each step, so the extra resistance grows with flow, as it does in the patient. Endotracheal and tracheostomy tubes are treated in \cref{ch:ch13}.
+
+\subsection{Dynamic central-airway collapse}
+\label{sec:mech-tbm}
+In tracheobronchomalacia (TBM) the cartilage is weak and in excessive dynamic airway collapse (EDAC) the posterior membrane is redundant, so the central airway narrows when the pressure outside it exceeds the pressure inside~\citep{murgu2006,ernst2004}. The model lumps the trachea and main bronchi into one segment of normal diameter \SI{18}{\milli\meter} and length \SI{5}{\centi\meter}. Its open area fraction $A$ (1 = normal) follows a sigmoid of transmural pressure with a short lag:
+\begin{equation}
+A_{\mathrm{eq}}=1-\frac{c}{1+\exp\bigl[(P_{tm}-P_{50})/S\bigr]},\qquad
+\frac{dA}{dt}=\frac{A_{\mathrm{eq}}-A}{\tau_A},\qquad
+P_{tm}=P_{\mathrm{lum}}-P_{pl},
+\label{eq:mech-tbm}
+\end{equation}
+where $c$ is the largest fractional loss of area, $P_{50}$ is the transmural pressure at half of that loss, $S$ sets how sharply the airway closes, and $\tau_A = \SI{0.1}{\second}$. Pleural pressure is $P_{pl}=-5+P_{el}\,C_L/(C_L+C_{cw})+P_{\mathrm{mus}}$, the resting value plus the transmitted elastic recoil and the muscle pressure. The luminal pressure is the alveolar-side airway pressure minus 30\% of the resistive drop across the peripheral airways, $P_{\mathrm{lum}}=P_{aw,L}-0.3\,R_p\dot V$, so the segment sees part of the expiratory pressure gradient. The narrowed segment then adds the viscous and orifice losses of \cref{eq:mech-rohrer} with $A_s=A\,A_0$ (minimum $A=0.03$), less the Poiseuille loss of the normal segment. An endotracheal or tracheostomy tube bypasses it.
+
+The TBM curve ($c=0.90$, $P_{50}=\SI{6.2}{\cmH}$, $S=\SI{3}{\cmH}$) reproduces end-expiratory collapse of 29--36\% and dynamic collapse of 54--58\% measured by CT~\citep{baroni2005}. The EDAC curve ($P_{50}=1$, $S=\SI{1.5}{\cmH}$) keeps the airway open in quiet breathing and collapses it only when transmural pressure turns negative. A rigid-normal curve ($P_{50}=\SI{2}{\cmH}$) gives forced-expiratory collapse near the 54\% measured in healthy volunteers~\citep{boiselle2009}. Collapse above 90\% is the usual threshold for intervention~\citep{buitrago2017}. The sigmoid form, the lag and the 30\% luminal-pressure split are assumptions, not measured constants. A months-since-onset setting moves the maximum collapse $c$ along the disease time line.
+
+\paragraph{Active expiration.} A setting adds an expiratory muscle push of up to \SI{60}{\cmH},
+\begin{equation}
+P_{\mathrm{mus}}\leftarrow P_{\mathrm{mus}}+P_{\mathrm{exp}}\sin(\pi u),\qquad u=\frac{t-T_I}{0.6\,(T-T_I)},\quad 0\le u<1,
+\label{eq:mech-pexp}
+\end{equation}
+over the first 60\% of expiration. It raises pleural pressure and is the only expiratory muscle action in the model. It is applied only when the central-airway collapse element is active, where it is used to show cough-like and forced expirations.
+
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=3 by 1,horizontal sep=1.3cm},width=0.37\linewidth,height=5cm,grid=major,grid style={gray!20},
+  legend style={font=\tiny,draw=none,fill=none},title style={font=\small}]
+\nextgroupplot[title={Stiffening, \cref{eq:mech-stiff}},xlabel={$V/IC$},ylabel={$s(V)$},xmin=0,xmax=1,ymin=0.8,ymax=5.2]
+\addplot[bkblue,thick,domain=0:0.6]{1};
+\addplot[bkblue,thick,domain=0.6:1,samples=60]{1+4*((x-0.6)/0.4)^2};
+\nextgroupplot[title={EFL, \cref{eq:mech-efl,eq:mech-stent}},xlabel={$f_V$},ylabel={$1+G_{\mathrm{eff}}f_V^2$},xmin=0,xmax=1,ymin=1,ymax=6.2,legend pos=north west]
+\addplot[red!70!black,thick,domain=0:1,samples=40]{1+(5/(1+exp((0-8)/1.2)))*x^2};\addlegendentry{PEEP 0}
+\addplot[bkorange,thick,domain=0:1,samples=40]{1+(5/(1+exp((4-8)/1.2)))*x^2};\addlegendentry{PEEP 4}
+\addplot[bkteal,thick,domain=0:1,samples=40]{1+(5/(1+exp((8-8)/1.2)))*x^2};\addlegendentry{PEEP 8}
+\addplot[bkblue,thick,domain=0:1,samples=40]{1+(5/(1+exp((10-8)/1.2)))*x^2};\addlegendentry{PEEP 10}
+\nextgroupplot[title={Upper airway, \cref{eq:mech-ua}},xlabel={$\Paw$ (\si{\cmH})},ylabel={$\dot V_{\max}$ (L/s)},xmin=-2,xmax=10,ymin=0,ymax=1.3,legend pos=north west]
+\addplot[bkblue,thick,domain=-2:10,samples=80]{max(0,(x+5)/12)};\addlegendentry{$P_{\mathrm{crit}}=-5$}
+\addplot[bkorange,thick,domain=-2:10,samples=80]{max(0,(x-0)/12)};\addlegendentry{$P_{\mathrm{crit}}=0$}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Nonlinear mechanical terms, plotted from the model's equations. Left: recoil multiplier near total lung capacity. Centre: expiratory resistance multiplier for $G_{\mathrm{EFL}} = 5$ and $P_{\mathrm{stent}} = \SI{8}{\cmH}$; PEEP 4 lowers the gain by only 3\%, at PEEP 8 the gain is halved, and at PEEP 10 it is 16\% of its unstented value. Right: maximum inspiratory flow through a collapsible pharynx with $R_{us} = \SI{12}{\cmH\per\liter\second}$, the model default.}
+\label{fig:mech-curves}
+\end{figure}
+
+\section{Pendelluft and time-constant inequality}
+\label{sec:mech-pendelluft}
+When two parallel units have different time constants, gas moves between them during the breath instead of entering or leaving only at the airway: the fast unit fills first and then empties partly into the slow one. This \emph{pendelluft} is volume-neutral at the airway opening, so the flow sensor still records $V_T = \Delta V_1 + \Delta V_2$, but it is not neutral for gas exchange~\citep{otis1956,robertson1969}.
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Dead space rises.} Gas that has already exchanged in the fast unit is carried into the slow unit, lowering the CO\textsubscript{2} gradient there. Time-constant inequality alone does the same: slow units are underventilated for their perfusion and fast units are overventilated. Both raise the Enghoff dead space, $V_D/V_T=(\mathrm{PaCO_2}-P_{\bar E}\mathrm{CO_2})/\mathrm{PaCO_2}$ (\cref{sec:co2-vd}).
+  \item \textbf{Oxygenation falls.} Fast units become high-$\dot V/\dot Q$ and slow units low-$\dot V/\dot Q$. Because the dissociation curve is sigmoid, blood leaving the high-$\dot V/\dot Q$ units cannot make up for the desaturated blood from the low-$\dot V/\dot Q$ units. The effect grows with breathing rate, as the slow unit has less time to fill.
+  \item \textbf{Occult pendelluft with effort.} When a patient makes a strong effort during an assisted breath, regional pleural pressure swings move gas from non-dependent to dependent lung. \citet{yoshida2013} showed this with electrical impedance tomography and called it occult pendelluft, because the airway flow sensor cannot see it. It is a proposed mechanism of patient self-inflicted lung injury.
+\end{enumerate}
+The two-compartment model does not resolve regional pleural pressure, so occult pendelluft is not modeled. The consequences of time-constant inequality are: the slow expiratory tail of \cref{fig:mech-exp}, intrinsic PEEP from the slow unit (\cref{eq:mech-peepi}), and the ratio $T_E/\tau_2$, which warns of gas trapping before it develops.
+
+\section{Lung recruitment in ARDS}
+\label{sec:mech-recruit}
+In ARDS only part of the lung is aerated, the ``baby lung'', and PEEP reopens collapsed units~\citep{gattinoni2005a}. The fraction of recruitable units that is open at pressure $P$ follows a logistic curve between the lower and upper inflection points of the static pressure--volume curve~\citep{villar2006,nuckton2002}:
+\begin{equation}
+f_{\mathrm{rec}}(P)=\frac{f_{\max}}{1+\exp\bigl(-(P-P_{\mathrm{mid}})/w\bigr)},\qquad
+P_{\mathrm{mid}}=\frac{P_{\mathrm{LIP}}+P_{\mathrm{UIP}}}{2},\qquad
+w=\max\!\left(1,\frac{P_{\mathrm{UIP}}-P_{\mathrm{LIP}}}{6}\right),
+\label{eq:mech-rec}
+\end{equation}
+where $f_{\max}$ is the recruitable fraction and $P_{\mathrm{LIP}}$, $P_{\mathrm{UIP}}$ are the lower and upper inflection pressures. The open fraction at PEEP is $f_{\mathrm{PEEP}}=(1-f_{\max})+f_{\mathrm{rec}}(\mathrm{PEEP})$. During the breath the open fraction follows airway pressure, and the lung compliance scales with it while the chest wall does not:
+\begin{equation}
+C_{L,\mathrm{inst}}(t)=C_{L,\mathrm{PEEP}}\,\frac{(1-f_{\max})+f_{\mathrm{rec}}(t)}{f_{\mathrm{PEEP}}},\qquad
+C_{rs,\mathrm{inst}}=\left(\frac{1}{C_{L,\mathrm{inst}}}+\frac{1}{C_{cw}}\right)^{-1}.
+\label{eq:mech-recC}
+\end{equation}
+Units open quickly and close slowly~\citep{gattinoni2005a}: the open fraction relaxes toward $f_{\mathrm{rec}}(\mathit{Paw})$ with time constant \SI{0.15}{\second} when opening and \SI{10}{\second} when closing, and it never falls below $f_{\mathrm{rec}}(\mathrm{PEEP})$ within the breath. Two waveform signatures follow. In pressure control, rising compliance keeps inspiratory flow higher late in the breath. In volume control, the constant flow meets a rising compliance, so airway pressure rises less steeply toward the end of inspiration. The compliance--PEEP relation is sigmoid: little gain below $P_{\mathrm{LIP}}$, a steep gain above it, and a fall from overdistension above $P_{\mathrm{UIP}}$ (\cref{sec:mech-pv}), which is the basis of the open-lung strategy~\citep{villar2006}.
+
+\section{Esophageal pressure and posture}
+\label{sec:mech-pes}
+The waveform export includes the pressure an esophageal balloon would read:
+\begin{equation}
+P_{es}=P_{es,\mathrm{rel}}(\text{posture})+\bigl(\mathrm{PEEP}+P_{el,rs}\bigr)\frac{C_L}{C_L+C_{cw}}+P_{\mathrm{mus}},
+\label{eq:mech-pes}
+\end{equation}
+where $P_{el,rs}$ is the elastic recoil of the respiratory system above PEEP, $C_L/(C_L+C_{cw})$ is the fraction of it transmitted to the pleural space, and $P_{\mathrm{mus}}$ is negative during inspiration. PEEP is taken as zero in high-flow modes. $P_{es,\mathrm{rel}}$ is the esophageal pressure at relaxation volume. \citet{washko2006} measured transpulmonary pressure at relaxation of $+3.7$ upright and $-3.3$~\si{\cmH} supine in healthy subjects; about \SI{58}{\percent} of the difference came from the smaller relaxation volume supine, and about \SI{2.9}{\cmH} was a volume-independent artifact from the weight of the mediastinum on the balloon. The model therefore uses $P_{es,\mathrm{rel}}=-3.7$~\si{\cmH} upright and $+3.3$~\si{\cmH} supine, artifact included as a real balloon would read. Prone and lateral postures, reported only as intermediate, use the interpolated value $-0.2$~\si{\cmH}. For the default supine adult on PEEP 5 and PS~8 the end-expiratory $P_{es}$ is about \SI{5.8}{\cmH} and ranges from 4.6 to \SI{9.5}{\cmH} within the breath.
+
+\subsection{Posture and mechanics}
+\label{sec:mech-posture}
+Posture changes lung compliance, chest-wall compliance and the slow-compartment fraction:
+\begin{equation}
+C_{cw}'=C_{cw}\bigl[1+\delta_{cw}(1+o)\bigr],\qquad C_L'=C_L(1+\delta_L),\qquad f_s'=\min\bigl(0.50,\max(0.01,\,m_s f_s)\bigr),
+\label{eq:mech-pos}
+\end{equation}
+where $o=\min\bigl(1.5,\max(0,(w-70)/50)\bigr)$ amplifies the chest-wall effect with body weight $w$ (kg), because abdominal loading of the diaphragm is larger in obesity~\citep{pelosi1998a}. The factors are in \cref{tab:mech-pos}. In cervical spinal cord injury, upright posture leaves the compliances unchanged and multiplies MIP by 0.698, because the abdominal contents no longer support the flaccid diaphragm~\citep{brown2006}. These factors are model assumptions chosen to give the direction and approximate size of postural changes. They have not been fitted to a single data set.
+
+\begin{table}[ht]
+\centering
+\caption{Posture factors in \cref{eq:mech-pos}. Supine is the reference.}
+\label{tab:mech-pos}
+\begin{tabular}{lccc}
+\toprule
+Posture & $\delta_{cw}$ & $\delta_L$ & $m_s$\\
+\midrule
+Supine & 0 & 0 & 1.00\\
+Prone & $+0.08$ & $+0.15$ & 0.57\\
+Upright & $+0.28$ & $+0.05$ & 0.86\\
+Right lateral & $-0.03$ & $-0.02$ & 1.26\\
+Left lateral & $-0.05$ & $-0.03$ & 1.40\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Forced oscillation}
+\label{sec:mech-fot}
+The forced oscillation technique (FOT) measures respiratory impedance by superimposing a small pressure oscillation on breathing and measuring the flow it produces~\citep{dubois1956,dellaca2004}. At angular frequency $\omega=2\pi f$,
+\begin{equation}
+Z_{rs}(\omega)=R_{rs}+jX_{rs}(\omega),\qquad X_{rs}\approx\omega I_{aw}-\frac{1}{\omega C_{rs}},
+\label{eq:mech-zrs}
+\end{equation}
+where $R_{rs}$ is resistance, $X_{rs}$ reactance and $I_{aw}$ airway gas inertance. At \SI{5}{\hertz} the elastic term dominates and $X_{rs}$ is negative. In expiratory flow limitation, the flow-limited airways prevent the oscillation from reaching the alveoli, so expiratory reactance becomes much more negative than inspiratory reactance. \citet{dellaca2004} showed that $\Delta X_{rs}=X_{rs,\mathrm{exp}}-X_{rs,\mathrm{insp}}<-1$~\si{\cmH\second\per\liter} detects tidal flow limitation in ventilated patients.
+
+\paragraph{Implementation.} The oscillation $A\sin(\omega t_{\mathrm{sim}})$, with amplitude $A$ from 0.1 to \SI{5}{\cmH} and frequency from 3 to \SI{20}{\hertz}, is added to the pressure applied to the lungs but not to the ventilator's filtered pressure state. Otherwise the rise-time filter of \cref{eq:modes-cmd} would integrate against it. It is a function of continuous simulation time, so it does not restart at each breath. Flow is demodulated separately in inspiration and expiration by lock-in detection:
+\begin{equation}
+\hat B=\frac{2}{T}\int_T\dot V\sin\omega t\,\dd t,\quad
+\hat C=\frac{2}{T}\int_T\dot V\cos\omega t\,\dd t,\quad
+R_{rs}=\frac{A\hat B}{\hat B^2+\hat C^2},\quad
+X_{rs}=-\frac{A\hat C}{\hat B^2+\hat C^2}+\omega I_{aw},
+\label{eq:mech-lockin}
+\end{equation}
+with $I_{aw}=0.001$~\si{\cmH\second\squared\per\liter} and at least two cycles per phase. With CPAP, which has no ventilator phase, inspiration and expiration are taken from the sign of patient flow averaged over one oscillation period, with a $\pm\SI{0.005}{\liter\per\second}$ hysteresis. When the oscillation is limited to one phase, each burst starts at zero phase and stops at the next zero crossing. A triangle waveform is also available; its impedance is taken from the first harmonic, $Z=P_1/\dot V_1$. Because the model's EFL is a nonlinear element, the impedance it returns is a linearization around the operating point. Artifacts such as swallowing and coughing are not modeled.
+
+\section{Alternative mechanical models}
+\label{sec:mech-alt}
+Several other descriptions of respiratory mechanics were considered and not adopted.
+\begin{description}[leftmargin=1em]
+  \item[$N$ parallel units.] \citet{otis1956} showed that the distribution of time constants across many parallel units sets the frequency dependence of resistance and compliance. More units represent heterogeneous emphysema or ARDS better, but their parameters cannot be identified from bedside measurements. Two units with adjustable $f_s$ and $\kappa$ keep the essential behavior and can be set from routine data~\citep{bates1985}.
+  \item[Viscoelastic tissue.] Lung tissue shows stress relaxation, so apparent compliance depends on frequency~\citep{hildebrandt1969,fredberg1989}. A viscoelastic element requires a relaxation spectrum and loses the direct link between measured $C_{rs}$, $R$ and model parameters. In the two-unit model some frequency dependence of compliance appears through unequal filling of the units.
+  \item[Avalanche recruitment.] \citet{suki1994} described reopening as an avalanche in which each opening unit loads its neighbors, explaining the jumps in flow and the hysteresis of the ARDS pressure--volume curve. It requires random sampling of opening thresholds every breath; the logistic curve of \cref{eq:mech-rec} captures its macroscopic effect deterministically.
+  \item[Airway-tree transport.] \citet{pedley1970} modeled convective--diffusive transport through all airway generations. It is essential when tidal volume approaches dead space, as in high-frequency oscillation, but for conventional ventilation bulk convection and a fixed anatomic dead space are adequate.
+  \item[Inertance.] Above about \SI{4}{\hertz}, gas inertance adds $I\ddot V$ to the equation of motion~\citep{bates2009a}. At conventional rates it contributes less than \SI{0.5}{\cmH} and is omitted, except in the FOT reactance of \cref{eq:mech-zrs}.
+\end{description}
+
+\section{Parameters}
+\label{sec:mech-params}
+\begin{table}[ht]
+\centering
+\caption{Mechanical parameters. Class: M, measured in the patient or study; R, set within a published range; F, fitted to a published outcome; A, model assumption.}
+\label{tab:mech-params}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l c@{}}
+\toprule
+Symbol & Meaning & Normal adult & Class \\
+\midrule
+$R$ & Total airway resistance & \SI{5}{\cmH\per\liter\second} & M/R \\
+$C_L$, $C_{cw}$ & Lung and chest-wall compliance & set per phenotype & M/R \\
+$f_s$ & Slow-compartment fraction of compliance & 0.35 (supine) & R \\
+$\kappa$ & Time-constant ratio $\tau_2/\tau_1$ & 1.5 (obstructive up to 7) & R/F \\
+$IC$ & Inspiratory capacity, onset of stiffening & measured when given & M \\
+$G_{\mathrm{EFL}}$, $P_{\mathrm{stent}}$ & Flow-limitation severity, stenting pressure & 0 (COPD/EFL: 5, \SI{8}{\cmH}) & F \\
+$P_{\mathrm{crit}}$, $R_{us}$ & Pharyngeal critical pressure, upstream resistance & sleep only; $R_{us}$ \SI{12}{\cmH\per\liter\second} & F/A \\
+$\tau_{\mathrm{rise}}$, $\tau_{\mathrm{fall}}$ & Pressurization and release time constants & \SIrange{0.05}{0.6}{\second}, \SI{0.15}{\second} & A \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{summarybox}
+The respiratory system is modeled as two parallel compartments whose parameters are derived from measured $R$ and $\Crs$ plus two inequality parameters, so that bedside values are preserved. Gas trapping and intrinsic PEEP emerge from the slow compartment's long time constant. Nonlinear terms for stiffening, expiratory flow limitation, upper-airway collapse and fixed stenosis are each a single equation with parameters that can be set from published measurements.
+\end{summarybox}

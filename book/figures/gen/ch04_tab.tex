@@ -1,0 +1,9 @@
+Explicit Euler (\texttt{ode1}) & fixed, \SI{2}{\milli\second} & 0.14 & 20000 \\
+Explicit Euler (\texttt{ode1}) & fixed, \SI{10}{\milli\second} & 0.69 & 4000 \\
+Classical RK4 (\texttt{ode4}) & fixed, \SI{2}{\milli\second} & $2.4\times10^{-8}$ & 80000 \\
+Classical RK4 (\texttt{ode4}) & fixed, \SI{10}{\milli\second} & $1.6\times10^{-5}$ & 16000 \\
+Dormand--Prince (\texttt{ode45}), rtol $10^{-3}$ & variable & 0.047 & 1834 \\
+Dormand--Prince (\texttt{ode45}), rtol $10^{-6}$ & variable & $4.3\times10^{-5}$ & 3568 \\
+LSODA (Adams/BDF switching), rtol $10^{-3}$ & variable & 0.041 & 1660 \\
+BDF, as in \texttt{ode15s}, rtol $10^{-3}$ & variable & 0.067 & 1900 \\
+Radau IIA (implicit), rtol $10^{-3}$ & variable & 0.0065 & 2746 \\

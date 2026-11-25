@@ -1,0 +1,222 @@
+\chapter{Parameter Selection Based on Disease Pathology}
+\label{ch:ch12}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Explain how a patient is built from a scaled normal baseline and disease multipliers.
+  \item Classify every parameter as measured, cited range, fitted or assumption.
+  \item Describe the calibration procedure and how it is kept separate from validation.
+\end{itemize}
+\end{objectives}
+
+\section{From a normal subject to a patient}
+\label{sec:par-base}
+A simulated patient is defined in two steps. First, a normal baseline is scaled to the patient's age category and weight $w$. For an adult the baseline is respiratory-system compliance \SI{1.43}{\milli\liter\per\cmH} per kilogram (\SI{100}{\milli\liter\per\cmH} at \SI{70}{\kilo\gram}), resistance \SI{5}{\cmH\per(\liter\per\second)}, oxygen consumption \SI{3.5}{\milli\liter\per\minute} per kilogram, anatomic dead space \SI{2.2}{\milli\liter\per\kilogram}, a basal neural rate of 12 per minute and a maximal inspiratory pressure of \SI{85}{\cmH}, replaced by the age- and sex-specific predicted value of \cref{ch:ch07} where the muscle model is used. In children the dead space per kilogram falls from 3.3 in infancy toward 2.2, and the chest wall is up to three times as compliant as the lung below two years of age, approaching equality after that.
+
+Second, the disease is applied as multipliers and additional parameters:
+\begin{equation}
+R = R_0\,m_R,\quad C_L = C_{L,0}\,m_{C_L},\quad C_{cw} = C_{cw,0}\,m_{C_{cw}},\quad
+\mathrm{MIP} = \mathrm{MIP_0}\,m_P,\quad G = 0.25\,m_G,\quad k_f = 0.18\,m_f,
+\label{eq:par-mult}
+\end{equation}
+together with the slow-compartment fraction $f_s$ and time-constant ratio $\kappa$ (\cref{ch:ch06}), alveolar dead space per kilogram, oxygen consumption, the perfusion distribution (\cref{ch:ch09}), and disease-specific terms such as expiratory flow limitation, upper-airway $P_{\mathrm{crit}}$ or myasthenic fatigue. Because every multiplier refers to a physiological quantity, each can be checked against measurements reported for the disease. For progressive neuromuscular diseases the parameters are given at several times since onset and interpolated linearly to the chosen month.
+
+\section{Parameter classes}
+\label{sec:par-class}
+Each parameter of each disease model is assigned one of four classes (\cref{tab:par-class}). The class states how much the value can be trusted and whether agreement with a study is a test of the model.
+
+\begin{table}[ht]
+\centering
+\caption{Parameter classes, used in the parameter tables of every chapter.}
+\label{tab:par-class}
+\small
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
+\toprule
+Code & Class & Definition \\
+\midrule
+M & Measured & Taken directly from the patients of the source study. \\
+R & Cited range & Chosen inside a range published for the population or disease. \\
+F & Fitted & Estimated against a study; agreement with that study is a consistency check, not validation. \\
+A & Assumption & No published source; a modeling choice, stated as such. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Calibration procedure}
+\label{sec:par-calib}
+\paragraph{Ranked targets.} Calibration targets are ranked, and a lower-ranked target is never improved at the expense of a higher one: (1) PaCO\textsubscript{2} and its change with therapy; (2) pH; (3) breathing rate and tidal volume; (4) PaO\textsubscript{2} or saturation. PaCO\textsubscript{2} is first because it defines ventilatory failure and is the main outcome of the ventilation studies used for validation; oxygenation depends on V/Q distributions that are rarely measured in the same patients.
+
+\paragraph{Bounded deterministic sweeps.} For each free parameter, values spanning its published range are simulated with all other parameters fixed, and the value with the smallest error against the target is kept. When two parameters interact they are swept together on a small grid. No random sampling is used, so every sweep can be repeated from its stored scenario files. Because breath-to-breath variability and the sleep engine are random (\cref{sec:impl-random}), each point of a sweep that involves sleep is the mean of repeat nights.
+
+\paragraph{Design rules.}
+\begin{enumerate}[leftmargin=*]
+  \item In obstructive disease the neural CO\textsubscript{2} gain is not reduced. A low ventilatory response to CO\textsubscript{2} must arise from the mechanics: hyperinflation, intrinsic PEEP, muscle geometry, dead space and the rate ceiling.
+  \item No value is placed outside its published range. If a target cannot be reached inside the range, the mismatch is reported.
+  \item When studies disagree, the model is not forced to fit one at the expense of the other; both comparisons are reported.
+  \item Values chosen to keep the controller stable are classed as assumptions.
+\end{enumerate}
+
+\paragraph{Calibration and validation are kept apart.} Each disease model names its calibration targets. Every other published comparison is a validation target and is not used to choose values~\citep{oberkampf2010,asme_vv40}. Where only one study exists and it was used for both, the comparison is labeled a consistency check.
+
+\section{Developmental scaling}
+\label{sec:par-dev}
+Five age categories provide the normal baseline from which every phenotype is built (\cref{tab:par-dev}). Compliance per kilogram and resistance are category values; absolute compliance scales with the entered weight, and oxygen consumption is the category value per kilogram times weight.
+
+\begin{table}[htbp]\centering\small
+\caption{Age-category baselines.}
+\label{tab:par-dev}
+\begin{tabular}{@{}lccccccc@{}}\toprule
+Category & Weight (kg) & Age & $R$ (\si{\cmH\second\per\liter}) & $C_{rs}$ (mL/cmH\textsubscript{2}O/kg) & $f_0$ (/min) & $T_I$ (s) & $\dot V_{O_2}$ (mL/kg/min)\\\midrule
+Preterm & 1.5 & 1 week & 90 & 0.70 & 45 & 0.30 & 7.0\\
+Neonate & 3.5 & 2 weeks & 35 & 1.05 & 40 & 0.35 & 7.0\\
+Infant & 8 & 6 months & 25 & 1.25 & 30 & 0.50 & 8.0\\
+Child & 25 & 7 years & 10 & 1.00 & 20 & 0.80 & 5.0\\
+Adult & 70 & 35 years & 5 & 1.43 & 12 & 1.00 & 3.5\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Chest wall.} The respiratory-system compliance is split between lung and chest wall with an age-dependent ratio,
+\begin{equation}
+\frac{C_{cw}}{C_L}=\begin{cases}\max(1,\,3-a) & a<2\\ 1 & a\ge2\end{cases},\qquad
+C_L=C_{rs}\frac{1+\rho}{\rho},\quad C_{cw}=\rho\,C_L,
+\label{eq:par-ccw}
+\end{equation}
+where $a$ is age in years and $\rho$ the ratio. The infant chest wall is about three times as compliant as the lung, approaching equality by two years~\citep{papastamelos1995,davis1987}. A compliant chest wall gives little outward recoil, so the infant keeps end-expiratory volume by laryngeal braking, diaphragmatic tone and a high rate~\citep{muller1979}.
+
+\paragraph{Resistance.} Resistance falls from \SI{90}{\cmH\second\per\liter} in a \SI{1.5}{\kilo\gram} preterm infant to 5 in the adult, an 18-fold range. Poiseuille scaling with airway radius proportional to $w^{0.3}$ would predict $R\propto w^{-1.2}$, a 65-fold range. The smaller modeled range reflects the extra tissue resistance and compliant airway walls of the premature lung, which are not purely geometric.
+
+\paragraph{Metabolic rate.} Oxygen consumption per kilogram is about 7 in preterm and term neonates, 8 in infants, 5 in children and 3.5 in adults; it falls from about 7 at eight years to adult values near seventeen~\citep{schofield1985,harrell2005}. For adults the model can instead set $\dot V_{O_2}$ from resting energy expenditure (REE). REE comes from the Harris--Benedict equations~\citep{harris1918},
+\begin{equation}
+\mathrm{REE}=\begin{cases}66.5+13.75\,w+5.003\,h-6.755\,a & \text{men}\\ 655.1+9.563\,w+1.850\,h-4.676\,a & \text{women}\end{cases}\quad\si{kcal/day},
+\label{eq:par-ree}
+\end{equation}
+with weight $w$ in kg, height $h$ in cm and age $a$ in years. It is raised by a hypermetabolism setting of $-40$ to $+150\%$ and converted to oxygen consumption with the Weir relation~\citep{weir1949},
+\begin{equation}
+\dot V_{O_2}=\frac{\mathrm{REE}\,(1+H/100)}{1.44\,(3.815+1.232\,\mathrm{RQ})}\quad\si{\milli\liter\per\minute},
+\label{eq:par-weir}
+\end{equation}
+where $H$ is the hypermetabolism percentage and RQ the respiratory quotient (0.65--1.05, default 0.80), which also sets $\dot V_{CO_2}=\mathrm{RQ}\,\dot V_{O_2}$. A separate activity scale multiplies metabolic rate; presets run from 0.50 for therapeutic hypothermia at 33\,\textdegree{}C, through 1.3 and 1.55 for fever of 39 and 40\,\textdegree{}C, to 4.0 for moderate exercise. When the metabolic feed-forward option is on, effort and neural rate are each scaled by $\sqrt{\dot V_{O_2}/\dot V_{O_2,\mathrm{rest}}}$ (\cref{eq:ctl-amp}), limited to the range 0.71--1.41, so that ventilation follows metabolic rate even when PaCO\textsubscript{2} does not change.
+
+\paragraph{Anatomic dead space.} Dead space per kilogram is
+\begin{equation}
+V_D/w=\begin{cases}3.3 & a<1\\ \max(2.2,\;3.3-0.22a) & 1\le a<6\\ \max(2.0,\;2.35-0.025a) & 6\le a<15\\ 2.2 & a\ge15\end{cases}
+\label{eq:par-vd}
+\end{equation}
+in mL/kg, with fixed values of 2.4 for preterm and 3.0 for term neonates. The adult value, \SI{154}{\milli\liter} at \SI{70}{\kilo\gram}, agrees with Fowler's nitrogen washout~\citep{fowler1948}.
+
+\section{Tolerance of chronic hypercapnia}
+\label{sec:par-tol}
+A patient who tolerates a high PaCO\textsubscript{2} without distress is represented by three independent mechanisms. The effective chemoreflex set point rises in proportion to bicarbonate,
+\begin{equation}
+P_{\mathrm{set,eff}}=P_{\mathrm{set}}\,\frac{[\mathrm{HCO_3^-}]}{24}+\Delta P_{\mathrm{sleep}},
+\label{eq:par-set}
+\end{equation}
+where $P_{\mathrm{set}}$ is the set point at normal bicarbonate (default \SI{40}{\mmHg}) and $\Delta P_{\mathrm{sleep}}$ the stage shift of \cref{ch:ch11}. At $[\mathrm{HCO_3^-}]=36$ the set point is \SI{60}{\mmHg}. The set point itself can be raised, as in the opioid phenotype (45). The gains of \cref{tab:ctl-gain} can be reduced. Obesity hypoventilation uses bicarbonate and gain together, so that at its presenting PaCO\textsubscript{2} the controller generates almost no added drive~\citep{piper2011}; congenital central hypoventilation uses all three.
+
+\section{Untreated initial blood gases}
+\label{sec:par-abg}
+When an adult phenotype is loaded, the model seeds PaCO\textsubscript{2}, SaO\textsubscript{2} and bicarbonate with the untreated presenting state of that disease (\cref{tab:par-abg}). The bicarbonate also resets the renal baseline of \cref{ch:ch08}, so the controller starts compensated for the chronic PaCO\textsubscript{2} and does not drive it toward \SI{40}{\mmHg}. In phenotypes with a progression time line, such as ALS and DMD, the seed is interpolated to the selected month after onset. Chronic retainers carry about \SI{3.5}{mEq/L} of bicarbonate per \SI{10}{\mmHg} of PaCO\textsubscript{2} above normal; acute failure, as in status asthmaticus, carries little~\citep{brackett1969}. The seed only sets the starting point. After a few minutes of simulation, the values are those produced by the model's own mechanics, drive and gas exchange.
+
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.55\linewidth}cccc@{}}
+\caption{Untreated adult arterial blood gases seeded when a phenotype is loaded (room air). pH is computed from \cref{eq:gx-abg}.}\label{tab:par-abg}\\
+\toprule Phenotype & PaCO\textsubscript{2} (mmHg) & SaO\textsubscript{2} (\%) & HCO\textsubscript{3}\textsuperscript{$-$} (mEq/L) & pH\\\midrule\endfirsthead
+\toprule Phenotype & PaCO\textsubscript{2} & SaO\textsubscript{2} & HCO\textsubscript{3}\textsuperscript{$-$} & pH\\\midrule\endhead\bottomrule\endfoot
+Normal & 40 & 98 & 24 & 7.39\\
+ALS / motor neuron disease & 40 & 96 & 24 & 7.39\\
+ALS: bulbar onset & 40 & 96 & 24 & 7.39\\
+ALS: limb onset & 40 & 96 & 24 & 7.39\\
+Adult DMD / NMD & 55 & 88 & 32 & 7.38\\
+Myasthenia gravis (MG crisis) & 50 & 87 & 26 & 7.33\\
+Myasthenia gravis (generalized, stable) & 41 & 96 & 25 & 7.40\\
+Guillain-Barr\'e (respiratory involvement) & 44 & 92 & 24 & 7.35\\
+SCI C1--C2 complete (no diaphragm) & 40 & 97 & 24 & 7.39\\
+SCI C3--C4 complete & 43 & 94 & 26 & 7.39\\
+SCI C5 complete & 41 & 95 & 25 & 7.40\\
+SCI C6--C8 complete & 40 & 96 & 24 & 7.39\\
+SCI C4 incomplete & 40 & 96 & 24 & 7.39\\
+COPD / emphysema, stable borderline hypercapnic & 47 & 91 & 26 & 7.36\\
+COPD / emphysema, stable hypercapnic & 63 & 88 & 31 & 7.30\\
+COPD / chronic bronchitis, stable hypercapnic & 58 & 82 & 32 & 7.35\\
+Bronchiectasis, hypercapnic respiratory failure & 52 & 86 & 30 & 7.37\\
+Cystic fibrosis, hypercapnic respiratory failure & 50 & 88 & 29 & 7.38\\
+Bronchiolitis obliterans syndrome (BOS) after lung transplant & 55 & 88 & 31 & 7.36\\
+COPD / OSA overlap syndrome & 44 & 92 & 26 & 7.38\\
+COPD / OSA overlap, hypercapnic & 57 & 89 & 30 & 7.33\\
+COPD / expiratory flow limitation (EFL), intrinsic PEEP & 64 & 81 & 33 & 7.33\\
+COPD exacerbation (AECOPD) & 63 & 83 & 33 & 7.33\\
+Status asthmaticus (intubated) & 52 & 87 & 22 & 7.24\\
+Tracheal stenosis (fixed) & 42 & 96 & 25 & 7.39\\
+Tracheobronchomalacia & 41 & 96 & 25 & 7.40\\
+Excessive dynamic airway collapse (EDAC) & 41 & 96 & 25 & 7.40\\
+Tracheobronchomalacia with COPD & 46 & 93 & 28 & 7.40\\
+Pulmonary fibrosis (IPF) & 37 & 87 & 22 & 7.39\\
+Restrictive chest wall / kyphoscoliosis & 53 & 90 & 31 & 7.38\\
+Pneumonia (lobar consolidation) & 36 & 87 & 21 & 7.38\\
+ARDS (moderate --- P/F 100--200) & 36 & 82 & 20 & 7.36\\
+ARDS (severe --- P/F $<$100) & 52 & 68 & 19 & 7.18\\
+Obesity hypoventilation (OHS) & 58 & 83 & 36 & 7.41\\
+OHS + obstructive lung disease & 62 & 80 & 38 & 7.40\\
+Obese ARDS (BMI 40 --- P/F 120) & 50 & 70 & 20 & 7.21\\
+Post-op abdominal / laparotomy & 42 & 91 & 24 & 7.37\\
+Single-lung transplant (emphysema native) & 44 & 91 & 26 & 7.38\\
+Cheyne-Stokes (CHF / post-stroke) & 40 & 92 & 28 & 7.46\\
+Primary central sleep apnea & 38 & 93 & 24 & 7.41\\
+Ondine's curse (acquired brainstem) & 56 & 84 & 31 & 7.36\\
+Central apnea --- opioid-induced & 50 & 88 & 27 & 7.35\\
+CCHS (adult, PHOX2B 20/27) & 53 & 85 & 30 & 7.37\\
+\end{longtable}}
+
+\section{The phenotype library}
+\label{sec:par-lib}
+The library has 92 phenotypes in five age categories, grouped by disease class (\crefrange{tab:par-lib-adult}{tab:par-lib-preterm}). All values are read from the current code. Selecting a phenotype applies its multipliers and resets the gas-exchange, PEEP, recruitment and drive inputs listed for it. The values are a median prototype patient for each disease. For a published case they are the starting point for calibration (\cref{sec:par-calib}), not a fit to that patient.
+
+\paragraph{Disease progression.} Eighteen phenotypes, among them ALS, DMD, GBS, the SCI levels, cystic fibrosis, tracheal stenosis, TBM, EDAC and the stable hypercapnic COPD phenotypes, have a disease time line. It is a list of knots, each giving parameter values and, where published, an untreated blood gas at a stated time since onset, in months, weeks or days. For a chosen time the model interpolates each parameter linearly between the two neighboring knots and holds the end values outside the range. The blood gas used to seed the simulation is interpolated the same way. Each time line carries its literature sources in the code.
+
+\paragraph{Adult neuromuscular.} Airway resistance is normal. Lung compliance falls modestly from microatelectasis and chest-wall compliance falls with kyphoscoliosis or loss of intercostal tone. MIP multipliers come from SNIP and MIP in disease cohorts~\citep{miller2009,finder2004}. In GBS requiring ventilation the multiplier is 0.02, about \SI{2}{\cmH}: drive is intact, but it produces almost no flow~\citep{sharshar2003}. The slow fraction is 0.10 because airways and gravity gradients are near normal.
+
+\paragraph{Adult obstructive.} Emphysema has a high compliance and a high alveolar dead space. Chronic bronchitis has a normal compliance, with hypoxemia carried by low-$\dot V/\dot Q$ units (MIGET shows a low-$\dot V/\dot Q$ mode of 0.08--0.14 in bronchitis that is absent in emphysema~\citep{wagner1977}). The EFL phenotype adds the Starling-resistor element of \cref{ch:ch06}, which PEEP stents~\citep{rossi1995}. Tracheal stenosis has a high resistance with uniform time constants ($\kappa=1.5$), because all units share the obstruction~\citep{grillo1995}. Tracheobronchomalacia has an expiratory collapse element~\citep{ernst2004}.
+
+\paragraph{Adult restrictive and parenchymal.} Fibrosis lowers lung compliance to a quarter of normal and raises dead space~\citep{nava1999}. Kyphoscoliosis lowers chest-wall compliance with near-normal lung compliance, the signature of pure chest-wall restriction~\citep{buyse2003}. ARDS follows the Berlin categories~\citep{ards2012}. Its compliance multipliers of 0.20 and 0.13 express the baby lung~\citep{gattinoni2005}, and its shunt of 25--42\% agrees with MIGET~\citep{wagner1974}. The ARDS phenotypes carry the recruitment parameters of \cref{sec:mech-recruit}~\citep{mercat2008}.
+
+\paragraph{Obesity.} Mass loading lowers lung and chest-wall compliance and raises resistance~\citep{pelosi1998a}. Obesity hypoventilation combines this with blunted chemosensitivity and bicarbonate retention~\citep{masa2019,piper2011}.
+
+\paragraph{Children and infants.} Asthma, cystic fibrosis and bronchiolitis obliterans have high resistance and $\kappa$ of 7--12, with low-$\dot V/\dot Q$ hypoxemia~\citep{global2023,elborn2016}. SMA types 1 and 2 differ mainly in MIP~\citep{mercuri2018}. RSV bronchiolitis raises resistance about threefold with normal muscles: distress comes from work, not weakness~\citep{ralston2014}. Croup raises resistance with uniform time constants, like adult tracheal stenosis~\citep{bjornson2008}.
+
+\paragraph{Neonates and preterm infants.} Surfactant deficiency lowers lung compliance to 0.40--0.45 of baseline, and the compliant chest wall offers little resistance to collapse~\citep{sweet2022}. BPD combines high resistance, low compliance and high dead space~\citep{jobe2001,jobe2011}. In PPHN and CDH, extrapulmonary right-to-left shunt of 32--40\% makes hypoxemia refractory to oxygen~\citep{steinhorn2010,deprest2009}. Apnea of prematurity has near-normal mechanics with a reduced resting effort~\citep{martin2011}.
+
+\paragraph{Central hypoventilation.} Every category has a central hypoventilation group with three types. In the first type the chemoreflex is severely blunted ($d_g,f_g\approx0.12$--0.20). It covers congenital central hypoventilation from \emph{PHOX2B} mutations~\citep{weesemayer2010,trang2005} and acquired brainstem lesions~\citep{ondine1956}. With the N3 gain multiplier, the effective gain falls to about 8\% of normal, and drive nearly stops in deep sleep. In the second type high gain combines with a long CO\textsubscript{2} time constant ($d_g,f_g\approx2$, $\tau$ 55--\SI{90}{\second}), and periodic breathing emerges from the loop~\citep{khoo1982,dempsey2010}. This covers Cheyne--Stokes respiration in heart failure, where circulation delay is prolonged~\citep{bradley2003}, primary central apnea and post-preterm periodic breathing. In the third type moderate blunting combines with high CV (\cref{tab:mus-cvdef}) to give ataxic breathing. It covers Joubert, Rett and brainstem malformation~\citep{joubert1969,julu2001,sarnat2004}. Leigh syndrome combines blunting with metabolic acidosis~\citep{leigh1951}, and Prader--Willi syndrome combines it with obesity~\citep{gillett2016}. Opioid-induced central apnea uses gain 0.30 with a set point of \SI{45}{\mmHg}~\citep{pattinson2008}.
+
+\paragraph{Confidence.} Each phenotype is a single time point and a median patient. Parameters that are coupled in real disease, such as the slow fraction and the low-$\dot V/\dot Q$ fraction, are set independently. Pediatric and neonatal values rest on far fewer measurements than adult values~\citep{papastamelos1995,davis1987,muller1979}. Only the adult obstructive and neuromuscular phenotypes have so far been validated against published cases (\cref{ch:ch14}).
+
+\input{chapters/ch12_lib}
+
+\section{The adult obstructive phenotypes}
+\label{sec:par-obst}
+\Cref{tab:par-obst} lists the main multipliers of the adult obstructive phenotypes as implemented. The disease chapters give the full parameter set of each, with sources and classes.
+
+\begin{table}[ht]
+\centering
+\caption{Main parameters of the adult obstructive phenotypes. $m_R$, $m_{C_L}$, $m_P$, $m_G$: multipliers of \cref{eq:par-mult}; $f_s$, $\kappa$: slow fraction and time-constant ratio; EFL: flow-limitation gain; $l_f$: low-$\dot V/\dot Q$ perfusion fraction.}
+\label{tab:par-obst}
+\small
+\begin{tabular}{@{}lccccccccc@{}}
+\toprule
+Phenotype & $m_R$ & $m_{C_L}$ & $m_P$ & $m_G$ & $f_s$ & $\kappa$ & EFL & $l_f$ & $P_{\mathrm{crit}}$ \\
+\midrule
+Emphysema, borderline hypercapnic & 2.5 & 1.15 & 1.00 & 4.0 & 0.35 & 7.0 & 1.5 & 0.30 & -- \\
+Emphysema, hypercapnic & 3.0 & 1.15 & 0.53 & 4.0 & 0.35 & 7.0 & 1.5 & 0.20 & -- \\
+Chronic bronchitis, hypercapnic & 3.2 & 1.00 & 0.90 & 4.0 & 0.50 & 4.5 & 3.0 & 0.25 & -- \\
+Bronchiectasis, hypercapnic & 2.4 & 0.75 & 0.75 & 4.0 & 0.50 & 4.5 & 1.5 & 0.30 & -- \\
+Cystic fibrosis, hypercapnic & 2.4 & 0.65 & 0.85 & 4.0 & 0.50 & 4.5 & 1.5 & 0.32 & -- \\
+BOS after lung transplant & 3.0 & 0.85 & 1.00 & 4.0 & 0.50 & 4.5 & 3.0 & 0.25 & -- \\
+COPD--OSA overlap & 1.6 & 1.00 & 0.90 & 4.0 & 0.45 & 4.0 & 1.0 & 0.15 & $-5.1$ \\
+COPD--OSA overlap, hypercapnic & 2.4 & 1.00 & 0.90 & 4.0 & 0.45 & 4.0 & 2.0 & 0.22 & $-5.0$ \\
+COPD with EFL & 3.5 & 1.10 & 0.65 & 4.0 & 0.50 & 4.5 & 5.0 & 0.22 & -- \\
+COPD exacerbation & 4.0 & 1.20 & 0.82 & 4.0 & 0.45 & 10.0 & 4.5 & 0.20 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{summarybox}
+A patient is a normal baseline scaled to age and weight, multiplied by disease factors that each refer to a measurable quantity. Every value carries a class, calibration targets are ranked with PaCO\textsubscript{2} first, sweeps stay inside published ranges, and comparisons used for calibration are not counted as validation.
+\end{summarybox}

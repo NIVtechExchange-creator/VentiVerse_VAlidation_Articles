@@ -1,0 +1,71 @@
+\chapter{Euler Integration Compared with Simulink ODE Solvers and Other Methods}
+\label{ch:ch04}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Describe the fixed-step and variable-step solver families available in Simulink and similar environments.
+  \item Compare their accuracy and cost on the respiratory equation of motion.
+  \item Explain why a fixed-step explicit method suits a real-time, event-rich ventilator simulation.
+\end{itemize}
+\end{objectives}
+
+\section{Solver families}
+\label{sec:solv-families}
+Engineers who model ventilators often use MATLAB and Simulink, which offer two families of solvers~\citep{shampine1997,mathworks_solvers}. \emph{Fixed-step} solvers advance by the same $\Delta t$ every step: \texttt{ode1} is the explicit Euler method of \cref{ch:ch03}, \texttt{ode2} is Heun's method, \texttt{ode3} is the Bogacki--Shampine method, \texttt{ode4} is the classical fourth-order Runge--Kutta method (RK4), and \texttt{ode5} is the Dormand--Prince method used at a fixed step. \emph{Variable-step} solvers choose each step from an estimate of the local error: \texttt{ode45} uses the embedded Dormand--Prince pair~\citep{dormand1980}, \texttt{ode23} the Bogacki--Shampine pair, \texttt{ode113} a variable-order Adams method, and \texttt{ode15s}, \texttt{ode23s}, \texttt{ode23t} and \texttt{ode23tb} are implicit methods for \emph{stiff} systems, in which some time constants are far shorter than the interval of interest~\citep{hairer1996}. Outside MATLAB, the LSODA solver switches automatically between Adams and backward-differentiation (BDF) methods as stiffness changes~\citep{petzold1983}.
+
+A higher-order method gains accuracy faster as the step shrinks. The error of explicit Euler falls in proportion to $\Delta t$; that of RK4 in proportion to $\Delta t^4$. Each RK4 step, however, costs four evaluations of the right-hand side instead of one, and every variable-step method spends extra evaluations estimating its own error and rejecting steps that fail the tolerance.
+
+\section{A direct comparison}
+\label{sec:solv-bench}
+To compare the methods on the equations the model actually solves, the two-compartment equation of motion (\cref{eq:num-eom}) with the airway-pressure lag (\cref{eq:num-paw}) was integrated for ten breaths of pressure control: inspiratory pressure \SI{15}{\cmH} above PEEP, inspiratory time \SI{1}{\second}, rate \SI{15}{\breath\per\minute}, $R_1 = 10$ and $R_2 = \SI{20}{\cmH\per\liter\second}$, $C_1 = C_2 = \SI{0.025}{\liter\per\cmH}$, rise time constant \SI{0.10}{\second} and fall time constant \SI{0.15}{\second}, as in the simulator at a rise setting of 1. The patient was passive ($P_m = 0$), so that every solver solved the same smooth problem between the two pressure switches of each breath. Variable-step solvers were restarted at each switch, which is what Simulink's zero-crossing detection achieves. The reference solution was computed with an eighth-order Dormand--Prince method at a relative tolerance of $10^{-12}$. Errors are the largest difference in lung volume during the last breath, as a percentage of the tidal volume of \SI{676}{\milli\liter}.
+
+\begin{table}[ht]
+\centering
+\caption{Accuracy and cost of solvers on ten breaths of passive pressure control. The Simulink name of each method is given where one exists; the computations used the SciPy implementations~\citep{virtanen2020} and the script \texttt{tools/ch04\_bench.py} in the book repository.}
+\label{tab:solv-bench}
+\small
+\begin{tabularx}{\linewidth}{@{}X l r r@{}}
+\toprule
+Method & Step & Max.\ error (\% $V_T$) & Evaluations \\
+\midrule
+Explicit Euler (\texttt{ode1}) & fixed, \SI{2}{\milli\second} & 0.14 & 20000 \\
+Explicit Euler (\texttt{ode1}) & fixed, \SI{10}{\milli\second} & 0.69 & 4000 \\
+Classical RK4 (\texttt{ode4}) & fixed, \SI{2}{\milli\second} & $2.4\times10^{-8}$ & 80000 \\
+Classical RK4 (\texttt{ode4}) & fixed, \SI{10}{\milli\second} & $1.6\times10^{-5}$ & 16000 \\
+Dormand--Prince (\texttt{ode45}), rtol $10^{-3}$ & variable & 0.047 & 1834 \\
+Dormand--Prince (\texttt{ode45}), rtol $10^{-6}$ & variable & $4.3\times10^{-5}$ & 3568 \\
+LSODA (Adams/BDF switching), rtol $10^{-3}$ & variable & 0.041 & 1660 \\
+BDF, as in \texttt{ode15s}, rtol $10^{-3}$ & variable & 0.067 & 1900 \\
+Radau IIA (implicit), rtol $10^{-3}$ & variable & 0.0065 & 2746 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\input{figures/gen/ch04_conv.tex}
+\caption{Convergence of explicit Euler and RK4 on the problem of \cref{tab:solv-bench}. Euler's error is proportional to the step (slope 1) and RK4's to its fourth power (slope 4). At the VentiVerse step of \SI{2}{\milli\second}, Euler's largest volume error is 0.14\% of tidal volume, about \SI{0.9}{\milli\liter}. Computed by \texttt{tools/ch04\_bench.py}.}
+\label{fig:solv-conv}
+\end{figure}
+
+\Cref{tab:solv-bench,fig:solv-conv} show three things. First, Euler at \SI{2}{\milli\second} is accurate enough for clinical purposes: its largest error, \SI{0.9}{\milli\liter}, is far below the resolution of any bedside volume measurement. Second, Euler is not the most efficient method for this smooth test: \texttt{ode45} at its default tolerance reached a smaller error with about a tenth as many evaluations, and RK4 at \SI{10}{\milli\second} was more accurate than Euler at \SI{0.5}{\milli\second}. Third, the stiff solvers had no advantage, because the shortest time constant here (\SI{0.10}{\second}) is long compared with any reasonable step; the equation of motion is not stiff at the time scales of breathing.
+
+\section{Why the model uses fixed-step Euler}
+\label{sec:solv-why}
+The smooth test favors adaptive methods because it leaves out what the full model adds at almost every step. In the simulator, the right-hand side switches whenever the ventilator triggers or cycles on flow, a leak or valve opens, expiratory flow limitation engages at a choke point, the upper airway collapses or reopens, or an endotracheal tube's flow-dependent resistance changes sign with flow. Several of these depend on memory within the breath, such as the peak volume reached, the flow history used for cycling, or the buffer of a forced-oscillation measurement. An adaptive solver evaluates the right-hand side at trial points, rejects steps and repeats them, so each of these switches would need its own event function, and each memory would have to be protected from rejected steps. A fixed-step explicit method evaluates the model once per step, at a known time, in order. This is the same way a ventilator's controller samples and acts on its sensors.
+
+The fixed step has three further benefits for teaching and validation:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Predictable cost.} A simulated second always costs 500 steps, so the model runs faster than real time in a web browser regardless of the patient or mode.
+  \item \textbf{Known numerical error.} Every breath is integrated with the same step, so the discretization error is the same in every run and every patient. Run-to-run differences come only from the model's deliberate breath-to-breath variability (\cref{ch:ch08}), not from a solver choosing different steps.
+  \item \textbf{Simple extension.} A new mechanism is added as one more term in the step, without reformulating it for a solver.
+\end{itemize}
+Simulink itself requires a fixed-step solver when a model is compiled for a real-time target~\citep{mathworks_solvers}. The cost of these benefits is the low order of the method, which the model offsets with a small step (\cref{sec:num-stability}) and by moving the slow states, where a long step would be most damaging, to the exact updates of \cref{sec:num-exact}.
+
+\begin{clinicalpearl}
+A ventilator simulator does not need to be correct to a microliter, but it must not invent physiology. The test that matters is whether reducing the step changes any clinical output. \Cref{ch:ch05} shows that halving the step to \SI{1}{\milli\second} leaves the blood gases and breathing pattern unchanged.
+\end{clinicalpearl}
+
+\begin{summarybox}
+Variable-step solvers such as \texttt{ode45} are more efficient on a smooth equation of motion, but the full ventilator model is dominated by switches and memory within the breath. Fixed-step Euler at \SI{2}{\milli\second} keeps the volume error below 0.2\% of tidal volume, costs the same for every patient, and has the same numerical error in every run, which is why VentiVerse uses it.
+\end{summarybox}

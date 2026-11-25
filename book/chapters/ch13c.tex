@@ -1,0 +1,21 @@
+\chapter{Patient--Ventilator Asynchrony}
+\label{ch:async}
+
+\begin{authornote}
+\emph{Chapter reserved for expansion. The sections below describe the asynchronies the model already produces.}
+\end{authornote}
+
+\section{Asynchronies produced by the model}
+The model produces premature cycling with double triggering (\cref{sec:modes-cycle}), timed breaths that do or do not reset the patient's rhythm (\cref{sec:modes-trigger}), and flow starvation in volume control (\cref{sec:modes-vc}). Trigger delay, ineffective efforts and delayed cycling are not yet modeled~\citep{tobin2001,thille2006}.
+
+\section{Reverse triggering}
+\label{sec:async-reverse}
+In sedated patients, passive inflation by a timed breath can itself evoke an inspiratory effort. This is reverse triggering, a form of respiratory entrainment~\citep{akoumianaki2013a}. When the evoked effort is strong enough it triggers a second breath on top of the first, causing breath stacking. Reverse triggering has been linked to diaphragm injury and to lung injury from the stacked volume~\citep{dres2016}. The afferent pathway is thought to involve pulmonary stretch receptors, the same receptors that mediate the Hering--Breuer inflation reflex~\citep{graves1986}.
+
+In the model, a timed breath starts the reflex when its inflation volume reaches \SI{10}{\milli\liter}. After a latency $t_L$, representing afferent conduction and central processing, the reflex adds an effort
+\begin{equation}
+P_{\mathrm{mus,ref}}(t)=-A_{\mathrm{ref}}\sin\!\left(\pi\frac{t-t_0-t_L}{T_{\mathrm{ref}}}\right),\qquad
+A_{\mathrm{ref}}=\min\bigl(A_{\max},\,G_{\mathrm{ref}}\,\Delta V\bigr),
+\label{eq:async-reflex}
+\end{equation}
+for $0\le t-t_0-t_L<T_{\mathrm{ref}}$, where $t_0$ is the start of inflation, $\Delta V$ is the inflated volume in liters when the latency ends, $G_{\mathrm{ref}}$ is the reflex gain, $A_{\max}$ the maximal reflex pressure and $T_{\mathrm{ref}}$ the reflex duration. Defaults are $t_L=\SI{180}{\milli\second}$, $G_{\mathrm{ref}}=\SI{12}{\cmH\per\liter}$, $A_{\max}=\SI{6}{\cmH}$ and $T_{\mathrm{ref}}=\SI{0.8}{\second}$; these are class~A values. If the reflex effort meets the trigger criterion during expiration, a stacked breath follows. Sedation with paralysis sets $A_{\mathrm{ref}}=0$ (\cref{sec:ctl-prebotc}).

@@ -1,0 +1,115 @@
+\chapter{Carbon Dioxide Stores, Dead Space and Capnography}
+\label{ch:ch10}
+
+\begin{objectives}
+\begin{itemize}[leftmargin=*]
+  \item Write the lung and tissue carbon dioxide store equations and explain why a mass balance is needed.
+  \item Compute dead space from its anatomic, apparatus and alveolar components.
+  \item Describe how expired CO\textsubscript{2} is derived from the model state.
+\end{itemize}
+\end{objectives}
+
+\section{Why carbon dioxide needs stores}
+\label{sec:co2-why}
+The steady-state alveolar ventilation equation, $\mathrm{PaCO_2} = 0.863\,\dot V_{\mathrm{CO_2}}/\dot V_A$, is exact only when ventilation is constant. When ventilation changes, PaCO\textsubscript{2} moves toward the new value at a rate set by the body's capacity to store carbon dioxide~\citep{farhi1955}. Gas in the lung equilibrates within seconds to a minute; blood and well-perfused tissue over minutes; muscle and bone over tens of minutes to hours. The model has two stores: a fast lung store and a slower tissue store.
+
+\section{The lung store}
+\label{sec:co2-lung}
+Between breaths, PaCO\textsubscript{2} obeys the mass balance already given in \cref{eq:num-co2},
+\begin{keyequation}
+\begin{equation}
+\tau_s\,V_{\mathrm{ref}}\,\frac{\dd\mathrm{PaCO_2}}{\dd t} = 0.863\,\dot V_{\mathrm{CO_2,lung}} + P_{I\mathrm{CO_2}}\,\dot V_A - \dot V_A\,\mathrm{PaCO_2},
+\label{eq:co2-lung}
+\end{equation}
+\end{keyequation}
+solved exactly over each breath of length $T$. The store's size is expressed by a time constant and a reference ventilation: $V_{\mathrm{ref}} = \max\bigl(0.3,\;0.863\,\dot V_{\mathrm{CO_2}}/40\bigr)$ \si{\liter\per\minute} is the alveolar ventilation that holds PaCO\textsubscript{2} at \SI{40}{\mmHg}, so that at that ventilation the time constant is $\tau_s$. The time constant itself scales with lung volume,
+\begin{equation}
+\tau_s = \tau_{\mathrm{CO_2}}\;\mathrm{clip}\!\left(\frac{\mathrm{FRC_{pred}} + V_{\mathrm{trap}}}{\mathrm{FRC_{pred}}},\;0.5,\;3\right),
+\label{eq:co2-tau}
+\end{equation}
+with $\tau_{\mathrm{CO_2}} = \SI{30}{\second}$, $V_{\mathrm{trap}}$ the gas trapped in the two mechanical compartments, and predicted functional residual capacity from the ERS equations~\citep{quanjer1993}: $2.34H + 0.009A - 1.09$ litres for men and $2.24H + 0.001A - 1.00$ for women, with height $H$ in metres and age $A$ in years. A hyperinflated lung therefore buffers PaCO\textsubscript{2} more slowly.
+
+\paragraph{Why a mass balance.} Relaxing PaCO\textsubscript{2} toward $0.863\,\dot V_{\mathrm{CO_2}}/\dot V_A$ with a fixed time constant at every breath is correct only when breaths are regular. When they vary, a shallow breath raises that target far more than a deep breath lowers it, and PaCO\textsubscript{2} drifts upward. \Cref{eq:co2-lung} has no such bias, because elimination is proportional to $\dot V_A\,\mathrm{PaCO_2}$ breath by breath. \Cref{sec:impl-verification} shows that elimination and production balance within a few percent in one-hour runs.
+
+\paragraph{Apnea.} In apneic humans PaCO\textsubscript{2} rises by roughly \SI{10}{\mmHg} in the first minute, as the lung store fills, and by about 3--4 \si{\mmHg\per\minute} after that~\citep{eger1961,stock1988}. For untimed breathing pauses longer than \SI{10}{\second}, and during upper-airway obstruction, the model limits the rise computed from \cref{eq:co2-lung} to \SI{10}{\mmHg} over the first minute and \SI{3.5}{\mmHg\per\minute} thereafter.
+
+\section{The tissue store}
+\label{sec:co2-tissue}
+A second store with capacity $C_t = 3.5$ \si{\milli\liter\per\mmHg} per kilogram of body weight and time constant $\tau_t = \SI{20}{\minute}$ exchanges carbon dioxide with arterial blood:
+\begin{equation}
+J_t = \max\bigl(-\dot V_{\mathrm{CO_2}},\;k_t\,(P_t - \mathrm{PaCO_2})\bigr),\qquad k_t = \frac{C_t}{\tau_t},\qquad
+C_t\,\frac{\dd P_t}{\dd t} = -J_t,
+\label{eq:co2-tissue}
+\end{equation}
+where $P_t$ is the tissue PCO\textsubscript{2} and $J_t$ the flux into the blood in \si{\milli\liter\per\minute}. The lung receives $\dot V_{\mathrm{CO_2,lung}} = \dot V_{\mathrm{CO_2}} + J_t$ (using the flux from the previous breath). When ventilation is increased, for example at the start of noninvasive ventilation, the tissue store unloads for tens of minutes, so expired carbon dioxide stays above production long after the lung store has settled (\cref{tab:impl-dt}).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.3cm,grid=major,grid style={gray!20},legend style={font=\tiny,draw=none,fill=none}]
+\nextgroupplot[xlabel={Time after the change (s)},ylabel={PaCO\textsubscript{2} (mmHg)},xmin=0,xmax=180,ymin=25,ymax=46,legend pos=north east]
+\addplot[bkblue,thick,domain=0:180,samples=120]{28.77+(43.15-28.77)*exp(-x*6/(30*4.315))};\addlegendentry{$\tau_s = \SI{30}{\second}$ (normal FRC)}
+\addplot[bkorange,thick,domain=0:180,samples=120]{28.77+(43.15-28.77)*exp(-x*6/(60*4.315))};\addlegendentry{$\tau_s = \SI{60}{\second}$ (FRC doubled)}
+\nextgroupplot[xlabel={Tidal volume (mL)},ylabel={$V_D/V_T$},xmin=150,xmax=800,ymin=0,ymax=1,legend pos=north east]
+\addplot[bkblue,thick,domain=160:800,samples=100]{150/x};\addlegendentry{anatomic \SI{150}{\milli\liter}}
+\addplot[bkorange,thick,domain=160:800,samples=100]{(150+100*x/750)/x};\addlegendentry{+ oronasal mask, EPAP $<4$}
+\addplot[bkteal,thick,domain=160:800,samples=100]{(150+10*x/750)/x};\addlegendentry{+ oronasal mask, EPAP $\ge4$}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Left: lung-store response (\cref{eq:co2-lung}, tissue store omitted) when alveolar ventilation rises from 4 to \SI{6}{\liter\per\minute} at $\dot V_{\mathrm{CO_2}} = \SI{200}{\milli\liter\per\minute}$; the effective time constant is $\tau_s V_{\mathrm{ref}}/\dot V_A$. Right: dead-space fraction from \cref{eq:co2-vd} for an adult with \SI{150}{\milli\liter} anatomic dead space, alone and with an oronasal mask.}
+\label{fig:co2-curves}
+\end{figure}
+
+\section{Dead space}
+\label{sec:co2-vd}
+The model tracks dead-space \emph{volumes}; the dead-space fraction is an output~\citep{fletcher1981}:
+\begin{equation}
+V_{D,\mathrm{phys}} = \bigl(V_{D,\mathrm{anat}} + V_{D,\mathrm{mask}} + V_{D,\mathrm{rb}}\bigr)(1 - w_{\mathrm{HF}}) + V_{D,\mathrm{alv}},\qquad
+\frac{V_D}{V_T} = \frac{V_{D,\mathrm{phys}}}{V_T},\qquad
+\dot V_A = f\,(V_T - V_{D,\mathrm{phys}}).
+\label{eq:co2-vd}
+\end{equation}
+The terms are:
+\begin{itemize}[leftmargin=*]
+\item $V_{D,\mathrm{anat}}$, the conducting airways, about \SI{2.2}{\milli\liter\per\kilogram} in adults (default \SI{150}{\milli\liter}). Because it is a fixed volume, rapid shallow breathing raises $V_D/V_T$ without any change in the lung.
+\item $V_{D,\mathrm{mask}}$, the effective dead space of a noninvasive interface: nominally 50 (nasal), 100 (oronasal), 150 (full face) and \SI{200}{\milli\liter} (total face) at a tidal volume of \SI{750}{\milli\liter}, falling in proportion to tidal volume~\citep{fodil2011}, and reduced to 10\% when EPAP is at least \SI{4}{\cmH}, which flushes the mask~\citep{saatci2004}.
+\item $V_{D,\mathrm{rb}}$, rebreathing from a single-limb leak-port circuit: expired gas fills the tubing when expiratory flow exceeds the leak-port flow and is reinspired at the next breath~\citep{ferguson1995}.
+\item $w_{\mathrm{HF}}$, the fraction of anatomic dead space washed out by high-flow nasal therapy, rising with flow and reduced by mouth opening (\cref{ch:ch13}).
+\item $V_{D,\mathrm{alv}}$, alveolar dead space set by the phenotype, half of which can be removed by recruitment in phenotypes with recruitable lung.
+\end{itemize}
+The Bohr and Enghoff dead-space fractions are reported as $1 - P_{\bar E\mathrm{CO_2}}/P_{A\mathrm{CO_2}}$ and $1 - P_{\bar E\mathrm{CO_2}}/\mathrm{PaCO_2}$~\citep{bohr1891,enghoff1938}. Because the model has one PaCO\textsubscript{2}, the difference between them that shunt produces in patients is only partly represented.
+
+\section{Capnography}
+\label{sec:co2-capno}
+The simulator draws a time and a volumetric capnogram for each breath. Expired PCO\textsubscript{2} is zero while the anatomic and apparatus dead space is exhaled (phase I), rises along a smooth S-shaped transition over the next part of the expired volume (phase II), and then follows an alveolar plateau whose slope increases with alveolar dead space and time-constant inequality (phase III)~\citep{fletcher1981}. The curve is synthesized from the breath's dead-space volumes and PaCO\textsubscript{2}; it is not computed by transporting gas along the airway, so it illustrates the phases and the effect of dead space but should not be used to study the detailed shape of phase III.
+
+\paragraph{End-tidal CO\textsubscript{2}.} The displayed end-tidal value is
+\begin{equation}
+P_{ET\mathrm{CO_2}}=\mathrm{PaCO_2}\Bigl[0.95-\min\Bigl(0.45,\;0.35\,\frac{V_{D,\mathrm{phys}}-V_{D,aw}}{V_T-V_{D,aw}}\Bigr)\Bigr],
+\label{eq:co2-etco2}
+\end{equation}
+where $V_{D,aw}$ is the airway dead space, $V_{D,\mathrm{phys}}$ the physiological dead space and $V_T$ the tidal volume. With no alveolar dead space the end-tidal value is 95\% of PaCO\textsubscript{2}; the arterial--end-tidal gap widens as alveolar dead space grows, as in emphysema and pulmonary embolism~\citep{fletcher1981}. The gap coefficients are assumptions chosen to give this behavior.
+
+\section{Parameters}
+\begin{table}[ht]
+\centering
+\caption{Carbon dioxide store and dead-space parameters. Class as in \cref{tab:mech-params}.}
+\label{tab:co2-params}
+\small
+\begin{tabularx}{\linewidth}{@{}l X l c@{}}
+\toprule
+Symbol & Meaning & Default & Class \\
+\midrule
+$\tau_{\mathrm{CO_2}}$ & Lung store time constant at predicted FRC & \SI{30}{\second} & R \\
+$C_t$, $\tau_t$ & Tissue store capacity and time constant & 3.5 mL/mmHg/kg, 20 min & R/A~\citep{farhi1955} \\
+-- & Maximal apneic PaCO\textsubscript{2} rise & 10 mmHg (1st min), then 3.5 mmHg/min & R~\citep{stock1988} \\
+$V_{D,\mathrm{anat}}$ & Anatomic dead space & \SI{150}{\milli\liter} & R \\
+$V_{D,\mathrm{mask}}$ & Interface dead space at $V_T = \SI{750}{\milli\liter}$ & 50--200 mL & R~\citep{fodil2011} \\
+$V_{D,\mathrm{alv}}$ & Alveolar dead space & 0 (phenotype) & F \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{summarybox}
+PaCO\textsubscript{2} follows a mass balance in a lung store whose time constant scales with lung volume, coupled to a tissue store that unloads or loads over tens of minutes. Dead space is a sum of volumes, so its fraction emerges from the breathing pattern and the interface. The capnogram is a synthesized display, not a transport model.
+\end{summarybox}
