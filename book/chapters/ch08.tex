@@ -107,7 +107,7 @@ At a load below a quarter of capacity nothing changes; at 85\% of capacity the C
 
 \section{Gain calibration by phenotype}
 \label{sec:ctl-gain}
-The slope of the hypercapnic ventilatory response measured by rebreathing is 1.5--3.5~\si{\liter\per\minute\per\mmHg} in healthy adults~\citep{read1967,duffin2011}. Chronic hypercapnia blunts it~\citep{flenley1967,gorini1996}, and in obesity hypoventilation it is 70--80\% below that of matched controls~\citep{lopata1982,piper2011}. Blunting of the slope differs from the rightward shift of the set point caused by renal bicarbonate retention (\cref{sec:ctl-other}): the shift moves the apneic threshold, while blunting lowers the response at every PaCO\textsubscript{2}.
+The slope of the hypercapnic ventilatory response measured by rebreathing in healthy adults is 1.5--3.5 \si{\liter\per\minute\per\mmHg}~\citep{read1967,duffin2011}. Chronic hypercapnia blunts it~\citep{flenley1967,gorini1996}, and in obesity hypoventilation it is 70--80\% below that of matched controls~\citep{lopata1982,piper2011}. Blunting of the slope differs from the rightward shift of the set point caused by renal bicarbonate retention (\cref{sec:ctl-other}): the shift moves the apneic threshold, while blunting lowers the response at every PaCO\textsubscript{2}.
 
 Each phenotype sets two multipliers: $d_g$ on the effort gain and $f_g$ on the frequency gain,
 \begin{equation}
@@ -119,6 +119,7 @@ In the obstructive phenotypes, $d_g$ stays at the normal value of 4. The effort 
 \begin{table}[htbp]\centering\small
 \caption{Chemoreflex gain multipliers by phenotype and the resulting gains from \cref{eq:ctl-gain}.}
 \label{tab:ctl-gain}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{@{}lcccc@{}}\toprule
 Phenotype & $d_g$ & $K_{\mathrm{CO_2}}$ (\si{\cmH\per\mmHg}) & $f_g$ & $K_f$ (\si{\per\minute\per\mmHg})\\\midrule
 Normal & 4.0 & 1.00 & 2.5 & 0.45\\
@@ -136,7 +137,7 @@ Primary central sleep apnea & 2.0 & 0.50 & 2.0 & 0.36\\
 Opioid-induced central apnea & 0.30 & 0.075 & 0.30 & 0.054\\
 Congenital central hypoventilation & 0.18 & 0.045 & 0.18 & 0.032\\
 Acquired central hypoventilation & 0.15 & 0.038 & 0.15 & 0.027\\\bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \section{Alternative controller models}

@@ -64,9 +64,11 @@ where $P_t$ is the tissue PCO\textsubscript{2} and $J_t$ the flux into the blood
 \label{sec:co2-vd}
 The model tracks dead-space \emph{volumes}; the dead-space fraction is an output~\citep{fletcher1981}:
 \begin{equation}
-V_{D,\mathrm{phys}} = \bigl(V_{D,\mathrm{anat}} + V_{D,\mathrm{mask}} + V_{D,\mathrm{rb}}\bigr)(1 - w_{\mathrm{HF}}) + V_{D,\mathrm{alv}},\qquad
+\begin{gathered}
+V_{D,\mathrm{phys}} = \bigl(V_{D,\mathrm{anat}} + V_{D,\mathrm{mask}} + V_{D,\mathrm{rb}}\bigr)(1 - w_{\mathrm{HF}}) + V_{D,\mathrm{alv}},\\
 \frac{V_D}{V_T} = \frac{V_{D,\mathrm{phys}}}{V_T},\qquad
 \dot V_A = f\,(V_T - V_{D,\mathrm{phys}}).
+\end{gathered}
 \label{eq:co2-vd}
 \end{equation}
 The terms are:

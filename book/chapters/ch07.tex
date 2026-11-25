@@ -58,6 +58,7 @@ Here MIP is the patient's maximal inspiratory pressure; $F$ is the fraction of c
 
 \begin{figure}[ht]
 \centering
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
 \begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.2cm,grid=major,grid style={gray!20},legend style={font=\scriptsize,draw=none,fill=none}]
 \nextgroupplot[xlabel={Lung volume, fraction of VC ($x$)},ylabel={$P_{\mathrm{cap}}/\mathrm{MIP}$},xmin=0,xmax=1,ymin=0,ymax=1.05,legend pos=north east]
@@ -69,7 +70,7 @@ Here MIP is the patient's maximal inspiratory pressure; $F$ is the fraction of c
 \nextgroupplot[xlabel={Tension--time index $TT$},ylabel={$t_{\lim}$ (min)},ymode=log,xmin=0.15,xmax=0.4,ymin=1,ymax=200]
 \addplot[red!70!black,thick,domain=0.15:0.4,samples=60]{0.1*x^(-3.6)};
 \end{groupplot}
-\end{tikzpicture}
+\end{tikzpicture}}
 \caption{Left: inspiratory muscle capacity from \cref{eq:mus-cap} with $F = 0$, as a function of lung volume at three shortening velocities; resting breathing uses $v$ well below 0.1. Right: endurance time at tension--time indices above the critical value 0.15, $t_{\lim} = 0.1\,TT^{-3.6}$ minutes~\citep{bellemare1982}.}
 \label{fig:mus-cap}
 \end{figure}

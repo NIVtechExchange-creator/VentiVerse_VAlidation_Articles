@@ -17,9 +17,11 @@ This chapter covers the modes that the model implements. Leak is treated in \cre
 In every pressure-targeted mode the device sets a command pressure and the airway pressure follows it with a first-order response (\cref{ch:ch03}):
 \begin{keyequation}
 \begin{equation}
+\begin{gathered}
 \frac{\dd\Paw}{\dd t} = \frac{P_{\mathrm{cmd}} - \Paw}{\tau},\qquad
-\tau = \begin{cases}\tau_{\mathrm{rise}} & P_{\mathrm{cmd}} \ge \Paw\\ \tau_{\mathrm{fall}} = \SI{0.15}{\second} & P_{\mathrm{cmd}} < \Paw\end{cases},\qquad
+\tau = \begin{cases}\tau_{\mathrm{rise}} & P_{\mathrm{cmd}} \ge \Paw\\ \tau_{\mathrm{fall}} = \SI{0.15}{\second} & P_{\mathrm{cmd}} < \Paw\end{cases},\\
 P_{\mathrm{cmd}} = \begin{cases}\mathrm{PEEP} + \mathrm{PS} & \text{support on}\\ \mathrm{PEEP} & \text{support off}\end{cases}
+\end{gathered}
 \label{eq:modes-cmd}
 \end{equation}
 \end{keyequation}

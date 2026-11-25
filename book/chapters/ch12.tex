@@ -15,8 +15,10 @@ A simulated patient is defined in two steps. First, a normal baseline is scaled 
 
 Second, the disease is applied as multipliers and additional parameters:
 \begin{equation}
-R = R_0\,m_R,\quad C_L = C_{L,0}\,m_{C_L},\quad C_{cw} = C_{cw,0}\,m_{C_{cw}},\quad
+\begin{gathered}
+R = R_0\,m_R,\quad C_L = C_{L,0}\,m_{C_L},\quad C_{cw} = C_{cw,0}\,m_{C_{cw}},\\
 \mathrm{MIP} = \mathrm{MIP_0}\,m_P,\quad G = 0.25\,m_G,\quad k_f = 0.18\,m_f,
+\end{gathered}
 \label{eq:par-mult}
 \end{equation}
 together with the slow-compartment fraction $f_s$ and time-constant ratio $\kappa$ (\cref{ch:ch06}), alveolar dead space per kilogram, oxygen consumption, the perfusion distribution (\cref{ch:ch09}), and disease-specific terms such as expiratory flow limitation, upper-airway $P_{\mathrm{crit}}$ or myasthenic fatigue. Because every multiplier refers to a physiological quantity, each can be checked against measurements reported for the disease. For progressive neuromuscular diseases the parameters are given at several times since onset and interpolated linearly to the chosen month.
@@ -65,6 +67,7 @@ Five age categories provide the normal baseline from which every phenotype is bu
 \begin{table}[htbp]\centering\small
 \caption{Age-category baselines.}
 \label{tab:par-dev}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{@{}lccccccc@{}}\toprule
 Category & Weight (kg) & Age & $R$ (\si{\cmH\second\per\liter}) & $C_{rs}$ (mL/cmH\textsubscript{2}O/kg) & $f_0$ (/min) & $T_I$ (s) & $\dot V_{O_2}$ (mL/kg/min)\\\midrule
 Preterm & 1.5 & 1 week & 90 & 0.70 & 45 & 0.30 & 7.0\\
@@ -72,7 +75,7 @@ Neonate & 3.5 & 2 weeks & 35 & 1.05 & 40 & 0.35 & 7.0\\
 Infant & 8 & 6 months & 25 & 1.25 & 30 & 0.50 & 8.0\\
 Child & 25 & 7 years & 10 & 1.00 & 20 & 0.80 & 5.0\\
 Adult & 70 & 35 years & 5 & 1.43 & 12 & 1.00 & 3.5\\\bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \paragraph{Chest wall.} The respiratory-system compliance is split between lung and chest wall with an age-dependent ratio,
@@ -117,7 +120,7 @@ where $P_{\mathrm{set}}$ is the set point at normal bicarbonate (default \SI{40}
 \label{sec:par-abg}
 When an adult phenotype is loaded, the model seeds PaCO\textsubscript{2}, SaO\textsubscript{2} and bicarbonate with the untreated presenting state of that disease (\cref{tab:par-abg}). The bicarbonate also resets the renal baseline of \cref{ch:ch08}, so the controller starts compensated for the chronic PaCO\textsubscript{2} and does not drive it toward \SI{40}{\mmHg}. In phenotypes with a progression time line, such as ALS and DMD, the seed is interpolated to the selected month after onset. Chronic retainers carry about \SI{3.5}{mEq/L} of bicarbonate per \SI{10}{\mmHg} of PaCO\textsubscript{2} above normal; acute failure, as in status asthmaticus, carries little~\citep{brackett1969}. The seed only sets the starting point. After a few minutes of simulation, the values are those produced by the model's own mechanics, drive and gas exchange.
 
-{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.55\linewidth}cccc@{}}
+{\small\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.42\linewidth}cccc@{}}
 \caption{Untreated adult arterial blood gases seeded when a phenotype is loaded (room air). pH is computed from \cref{eq:gx-abg}.}\label{tab:par-abg}\\
 \toprule Phenotype & PaCO\textsubscript{2} (mmHg) & SaO\textsubscript{2} (\%) & HCO\textsubscript{3}\textsuperscript{$-$} (mEq/L) & pH\\\midrule\endfirsthead
 \toprule Phenotype & PaCO\textsubscript{2} & SaO\textsubscript{2} & HCO\textsubscript{3}\textsuperscript{$-$} & pH\\\midrule\endhead\bottomrule\endfoot

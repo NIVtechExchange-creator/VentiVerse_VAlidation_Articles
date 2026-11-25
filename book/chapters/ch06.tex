@@ -131,6 +131,7 @@ over the first 60\% of expiration. It raises pleural pressure and is the only ex
 
 \begin{figure}[ht]
 \centering
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
 \begin{groupplot}[group style={group size=3 by 1,horizontal sep=1.3cm},width=0.37\linewidth,height=5cm,grid=major,grid style={gray!20},
   legend style={font=\tiny,draw=none,fill=none},title style={font=\small}]
@@ -146,7 +147,7 @@ over the first 60\% of expiration. It raises pleural pressure and is the only ex
 \addplot[bkblue,thick,domain=-2:10,samples=80]{max(0,(x+5)/12)};\addlegendentry{$P_{\mathrm{crit}}=-5$}
 \addplot[bkorange,thick,domain=-2:10,samples=80]{max(0,(x-0)/12)};\addlegendentry{$P_{\mathrm{crit}}=0$}
 \end{groupplot}
-\end{tikzpicture}
+\end{tikzpicture}}
 \caption{Nonlinear mechanical terms, plotted from the model's equations. Left: recoil multiplier near total lung capacity. Centre: expiratory resistance multiplier for $G_{\mathrm{EFL}} = 5$ and $P_{\mathrm{stent}} = \SI{8}{\cmH}$; PEEP 4 lowers the gain by only 3\%, at PEEP 8 the gain is halved, and at PEEP 10 it is 16\% of its unstented value. Right: maximum inspiratory flow through a collapsible pharynx with $R_{us} = \SI{12}{\cmH\per\liter\second}$, the model default.}
 \label{fig:mech-curves}
 \end{figure}

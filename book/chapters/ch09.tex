@@ -67,6 +67,7 @@ where $f_i$ are the entered fractions and $r_{i,\mathrm{ref}}$ the responses und
 
 \begin{figure}[ht]
 \centering
+\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}
 \begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.6cm},width=0.5\linewidth,height=5.3cm,grid=major,grid style={gray!20},legend style={font=\tiny,draw=none,fill=none}]
 \nextgroupplot[xlabel={PO\textsubscript{2} (mmHg)},ylabel={Saturation (\%)},xmin=0,xmax=120,ymin=0,ymax=100,legend pos=south east]
@@ -77,7 +78,7 @@ where $f_i$ are the entered fractions and $r_{i,\mathrm{ref}}$ the responses und
 \addplot[bkblue,thick,domain=20:120,samples=150]{1/(1+((x^0.62*40^0.38)/59)^14)};\addlegendentry{$P_{v\mathrm{O_2}}=40$}
 \addplot[bkorange,thick,domain=20:120,samples=150]{1/(1+((x^0.62*30^0.38)/59)^14)};\addlegendentry{$P_{v\mathrm{O_2}}=30$}
 \end{groupplot}
-\end{tikzpicture}
+\end{tikzpicture}}
 \caption{Left: the Severinghaus curve (\cref{eq:gx-odc}) at three values of P\textsubscript{50}. Right: hypoxic vasoconstriction response from \cref{eq:gx-hpv}; at $P_{v\mathrm{O_2}} = \SI{40}{\mmHg}$ it begins near an alveolar PO\textsubscript{2} of \SI{95}{\mmHg} and is half-maximal near \SI{75}{\mmHg}. A lower mixed-venous PO\textsubscript{2} moves the curve to the right.}
 \label{fig:gx-curves}
 \end{figure}
@@ -86,9 +87,11 @@ where $f_i$ are the entered fractions and $r_{i,\mathrm{ref}}$ the responses und
 \label{sec:gx-circ}
 Cardiac output is modeled rather than back-calculated, so that a fall in arterial content is not hidden by an implausible rise in flow. It increases with desaturation, anemia and oxygen consumption~\citep{west2012}:
 \begin{equation}
-\dot Q = \dot Q_0\,m_S\,m_{\mathrm{Hb}} + 6\,\frac{\dot V_{\mathrm{O_2}} - \dot V_{\mathrm{O_2},\mathrm{rest}}}{1000},\quad
-m_S = 1 + 0.0117\min\bigl(25,\max(0,97 - \mathrm{SaO_2})\bigr),\quad
+\begin{gathered}
+\dot Q = \dot Q_0\,m_S\,m_{\mathrm{Hb}} + 6\,\frac{\dot V_{\mathrm{O_2}} - \dot V_{\mathrm{O_2},\mathrm{rest}}}{1000},\\
+m_S = 1 + 0.0117\min\bigl(25,\max(0,97 - \mathrm{SaO_2})\bigr),\qquad
 m_{\mathrm{Hb}} = 1 + 0.111\max(0,13.1 - \mathrm{Hb}),
+\end{gathered}
 \label{eq:gx-q}
 \end{equation}
 in \si{\liter\per\minute}, with resting output $\dot Q_0 = 5$, then reduced by up to 10\% in hyperoxia and by the effect of positive airway pressure on venous return,
